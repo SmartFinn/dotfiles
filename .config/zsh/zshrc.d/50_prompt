@@ -1,0 +1,75 @@
+# Collapsed path from /etc/nginx/conf.d to /e/n/conf.d
+function prompt_collapsed_cwd() {
+	local len_percent="${1:-30}"
+
+	local -a cwd=( "${(s:/:)${(%):-%~}}" )
+	integer len=$(( COLUMNS * len_percent / 100))
+	integer i
+
+	for (( i=2; i < ${#cwd}; i++ )); do
+		[ "${(c)#cwd}" -gt "$len" ] || continue
+
+		# if directory name begins from '.', '_' or '@'
+		if [[ ${cwd[$i]:0:1} = (.|_|@) ]]; then
+			# left 2 chars
+			cwd[$i]="${cwd[$i]:0:2}"
+		else
+			# left 1 char
+			cwd[$i]="${cwd[$i]:0:1}"
+		fi
+	done
+
+	print "${(j:/:)cwd}"
+}
+
+function prompt_collapsed_cwd_color() {
+	local cwd_color="${1:-244}"
+	local cwd="$(prompt_collapsed_cwd)"
+
+	print "%F{$cwd_color}${cwd}%f"
+}
+
+function prompt_info_line() {
+	# local cwd="${(%):-%~}"
+
+	print "%F{244}%n%f@%F{244}%m%f"
+}
+
+function prompt_ranger() {
+	if [ -n "$RANGER_LEVEL" ]; then
+		print "%F{32}(ranger)%f"
+	fi
+}
+
+# function PROMPT {
+# 	local c p s
+#
+# 	if [ "$PWD" != "$HOME" ]; then
+# 		p=$(colapsed_pwd)
+# 		s=" "
+# 	fi
+#
+# 	if [ -n "${vcs_info_msg_0_}" ]; then
+# 		c="${vcs_info_msg_0_}${vcs_info_msg_1_}"
+# 		s=" "
+# 	fi
+#
+# 	print "$p$c$s%(?.%F{normal}.%F{red})%(!.#.$)%f "
+# }
+#
+# function RPROMPT {
+# 	if [ -n "$SSH_CONNECTION" ]; then
+# 		print "(%B%F{green}%n@%m%f%b)"
+# 	else
+# 		print "%F{white}%n@%m%f"
+# 	fi
+# }
+
+# PROMPT='$(PROMPT)'
+# RPROMPT='$(RPROMPT)'
+SPROMPT='  %B%F{red}%R%f%b > %B%F{green}%r%f%b? [y/N/a/e]: '
+PROMPT2='(%_)> '
+PROMPT3='? > '
+PROMPT4='+%N:%i> '
+
+# vim:ft=zsh

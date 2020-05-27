@@ -1,0 +1,274 @@
+priority -50
+
+snippet !sh "strict sh"
+#!/bin/sh
+
+set -e
+
+THIS_SCRIPT="\$(readlink -f "\$0")"
+SCRIPT_DIR="\$(dirname "\$(readlink -f "\$0")")"
+endsnippet
+
+snippet !bash "strict bash"
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+IFS=\$'\n\t'
+THIS_SCRIPT="\$(readlink -f "\${BASH_SOURCE[0]}")"
+SCRIPT_DIR="\$(dirname "\$(readlink -f "\${BASH_SOURCE[0]}")")"
+endsnippet
+
+snippet printf
+printf "${0}%s\n" "$${1:VAR}" >&2
+endsnippet
+
+snippet for "for ... in ... done (for)" b
+for ${1:i}${2/.+/ in /}${2:words}; do
+	${0:${VISUAL}}
+done
+endsnippet
+
+snippet cat "here document (cat)"
+cat >&2 <<-${2:${1:'EOL'}}
+	${0:#msg}
+${1/['"`](.+)['"`]/$1/}
+endsnippet
+
+snippet getopts "generic getopts (getopts)"
+while getopts ":vVh${1:o:}" opt; do
+	case "\$opt" in
+		${1/(.+):/$1/} )
+			${0:#cmds}
+			;;
+		v ) VERBOSE=1 ;;
+		V ) printf "%s %s\n" "\$PROGNAME" "\$VERSION"
+			exit 0
+			;;
+		h ) usage 0 ;;
+		: ) echo "Error: option requires an argument -- '-\$OPTARG'" >&2
+			usage 2
+			;;
+		\?) echo "Error: illegal option -- '-\$OPTARG'" >&2
+			usage 2
+			;;
+	esac
+done
+
+shift \$((OPTIND-1))
+
+if [ -n "\$1" ]; then
+	echo "Remaining args are: <\$@>"
+else
+	usage 2
+fi
+endsnippet
+
+snippet getopts "getopts with --gnu-long-options support (getopts)"
+declare arg='' opt=''
+declare -a args=()
+
+# Translate --gnu-long-options to -g (short options)
+for arg; do
+	case "\$arg" in
+		${1:--option})    args+=( ${1/[-]*(-.).*/$1/} ) ;;
+		--help)       args+=( -h ) ;;
+		--verbose)    args+=( -v ) ;;
+		--version)    args+=( -V ) ;;
+		--[0-9a-Z]*)
+			err "illegal option -- '\$arg'"
+			usage 2
+			;;
+		*) args+=("\$arg")
+	esac
+done
+
+# Reset the positional parameters to the short options
+set -- "\${args[@]}"
+
+while getopts ":vVh${1/[-]*(.).*/$1/}" opt; do
+	case "\$opt" in
+		${1/[-]*(.).*/$1/} )
+			${0:#cmds}
+			;;
+		v ) VERBOSE=1 ;;
+		V ) printf "%s %s\n" "\$PROGNAME" "\$VERSION"
+			exit 0
+			;;
+		h ) usage 0 ;;
+		: ) echo "Error: option requires an argument -- '-\$OPTARG'" >&2
+			usage 2
+			;;
+		\?) echo "Error: illegal option -- '-\$OPTARG'" >&2
+			usage 2
+			;;
+	esac
+done
+
+shift \$((OPTIND-1))
+
+if [ -n "\$1" ]; then
+	echo "Remaining args are: <\$@>"
+else
+	usage 2
+fi
+endsnippet
+
+snippet bash0 "Is it a bash shell?"
+if test -z "\$BASH_VERSION"; then
+	printf "Error: this script only works in bash.\n" >&2
+	exit 1
+fi
+endsnippet
+
+snippet bash4 "Is bash version greater than 4.x?"
+if test -z "\$BASH_VERSION"; then
+	printf "Error: this script only works in bash.\n" >&2
+	exit 1
+fi
+
+if (( BASH_VERSINFO[0] * 10 + BASH_VERSINFO[1] < 4${1:0} )); then
+	printf "Error: this script requires bash version >= 4.${1/(.+)/$1/}\n" >&2
+	exit 1
+fi
+$0
+endsnippet
+
+snippet getopt "generic getopt (getopts)"
+params="\$(getopt -o ab:c -l alpha,bravo:,charlie --name "\$0" -- "\$@")"
+
+eval set -- "\$params"
+
+while true; do
+	case "\$1" in
+		-a|--alpha)
+			echo alpha
+			shift 1
+			;;
+		-b|--bravo)
+			echo "bravo=\$2"
+			shift 2
+			;;
+		-c|--charlie)
+			echo charlie
+			shift 1
+			;;
+		--)
+			shift 1
+			break
+			;;
+		*)
+			echo "Not implemented: \$1" >&2
+			exit 1
+			;;
+	esac
+done
+endsnippet
+
+snippet caseopt "caseopt (caseopt)"
+PARAMS=""
+
+while [ -n "\$1" ]; do
+	case "\$1" in
+		-f|--flag-with-argument)
+			FLAG="\$2"
+			shift 2
+			;;
+		-s|--switch)
+			shift 1
+			;;
+		--) # end argument parsing
+			shift 1
+			break
+			;;
+		-*|--*=) # unsupported flags
+			echo "Error: Unsupported flag \$1" >&2
+			exit 1
+			;;
+		*) # preserve positional arguments
+			PARAM="\$PARAMS \$1"
+			shift
+			;;
+	esac
+done
+
+# set positional arguments in their proper place
+eval set -- "$PARAMS"
+endsnippet
+
+snippet select "select (select)"
+local PS3="(${FUNCNAME[0]})> "  # set custom prompt
+local COLUMNS=1  # one element per line
+
+select ${1:item} in "\${${2:items}[@]}"; do
+	case "\$\{${1/(.+)/$1/}:-\$REPLY\}" in
+		"\$${1/(.+)/$1/}")
+			printf '%s' "\$${1/(.+)/$1/}"
+			break$0
+			;;
+		*)
+			break
+	esac
+done </dev/tty  # don't read from stdin
+endsnippet
+
+snippet select "custom select (select)"
+select_one() {
+	# Custom `select` implementation that allows *empty* input.
+	# Pass the choices as individual arguments.
+	# Output is the chosen item, or "", if the user just pressed ENTER.
+	# Example:
+	#    choice=$(select_one 'one' 'two' 'three')
+	# Based on https://stackoverflow.com/a/42790579
+
+	local item index
+	local -i i=0 numItems="\$#"
+
+	for item; do
+		printf '%s\n' "\$((++i))) \$item"
+	done >&2
+
+	while true; do
+		read -p "\${PS3-#? }" -r index </dev/tty  # don't read from stdin
+		[[ -z $index ]] && break  # allow empty input
+		# make sure that a valid index was entered
+		(( index >= 1 && index <= numItems )) || {
+			printf "%s -- invalid selection\n" "\$index" >&2
+			continue
+		}
+		printf '%s' "\${@: index:1}"
+		return 0
+	done
+
+	# return the first item if the input was empty
+	printf '%s' "\$1"
+}
+endsnippet
+
+snippet usage
+usage() {
+	cat <<- EOF
+	USAGE
+	 ${1:$PROGNAME} [options]
+
+	OPTIONS
+	 -V --version        print ${1/(.+)/$1/} version and exit
+	 -v --verbose        be verbose
+	 -h --help           show this help
+	EOF
+
+	exit "\${1:-0}"
+}
+endsnippet
+
+snippet read "convert string to bash array"
+IFS=${1:\$':'} read -ra ${2:DATA_DIR} <<< "${0:\$XDG_DATA_DIRS}"
+endsnippet
+
+snippet if "if command then (if)"
+if command -v ${1:sudo} > /dev/null; then
+	${0:#statements}
+fi
+endsnippet
+
+# vim:ft=snippets:

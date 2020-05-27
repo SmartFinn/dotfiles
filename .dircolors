@@ -1,0 +1,532 @@
+# Configuration file for dircolors, a utility to help you set the
+# LS_COLORS environment variable used by GNU ls with the --color option.
+# Copyright (C) 1996, 1999-2010 Free Software Foundation, Inc.
+# Copying and distribution of this file, with or without modification,
+# are permitted provided the copyright notice and this notice are preserved.
+# The keywords COLOR, OPTIONS, and EIGHTBIT (honored by the
+# slackware version of dircolors) are recognized but ignored.
+
+# Insatllation instructions:
+# This file goes in the /etc directory, and must be world readable.
+# You can copy this file to .dir_colors in your $HOME directory to override
+# the system defaults.
+
+# COLOR needs one of these arguments: 'tty' colorizes output to ttys, but not
+# pipes. 'all' adds color characters to all output. 'none' shuts colorization
+# off.
+COLOR tty
+
+# Below, there should be one TERM entry for each termtype that is colorizable
+TERM ansi
+TERM color_xterm
+TERM color-xterm
+TERM con132x25
+TERM con132x30
+TERM con132x43
+TERM con132x60
+TERM con80x25
+TERM con80x28
+TERM con80x30
+TERM con80x43
+TERM con80x50
+TERM con80x60
+TERM cons25
+TERM console
+TERM cygwin
+TERM dtterm
+TERM dvtm
+TERM dvtm-256color
+TERM Eterm
+TERM eterm-color
+TERM fbterm
+TERM gnome
+TERM gnome-256color
+TERM jfbterm
+TERM konsole
+TERM konsole-256color
+TERM kterm
+TERM linux
+TERM linux-c
+TERM mach-color
+TERM mlterm
+TERM nxterm
+TERM putty
+TERM putty-256color
+TERM rxvt
+TERM rxvt-256color
+TERM rxvt-cygwin
+TERM rxvt-cygwin-native
+TERM rxvt-unicode
+TERM rxvt-unicode256
+TERM rxvt-unicode-256color
+TERM screen
+TERM screen-16color
+TERM screen-16color-bce
+TERM screen-16color-s
+TERM screen-16color-bce-s
+TERM screen-256color
+TERM screen-256color-bce
+TERM screen-256color-s
+TERM screen-256color-bce-s
+TERM screen-256color-italic
+TERM screen-bce
+TERM screen-w
+TERM screen.linux
+TERM screen.xterm-256color
+TERM screen.xterm-new
+TERM st
+TERM st-meta
+TERM st-256color
+TERM st-meta-256color
+TERM tmux
+TERM tmux-256color
+TERM vt100
+TERM xterm
+TERM xterm-new
+TERM xterm-16color
+TERM xterm-256color
+TERM xterm-256color-italic
+TERM xterm-88color
+TERM xterm-color
+TERM xterm-debian
+TERM xterm-kitty
+TERM xterm-termite
+
+# EIGHTBIT, followed by '1' for on, '0' for off. (8-bit output)
+EIGHTBIT 1
+
+# Below are the color init strings for the basic file types. A color init
+# string consists of one or more of the following numeric codes:
+# Attribute codes:
+#   00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
+# Text color codes:
+#   30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
+# Background color codes:
+#   40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
+
+RESET          0         # reset to "normal" color
+NORMAL         0         # no color code at all
+FILE           0         # regular file: use no color at all
+DIR            1;34      # directory
+SYMLINK        1;4;36    # symbolic link [^1]
+ORPHAN         1;4;31    # symlink to nonexistent file, or non-stat'able file
+MISSING        3;31      # non-existent file pointed to by a symbolic link
+MULTIHARDLINK  0         # regular file with more than one link
+FIFO           1;4;33    # pipe
+SOCK           1;4;35    # socket
+DOOR           1;4;35    # door
+BLOCK          1;32;40   # block device driver
+CHR            1;33;40   # character device driver
+EXEC           1;32      # file that is executable (+x)
+SETUID         1;7;31    # file that is setuid (u+s)
+SETGID         1;7;33    # file that is setgid (g+s)
+CAPABILITY     1;7;35    # file with capability
+STICKY         1;7;34    # dir with the sticky bit set (+t) and not other-writable
+OTHER_WRITABLE 1;7;32    # dir that is other-writable (o+w) and not sticky
+STICKY_OTHER_WRITABLE 1;7;36  # dir that is sticky and other-writable (+t,o+w)
+
+# [^1]: If you set this to 'target' instead of a numerical value, the color
+# is as for the file pointed to.
+
+# List any file extensions like '.gz' or '.tar' that you would like ls
+# to colorize below. Put the extension, a space, and the color init string.
+# (and any comments you want to add after a '#')
+
+
+# Archives {{{1
+
+.7z            0;31
+.a             0;31
+.ar            0;31
+.ace           0;31
+.alz           0;31
+.arc           0;31
+.ark           0;31
+.ARC           0;31
+.ARK           0;31
+.arj           0;31
+.ARJ           0;31
+.bz            0;31
+.bz2           0;31
+.cpio          0;31
+.dz            0;31
+.gz            0;31
+.lha           0;31
+.lzh           0;31
+.lrz           0;31
+.lrzip         0;31
+.rz            0;31
+.lz            0;31
+.lz4           0;31
+.lzma          0;31
+.lzo           0;31
+.rar           0;31
+.RAR           0;31
+.xz            0;31
+.Z             0;31
+.zip           0;31
+.ZIP           0;31
+.zst           0;31
+.zoo           0;31
+
+# Tarballs
+.tar           0;31
+.gtar          0;31
+.tar.7z        0;31
+.t7z           0;31
+.tar.bz        0;31
+.tbz           0;31
+.tar.bz2       0;31
+.tbz2          0;31
+.tb2           0;31
+.tz2           0;31
+.tar.gz        0;31
+.tgz           0;31
+.tar.lz        0;31
+.tar.lzma      0;31
+.tlz           0;31
+.tlzma         0;31
+.tar.lzo       0;31
+.tzo           0;31
+.tar.xz        0;31
+.txz           0;31
+.tar.Z         0;31
+.tZ            0;31
+.taZ           0;31
+.tar.zst       0;31
+.tzst          0;31
+
+# Packages {{{1
+.apk           1;31
+.cab           1;31
+.CAB           1;31
+.deb           1;31
+.exe           1;31
+.EXE           1;31
+.gem           1;31
+.ipk           1;31
+.jar           1;31
+.msi           1;31
+.rpm           1;31
+.spm           1;31
+.src.rpm       1;31
+.udeb          1;31
+.war           1;31
+.xpi           1;31
+
+# Disk images {{{1
+.bin           0;31
+.dmg           0;31
+.img           0;31
+.iso           0;31
+.qcow          0;31
+.qcow2         0;31
+.vdi           0;31
+.vmdk          0;31
+
+.nes           0;31
+.sfc           0;31
+.smc           0;31
+
+# Media {{{1
+.anx           0;35
+.asf           0;35
+.avi           0;35
+.axv           0;35
+.divx          0;35
+.fla           0;35
+.flc           0;35
+.fli           0;35
+.flv           0;35
+.gl            0;35
+.m2v           0;35
+.m4v           0;35
+.mkv           0;35
+.mov           0;35
+.MOV           0;35
+.mp4           0;35
+.mp4v          0;35
+.mpe           0;35
+.mpeg          0;35
+.mpg           0;35
+.nuv           0;35
+.ogm           0;35
+.ogv           0;35
+.ogx           0;35
+.qt            0;35
+.rm            0;35
+.rmvb          0;35
+.swf           0;35
+.vob           0;35
+.VOB           0;35
+.webm          0;35
+.wmv           0;35
+
+.aac           0;35
+.au            0;35
+.axa           0;35
+.fla           0;35
+.flac          0;35
+.m4a           0;35
+.mid           0;35
+.midi          0;35
+.mka           0;35
+.mp3           0;35
+.mpa           0;35
+.mpc           0;35
+.oga           0;35
+.ogg           0;35
+.ra            0;35
+.spx           0;35
+.wav           0;35
+.wma           0;35
+.xspf          0;35
+
+.asx           1;35
+.bio           1;35
+.cue           1;35
+.fpl           1;35
+.kpl           1;35
+.m3u           1;35
+.m3u8          1;35
+.pla           1;35
+.plc           1;35
+.pls           1;35
+.smil          1;35
+.srt           1;35
+.sub           1;35
+.torrent       1;35
+.vlc           1;35
+.wpl           1;35
+.xspf          1;35
+.zpl           1;35
+
+# Graphics {{{1
+.ai            1;33
+.bmp           0;33
+.cgm           0;33
+.dl            0;33
+.dvi           0;33
+.emf           0;33
+.eps           0;33
+.gif           0;33
+.ico           0;33
+.jpeg          0;33
+.jpg           0;33
+.JPG           0;33
+.mng           0;33
+.pbm           0;33
+.pcx           0;33
+.pgm           0;33
+.png           0;33
+.ppm           0;33
+.pps           0;33
+.ppsx          0;33
+.ps            0;33
+.psd           1;33
+.svg           1;33
+.svgz          1;33
+.tga           0;33
+.tif           0;33
+.tiff          0;33
+.xbm           0;33
+.xcf           1;33
+.xpm           0;33
+.xwd           0;33
+.yuv           0;33
+
+# Docs {{{1
+.chm           0;93
+.djvu          0;93
+.doc           0;93
+.docm          0;93
+.docx          0;93
+.dot           0;93
+.dotx          0;93
+.odb           0;93
+.odf           0;93
+.odg           0;93
+.odp           0;93
+.ods           0;93
+.odt           0;93
+.pdf           0;93
+.PDF           0;93
+.pps           0;93
+.ppt           0;93
+.ppts          0;93
+.pptx          0;93
+.rtf           0;93
+.xls           0;93
+.xlsx          0;93
+
+# Fonts {{{1
+.afm           1;33
+.fnt           1;33
+.fon           1;33
+.otf           1;33
+.pfb           1;33
+.pfm           1;33
+.ttf           1;33
+.woff          1;33
+.woff2         1;33
+
+# Source code {{{1
+# compiled {{{2
+.asm           0;32
+.c             0;32
+.C             0;32
+.c++           0;32
+.cc            0;32
+.cl            0;32
+.cp            0;32
+.cpp           0;32
+.cr            0;32
+.cs            0;32
+.cxx           0;32
+.f             0;32
+.for           0;32
+.ftn           0;32
+.go            0;32
+.h             0;32
+.H             0;32
+.h++           0;32
+.hpp           0;32
+.hs            0;32
+.hxx           0;32
+.ii            0;32
+.java          0;32
+.lhs           0;32
+.lisp          0;32
+.lua           0;32
+.M             0;32
+.m             0;32
+.moon          0;32
+.o             2;32
+.objc          2;32
+.rlib          2;32
+.rs            0;32
+.s             0;32
+.S             0;32
+.tcc           0;32
+
+# interpreted {{{2
+.coffee        0;32
+.js            0;32
+.php           0;32
+.pl            0;32
+.py            0;32
+.pyc           2;32
+.pyd           2;32
+.pyo           2;32
+.r             0;32
+.R             0;32
+.rb            0;32
+.t             0;32
+.tcl           0;32
+.vim           0;32
+
+# scripts {{{2
+.awk           0;32
+.bash          0;32
+.bat           0;32
+.BAT           0;32
+.cmd           0;32
+.CMD           0;32
+.csh           0;32
+.rsc           0;32
+.sed           0;32
+.sh            0;32
+.zsh           0;32
+.zwc           2;32
+
+# sql {{{2
+.msql          0;36
+.mysql         0;36
+.pgsql         0;36
+.sql           0;36
+
+# build tools {{{2
+*Dockerfile    0;32
+*dockerfile    0;32
+*Makefile      0;32
+*makefile      0;32
+*MANIFEST      0;32
+.am            0;32
+.hin           0;32
+.in            0;32
+.m4            0;32
+.mk            0;32
+
+# webdev {{{2
+.css           0;94
+.css.map       2;94
+.htm           0;94
+.html          0;94
+.less          0;94
+.sass          0;94
+.sassc         2;94
+.scss          0;94
+
+# Key-value {{{1
+.bib           0;36
+.json          0;36
+.jsonl         0;36
+.msg           0;36
+.pgn           0;36
+.RData         0;36
+.rdata         0;36
+.rss           0;36
+.toml          0;36
+.xml           0;36
+.xml           0;36
+.yaml          0;36
+.yml           0;36
+
+# Binary data {{{1
+# tcpdump, network traffic capture
+.pcap          2;36
+.cap           2;36
+.dmp           2;36
+
+# databases
+.db            2;36
+.localstorage  2;36
+.sqlite        2;36
+
+# Encrypted data {{{1
+.asc           7;32;40
+.asc           7;32;40
+.bfe           7;32;40
+.enc           7;32;40
+.enc           7;32;40
+.gpg           7;32;40
+.p12           7;32;40
+.pem           7;32;40
+.pgp           7;32;40
+.sig           7;32;40
+.sig           7;32;40
+.signature     7;32;40
+
+# Temporary files. Junk {{{1
+*#             0;90
+*~             0;90
+.bak           0;90
+.BAK           0;90
+.cache         0;90
+.dist          0;90
+.dpkg-dist     0;90
+.DS_Store      0;90
+.incomplete    0;90
+.old           0;90
+.OLD           0;90
+.orig          0;90
+.ORIG          0;90
+.part          0;90
+.save          0;90
+.swap          0;90
+.swo           0;90
+.swp           0;90
+.temp          0;90
+.tmp           0;90
+
+# vim:ft=dircolors:fen:fdm=marker:fmr={{{,}}}

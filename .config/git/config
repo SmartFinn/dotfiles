@@ -1,0 +1,77 @@
+[core]
+	pager = delta --dark --theme="OneHalfDark"
+[user]
+	name = Sergei Eremenko
+	email = finalitik@gmail.com
+[github]
+	user = SmartFinn
+	token = 048d1db99e4d74ce01be8704c14fd5b76a9628e7
+[alias]
+	br = branch
+	ch = checkout
+	cl = clone
+	changes = log --all --abbrev-commit --cherry --find-renames --pretty=medium --name-status
+	journal = log --all --pretty=medium
+	lo = log --abbrev-commit --graph --max-count=22
+	lg = log -p
+	ls = ls-files
+	st = status --short --branch
+	type = cat-file -t
+	dump = cat-file -p
+	history = log --graph --all
+	get-commit-count = rev-list HEAD --count
+	ls-diff = diff --name-status
+	please = push --force-with-lease
+	amend = commit --amend
+	drop = reset --hard HEAD
+	undo = reset HEAD^
+	hardreset = reset --hard origin/master
+	branches = for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:blue)%(objectname:short)%(color:reset) - %(contents:subject) - %(color:bold)%(authorname)%(color:reset) %(color:green)(%(committerdate:relative))%(color:reset)'
+	find = log --all --full-history --
+[diff]
+	algorithm = minimal
+	compactionHeuristic = true
+	renames = true
+[merge]
+	tool = meld
+	conflictstyle = diff3
+[mergetool "gitmerge"]
+	cmd = gitmerge $BASE $LOCAL $REMOTE $MERGED
+[color]
+	ui = auto
+	interactive = auto
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold reverse
+	newNormal = green bold
+	newHighlight = green bold reverse
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+[format]
+	pretty = %C(blue)%h%C(reset) — %s — %C(bold)%an%C(reset) %C(green)(%cr)%C(reset)%C(yellow bold)%d%C(reset)
+[push]
+	default = simple
+[mergetool]
+	prompt = false
+[url "git+ssh://smartfinn@git.launchpad.net/"]
+	insteadof = lp:
+[url "git+ssh://smartfinn@git.launchpad.net/~smartfinn/+git/"]
+	insteadof = ppa:
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[help]
+	autocorrect = 15

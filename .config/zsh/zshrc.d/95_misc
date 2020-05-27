@@ -1,0 +1,75 @@
+alias run_alpine="docker run --rm -it --name alpine.latest alpine:latest sh"
+alias run_alpine_edge="docker run --rm -it --name alpine.edge alpine:edge sh"
+alias run_ubuntu_bionic="docker run --rm -it --name ubuntu.bionic ubuntu:bionic bash"
+alias run_debian="docker run --rm -it --name debian.latest debian:latest bash"
+
+if [ "$TERM" = "xterm-kitty" ]; then
+	alias icat='kitty +kitten icat'
+	# alias ssh='env TERM=xterm ssh'
+	alias kitty-diff="kitty +kitten diff"
+	alias toolbox='env TERM=xterm toolbox'
+	alias up='env TERM=xterm up'
+fi
+
+_run() {
+	# run command if it exists
+	local -a saved_cmd=("$@")
+
+	case "$1" in
+		sudo) shift 1 ;;
+	esac
+
+	if command -v "$1" >/dev/null; then
+		echo "\e[1;32m =>\e[0m" "${saved_cmd[@]}" >&2
+		"${saved_cmd[@]}"
+	fi
+}
+
+up2date() {
+	_run sudo apt update
+	_run sudo apt dist-upgrade -Vy
+
+	_run sudo dnf update -y
+
+	_run flatpak update -y
+
+	_run apm update --confirm=false
+
+	_run nvim +PlugUpdate +quitall
+	_run zsh_update_plugins
+	_run pipx upgrade-all
+	_run ncu -g
+}
+
+alias upd_notable='_helper_get_rpm notable "$(gh_get_latest_release_assets "notable/notable" "x86_64\.rpm$")"'
+alias upd_webtorrent='_helper_get_deb webtorrent "$(gh_get_latest_release_assets "webtorrent/webtorrent-desktop" "_amd64\.deb$")"'
+alias upd_min='_helper_get_rpm min "$(gh_get_latest_release_assets "minbrowser/min" "x86_64\.rpm$")"'
+alias upd_bat='_helper_get_targz bat "$(gh_get_latest_release_assets "sharkdp/bat" "-x86_64-unknown-linux-gnu.tar.gz$")"'
+alias upd_pet='_helper_get_rpm pet "$(gh_get_latest_release_assets "knqyf263/pet" "_linux_amd64\.rpm$")"'
+alias upd_fd='_helper_get_targz fd "$(gh_get_latest_release_assets "sharkdp/fd" "-x86_64-unknown-linux-gnu.tar.gz")"'
+alias upd_ripgrep='_helper_get_deb rg "$(gh_get_latest_release_assets "BurntSushi/ripgrep" "_amd64\.deb$")"'
+alias upd_docker-machine='_helper_get_bin docker-machine "$(gh_get_latest_release_assets "docker/machine" "docker-machine-$(uname -s)-$(uname -m)$")"'
+alias upd_docker-compose='_helper_get_bin docker-compose "$(gh_get_latest_release_assets "docker/compose" "docker-compose-$(uname -s)-$(uname -m)$")"'
+alias upd_exa='_helper_get_zip exa "$(gh_get_latest_release_assets "ogham/exa" "exa-linux-x86_64")"'
+alias upd_fzf='_helper_get_targz fzf "$(gh_get_latest_release_assets "junegunn/fzf-bin" "linux_amd64.tgz")"'
+alias upd_peco='_helper_get_targz peco "$(gh_get_latest_release_assets "peco/peco" "linux_amd64.tar.gz")"'
+alias upd_ok.sh='_helper_get_bin ok.sh "https://raw.githubusercontent.com/whiteinge/ok.sh/master/ok.sh"'
+alias upd_sedsed='_helper_get_bin sedsed "https://raw.githubusercontent.com/aureliojargas/sedsed/master/sedsed.py"'
+alias upd_odrive='_helper_get_rpm odrive "$(gh_get_latest_release_assets "liberodark/ODrive" "x86_64\.rpm$")"'
+alias upd_ffsend='_helper_get_bin ffsend "$(gh_get_latest_release_assets "timvisee/ffsend" "linux-x64-static")"'
+alias upd_gisto='_helper_get_rpm gisto "$(gh_get_latest_release_assets "Gisto/Gisto" "-x86_64\.rpm$")"'
+alias upd_grv='_helper_get_bin grv "$(gh_get_latest_release_assets "rgburke/grv" "_linux64")"'
+alias upd_lf='_helper_get_bin lf "$(gh_get_latest_release_assets "gokcehan/lf" "linux-amd64.tar.gz")"'
+alias upd_shfmt='_helper_get_bin shfmt "$(gh_get_latest_release_assets "mvdan/sh" "_linux_amd64")"'
+alias upd_wine='_helper_get_bin wine "$(gh_get_latest_prerelease_assets "Hackerl/Wine_Appimage" "-ubuntu.latest.AppImage")"'
+alias upd_pup='_helper_get_zip pup "$(gh_get_latest_release_assets "ericchiang/pup" "_linux_amd64.zip$")"'
+alias upd_delta='_helper_get_targz delta "$(gh_get_latest_release_assets "dandavison/delta" "-x86_64-unknown-linux-gnu.tar.gz")"'
+alias upd_mdcat='_helper_get_targz mdcat "$(gh_get_latest_release_assets "lunaryorn/mdcat" "-x86_64-unknown-linux-musl.tar.gz")"'
+alias upd_cointop='_helper_get_targz cointop "$(gh_get_latest_release_assets "miguelmota/cointop" "_linux_amd64.tar.gz")"'
+alias upd_gh='_helper_get_rpm gh "$(gh_get_latest_release_assets "cli/cli" "_linux_amd64.rpm")"'
+
+if [ -d "$HOME/.local/share/zsh/site-functions" ]; then
+	fpath=("$HOME/.local/share/zsh/site-functions" $fpath)
+fi
+
+# vim:ft=zsh

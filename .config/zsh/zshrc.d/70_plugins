@@ -1,0 +1,95 @@
+## Plugins - list
+
+ZSH_PLUGINS=(
+	activate-venv
+	# auto-notify
+	clip-tools
+	clipcopy
+	command-not-found
+	copyq
+	ctrl-z
+	custom-completions
+	dotbare
+	dotenv
+	exa
+	# fzf
+	fzf-widgets
+	fast-syntax-highlighting
+	files-completer
+	forgit
+	gio-trash
+	git-extras-completion
+	grlm-features
+	insert-datestamp
+	minimal
+	pet
+	ranger
+	tmux-pane-words
+	zsh-256color
+	zsh-abbrev
+	zsh-autosuggestions
+	zsh-bash-completions-fallback
+	zsh-completions
+	# zsh-peco-history
+	# you-should-use
+	# zsh-syntax-highlighting
+)
+
+## Plugins - pre-configuration
+
+# Minimal
+MNML_USER_CHAR='$'
+MNML_NOMRAL_CHAR='-'
+MNML_INSERT_CHAR='>'
+MNML_PROMPT=(mnml_ssh mnml_pyenv prompt_ranger mnml_status mnml_keymap)
+MNML_RPROMPT=(mnml_err prompt_collapsed_cwd_color mnml_git)
+MNML_INFOLN=(mnml_err mnml_jobs prompt_info_line mnml_files)
+# MNML_MAGICENTER=(mnml_me_dirs mnml_me_ls mnml_me_git)
+
+VIRTUAL_ENV_DISABLE_PROMPT=1
+FORGIT_NO_ALIASES=1
+
+# zsh-abbrev
+typeset -Ag abbreviations
+abbreviations=(
+	"vi"	"vim"
+	"gti"	"git"
+	"got"	"git"
+	"dfn"	"dnf"
+	"comit" "commit"
+	"scr"	"src"
+	"dokcer"	"docker"
+	"docekr"	"docker"
+	"dokcer-compose"	"docker-compose"
+	"dwon"	"down"
+	"iamge" "image"
+	"amke" "make"
+	"maek" "make"
+	"mkae" "make"
+	"soud" "sudo"
+	"sudp" "sudo"
+	"sdo" "sudo"
+)
+
+ZSH_BASH_COMPLETIONS_FALLBACK_WHITELIST=(gdbus zramctl snap)
+
+## Plugins - initialize
+
+zsh_load_plugins "${ZSH_PLUGINS[@]}"
+
+## Plugins - post-configuration
+
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=expand-or-complete
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=buffer-empty
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=completer
+# ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=magic-space
+
+# ZSH_HIGHLIGHT_STYLES[comment]=fg=90,bold
+
+AUTO_NOTIFY_IGNORE+=("newsboat" "tuir" "ranger" "ncdu" "ssh" "ipython"
+	"bpython" "sudoedit" "inkscape" "git diff" "git amend" "imv" "vi"
+	"vim" "nvim")
+
+export DOTBARE_DIR="$HOME/.local/var/dotbare"
+
+# vim:ft=zsh

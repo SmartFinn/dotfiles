@@ -1,0 +1,70 @@
+# -- feeds ---------------------------------------------------------------------
+
+auto-reload yes
+reload-time 15
+reload-threads 4
+download-retries 4
+download-timeout 10
+prepopulate-query-feeds yes
+mark-as-read-on-hover yes
+confirm-exit yes
+
+
+# -- display -------------------------------------------------------------------
+
+show-read-feeds yes
+# feed-sort-order unreadarticlecount-asc
+
+
+# formatting and colorization ------------------------------------------
+
+highlight article     "^(Feed):.*$"                 color4   default  bold
+highlight article     "^(Title):.*$"                color11  default
+highlight article     "^(Author|Date):.*$"          color8   default
+highlight article     "^(Link):.*$"                 color8   default
+highlight article     "^(Podcast Download URL):.*"  cyan     default
+highlight article     "^(Links):"                   cyan     default  bold
+highlight article     "https?://[^ ]+"              blue     default
+highlight article     "\\[[0-9][0-9]*\\]"           cyan     default  bold
+highlight article     "\\[image\\ [0-9]+\\]"        blue     default  bold
+highlight article     ":.*\\(link\\)$"              cyan     default
+highlight article     ":.*\\(image\\)$"             blue     default
+
+color background         default  default
+color listnormal         color8   default
+color listfocus          cyan     default  reverse
+color info               default  magenta
+color article            color8   default
+color listnormal_unread  default  default
+color listfocus_unread   cyan     default  reverse
+
+text-width 88
+
+
+# -- navigation ----------------------------------------------------------------
+
+goto-next-feed no
+
+browser "linkhandler %u"
+player "mpv"
+download-path "~/Downloads/%n"
+save-path "~/Downloads"
+external-url-viewer "urlscan"
+
+bind-key ] next-feed articlelist
+bind-key [ prev-feed articlelist
+bind-key j down
+bind-key k up
+bind-key G end
+bind-key g home
+bind-key h quit
+bind-key l open
+bind-key a mark-all-above-as-read articlelist
+# bind-key U show-urls
+
+
+# -- misc ----------------------------------------------------------------------
+
+unbind-key C feedlist
+confirm-exit no
+cleanup-on-quit no

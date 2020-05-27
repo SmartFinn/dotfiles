@@ -1,0 +1,126 @@
+# create a zkbd compatible hash;
+# to add other keys to this hash, see: man 5 terminfo
+
+typeset -gA key
+
+key[Esc]='\e'
+key[Ctrl]='^'
+key[Space]=' '
+key[Alt]=${key[Esc]}
+key[Enter]=${terminfo[cr]}
+key[Tab]=${terminfo[ht]}
+key[BTab]=${terminfo[cbt]}
+key[F1]=${terminfo[kf1]}
+key[F2]=${terminfo[kf2]}
+key[F3]=${terminfo[kf3]}
+key[F4]=${terminfo[kf4]}
+key[F5]=${terminfo[kf5]}
+key[F6]=${terminfo[kf6]}
+key[F7]=${terminfo[kf7]}
+key[F8]=${terminfo[kf8]}
+key[F9]=${terminfo[kf9]}
+key[F10]=${terminfo[kf10]}
+key[F11]=${terminfo[kf11]}
+key[F12]=${terminfo[kf12]}
+key[Backspace]=${terminfo[kbs]}
+key[Insert]=${terminfo[kich1]}
+key[Home]=${terminfo[khome]}
+key[PageUp]=${terminfo[kpp]}
+key[Delete]=${terminfo[kdch1]}
+key[End]=${terminfo[kend]}
+key[PageDown]=${terminfo[knp]}
+key[Up]=${terminfo[kcuu1]}
+key[Left]=${terminfo[kcub1]}
+key[Down]=${terminfo[kcud1]}
+key[Right]=${terminfo[kcuf1]}
+key[ModUp]='\e[1;nA'
+key[ModLeft]='\e[1;nD'
+key[ModDown]='\e[1;nB'
+key[ModRight]='\e[1;nC'
+key[ModPgUp]='\e[6;n~'
+key[ModPgDown]='\e[5;n~'
+key[ModIns]='\e[2;n~'
+key[ModDel]='\e[3;n~'
+key[ModHome]='\e[1;nH'
+key[ModEnd]='\e[1;nF'
+
+# being quiet (commented out sections of below for debug)
+function bindkey {
+	builtin bindkey "$@" 2>/dev/null
+}
+
+# emacs key bindings
+bindkey -e
+
+# don't type in a terminal when pressing keys with modifiers
+for mod in 2 3 4 5 6 7; do
+	# 2: Shift, 3: Alt, 4: Shift+Alt, 5: Ctrl, 6: Ctrl+Shift,
+	# 7: Ctrl+Alt
+	bindkey -s "${key[ModRight]//n/$mod}" ''
+	bindkey -s "${key[ModLeft]//n/$mod}" ''
+	bindkey -s "${key[ModUp]//n/$mod}" ''
+	bindkey -s "${key[ModDown]//n/$mod}" ''
+	bindkey -s "${key[ModPgUp]//n/$mod}" ''
+	bindkey -s "${key[ModPgDown]//n/$mod}" ''
+	bindkey -s "${key[ModIns]//n/$mod}" ''
+	bindkey -s "${key[ModDel]//n/$mod}" ''
+	bindkey -s "${key[ModHome]//n/$mod}" ''
+	bindkey -s "${key[ModEnd]//n/$mod}" ''
+done
+unset mod
+
+bindkey "${key[Home]}"   beginning-of-line
+bindkey "${key[End]}"    end-of-line
+bindkey "${key[Insert]}" overwrite-mode
+bindkey "${key[Delete]}" delete-char
+bindkey "${key[Up]}"     up-line-or-history
+bindkey "${key[Down]}"   down-line-or-history
+bindkey "${key[Left]}"   backward-char
+bindkey "${key[Right]}"  forward-char
+
+# Ctrl + Right/Left
+bindkey "${key[ModRight]//n/5}" forward-word
+bindkey "${key[ModLeft]//n/5}" backward-word
+
+# F1: Get the man 1 page for the command on the line.
+bindkey "${key[F1]}"     run-help
+
+# M-e for expanding path of typed command
+bindkey "${key[Alt]}e"   expand-cmd-path
+
+# these allow you to start typing a command and
+# use the up/down arrow to auto complete from
+# commands in your history
+# bindkey "${key[Up]}"     up-line-or-search
+# bindkey "${key[Down]}"   down-line-or-search
+autoload -Uz history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "${key[Alt]}p"   history-beginning-search-backward-end
+bindkey "${key[Alt]}n"   history-beginning-search-forward-end
+
+# enable search by globs
+# bindkey "${key[Ctrl]}R" history-incremental-pattern-search-backward
+# bindkey "${key[Ctrl]}S" history-incremental-pattern-search-forward
+
+# use Page-Up/Down to help navigate history.
+bindkey "${key[PageUp]}"   beginning-of-history
+bindkey "${key[PageDown]}" end-of-history
+
+bindkey "${key[Ctrl]}x${key[Ctrl]}e" edit-command-line
+bindkey "${key[Space]}" magic-space
+bindkey "${key[Alt]}#" pound-insert
+
+# load completion listing extensions
+zmodload -i zsh/complist
+
+# menu selection (needed zsh/complist module)
+bindkey -M menuselect "${key[BTab]}"  reverse-menu-complete
+bindkey -M menuselect "${key[Esc]}"   send-break
+bindkey -M menuselect "${key[Ctrl]}w" undo
+bindkey -M menuselect "${key[Enter]}" .accept-line
+bindkey -M menuselect "${key[Space]}" accept-line
+bindkey -M menuselect "${key[Esc]}${key[Enter]}" accept-and-hold
+bindkey -M menuselect '/' accept-and-infer-next-history
+
+# vim:ft=zsh

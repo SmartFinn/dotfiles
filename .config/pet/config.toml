@@ -1,0 +1,21 @@
+[General]
+  snippetfile = "/home/sergei/.config/pet/snippet.toml"
+  editor = "vim"
+  column = 56
+  selectcmd = "peco"
+  backend = "gist"
+
+[Gist]
+  file_name = "pet-snippet.toml"
+  access_token = ""
+  gist_id = "bbf51e8b9c6d75527e00f22b238e23f8"
+  public = false
+  auto_sync = true
+
+[GitLab]
+  file_name = "pet-snippet.toml"
+  access_token = ""
+  url = ""
+  id = ""
+  visibility = "private"
+  auto_sync = false

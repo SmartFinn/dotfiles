@@ -1,0 +1,53 @@
+# enable menu selection
+zstyle ':completion:*' menu yes select
+
+# auto rehash commands
+zstyle ':completion:*' rehash true
+
+# Separate directories from files.
+zstyle ':completion:*' list-dirs-first true
+
+# colorise files
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
+# Fuzzy matching of completions for when you mistype them
+zstyle ':completion:*' completer _complete _expand _match _approximate
+zstyle ':completion:*:match:*' original only
+# zstyle ':completion:*:approximate:*' max-errors 1 numeric
+# allow one error for every three characters typed in approximate completer
+zstyle ':completion:*:approximate:' max-errors 'reply=( $((($#PREFIX+$#SUFFIX)/3 )) numeric )'
+
+# start menu completion only if it could find no unambiguous initial string
+zstyle ':completion:*:correct:*' insert-unambiguous true
+zstyle ':completion:*:correct:*' original true
+
+# formatting and messages
+zstyle ':completion:*' format '%BCompleting %d:%b'
+zstyle ':completion:*:corrections' format '%BCompleting %d (errors: %e):%b'
+zstyle ':completion:*:messages' format '%B%d%b'
+zstyle ':completion:*:warnings' format '%BNo matches for:%b %d'
+
+# statusline for many hits
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %m%s
+
+# show completion list in groups
+zstyle ':completion:*' group-name ''
+
+# match uppercase from lowercase
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+# processes completions
+zstyle ':completion:*:processes' command 'ps -eo pid,user,args --forest'
+zstyle ':completion:*:processes-names' command 'ps -eo comm'
+
+# don't complete the same filenames again
+zstyle ':completion:*:(rm|cp|mv):*' ignore-line other
+
+# Don't complete completion functions/widgets.
+zstyle ':completion:*:functions' ignored-patterns '_*'
+
+# Manpages, ho!
+zstyle ':completion:*:manuals' separate-sections true
+zstyle ':completion:*:manuals.(^1*)' insert-sections true
+
+# vim:ft=zsh

@@ -1,0 +1,79 @@
+# when using sudo, use alias expansion (otherwise sudo ignores your aliases)
+alias sudo='sudo'
+
+# default to human readable figures
+alias df='df --si --print-type'
+alias du='du --si'
+alias ls='ls --si --classify --group-directories-first ${LS_OPTIONS}'
+alias free='free --human'
+
+# change the behavior of some commands
+alias ping='ping -c 4'
+alias ping6='ping6 -c 4'
+alias mkdir='mkdir -p'
+alias chmod='chmod -c'
+alias chown='chown -c'
+alias rm='rm -v -I'
+alias mv='mv -v'
+alias cp='cp -v'
+alias pgrep='pgrep -lf'
+alias dirs='dirs -v'
+alias grep='grep --color=auto'
+alias dd='dd status=progress'
+alias dmesg='dmesg -H'
+
+# short commands
+alias -g M='| more'
+alias -g L='| less'
+alias -g H='| head'
+alias -g T='| tail'
+alias -g G='| grep'
+alias -g C='| wc'
+alias -g S='| sort'
+alias -g N='> /dev/null'
+
+# suffix aliases
+alias -s {ape,avi,flac,m4a,mkv,mov,mp3,mp4,mpeg,mpg,ogg,ogm,wav,webm}=mpv
+alias -s git='git clone'
+alias -s {sh,bash}='bash'
+alias -s zsh='zsh'
+alias -s js='node'
+
+# vim-like commands
+alias :e='editor'
+alias :h='man'
+alias :q='exit'
+
+# misc. useful aliases
+alias ll='ls -l'
+alias la='ls -A'
+alias lr='ls -R'
+alias lt='ls -ltra'
+alias ip6='ip -6'
+alias pause='echo -n "Press enter to continue"; read'
+alias dush='du -sh * | sort -hr | head'
+alias wipe='shred -vzun 0'
+alias drop2disk='sync && sudo sysctl -w vm.drop_caches=3; sync'
+alias mkown='sudo chown $USER: -cR'
+alias delthumbs="find $HOME/.thumbnails $HOME/.cache/thumbnails -iname '*.png' -delete"
+alias nocomment="grep -Ev '^\s*(#|$)'"
+alias hist='fc -l 1'
+alias nocow='chattr +C'
+alias reflink='cp -ax --reflink=always'
+
+command -v udisksctl >/dev/null && {
+	alias dmount='udisksctl mount -b'
+	alias dunmount='udisksctl unmount -b'; }
+command -v xsel >/dev/null && {
+	alias pbcopy="xsel -i -b"
+	alias pbpaste="xsel -o -b"; }
+command -v sshfs >/dev/null &&
+	alias sshfs="sshfs -o reconnect -o uid=$(id -u) -o gid=$(id -g)"
+command -v ipython >/dev/null &&
+	alias ipython="ipython --no-term-title"
+command -v ipython3 >/dev/null &&
+	alias ipython3="ipython3 --no-term-title"
+command -v ncdu >/dev/null &&
+	alias ncdu="ncdu --si"
+
+# vim:ft=zsh

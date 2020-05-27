@@ -1,0 +1,866 @@
+# a simple password generator
+genpasswd() {
+	# usage: genpasswd [-adhps] [length [count]]
+	local -i human_readable=0
+	local chars=""
+
+	while getopts "adhps" opt; do
+		case "$opt" in
+			a) chars+="[:alnum:]" ;;
+			d) chars+="[:digit:]" ;;
+			p) chars+="[:punct:]" ;;
+			s) chars+="[:graph:]" ;;
+			h) human_readable=1   ;;
+		esac
+	done
+	shift $((OPTIND - 1))
+
+	local -i length="${1:-8}"
+	local -i count="${2:-1}"
+
+	if [ "$human_readable" -eq 1 ]; then
+		command -v apg >/dev/null || return 1
+		apg -c /dev/urandom -m "$length" -n "$count" -E oOlL10
+	else
+		< /dev/urandom \
+			| tr -dc "${chars:-[:alnum:]}" \
+			| fold -w "$length" \
+			| head -n "$count"
+	fi
+}
+
+command -v apt-key >/dev/null &&
+apt-import-key() {
+	# usage: apt-import-key <key>
+	sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com "$1"
+}
+
+command -v dpkg >/dev/null &&
+dpkg-purge-rc() {
+	dpkg -l | awk '/^rc/ {print $2}' | xargs -r sudo dpkg --purge
+}
+
+extract() {
+	if [ ! -f "$1" ]; then
+		printf "extract: '%s' is not a file\n" "$1" >&2
+		return 1
+	fi
+
+	case "$1" in
+		*.tar)  tar -xf "$1"       ;;
+		*.tar.bz|*.tbz| \
+		*.tar.bz2|*.tbz2)
+				tar -xjf "$1"      ;;
+		*.tar.gz|*.tgz)
+				tar -xzf "$1"      ;;
+		*.tar.xz|*.txz)
+				tar -xJf "$1"      ;;
+		*.tar.[zZ]|*.t[zZ])
+				tar -xZf "$1"      ;;
+		*.tar.lz|*.tlz| \
+		*.tar.lzma|*.tlzma| \
+		*.tar.lzo|*.tzo| \
+		*.tar.zst|*.tzst)
+				tar -xaf "$1"      ;;
+		*.7z)   7za x -- "$1"      ;;
+		*.a|*.ar)
+				ar x -- "$1"       ;;
+		*.ace)  unace e -- "$1"    ;;
+		*.alz)  unalz -- "$1"      ;;
+		*.arc|*.ark|*.ARC|*.ARK)
+				nomarch -- "$1"    ;;
+		*.arj|*.ARJ)
+				arj e -r -- "$1"   ;;
+		*.bz|*.bz2)
+				bunzip2 -k -- "$1" ;;
+		*.cab|*.CAB|*.exe|*.EXE)
+				cabextract "$1"    ;;
+		*.cpio) cpio -id -F "$1"   ;;
+		*.deb)  dpkg -x -- "$1" .  ;;
+		*.gz)   gunzip -k "$1"     ;;
+		*.lha|*.lzh)
+				lha x "$1"         ;;
+		*.lrz|*.lrzip|*.rz)
+				lrunzip -- "$1"    ;;
+		*.lz)   lzip -d -k -- "$1" ;;
+		*.lz4)  unlz4 -- "$1"      ;;
+		*.lzma) xz -d -k "$1"      ;;
+		*.lzo)  lzop -x "$1"       ;;
+		*.rar)  unrar x -- "$1"    ;;
+		*.src.rpm|*.rpm|*.spm)
+				rpm2cpio "$1" | cpio -dium ;;
+		*.xz)   unxz -k -- "$1"    ;;
+		*.[zZ]) uncompress -- "$1" ;;
+		*.zip)  unzip -- "$1"      ;;
+		*.zst)  unzstd -- "$1"     ;;
+		*.AppImage) ./"$1" --appimage-extract ;;
+		*)
+			printf "extract: '%s' - unkwown archive format\n" "$1" >&2
+			return 1
+	esac
+}
+
+archive() {
+	local archive="$1"; shift
+
+	if [ ! -e "$1" ]; then
+		printf "usage: compress <ARCHIVE> [FILE...]\n" >&2
+		return 1
+	fi
+
+	case "$archive" in
+		*.tar.bz|*.tbz| \
+		*.tar.bz2|*.tbz2)
+			tar -cjf "$archive" "$@" ;;
+		*.tar.gz|*.tgz)
+			tar -czf "$archive" "$@" ;;
+		*.tar.xz|*.txz)
+			tar -cJf "$archive" "$@" ;;
+		*.tar.[zZ]|*.t[zZ])
+			tar -cZf "$archive" "$@" ;;
+		*.tar.lzma|*.tlzma| \
+		*.tar.lzo|*.tzo| \
+		*.tar.lz|*.tlz)
+			tar -caf "$archive" "$@" ;;
+		*.tar)
+			tar -cf  "$archive" "$@" ;;
+		*.7z)
+			7za a    "$archive" "$@" ;;
+		*.zip)
+			zip -r   "$archive" "$@" ;;
+		*)
+			printf "'%s' is unknown archive format\n" "$archive" >&2
+			return 1
+	esac
+}
+
+test -s /var/log/dpkg.log &&
+apt-history() {
+	# Parses dpkg log files to get package installation, removal, and rollback
+	# information.
+	#
+	# Based on https://github.com/blyork/apt-history
+	_logcat() {
+		for file in /var/log/dpkg.log*; do
+			[ -f "$file" ] || return 1
+			case "$file" in
+				*.log|*.log.1)
+					cat "$file"
+					;;
+				*.gz)
+					zcat "$file"
+					;;
+				*)
+					printf '*** Invalid file: "%s" ***\n' "$file" >&2
+					return 1
+			esac
+		done
+	}
+
+	logcat() {
+		_logcat | sort -g
+	}
+
+	case "$1" in
+		install|upgrade|remove)
+			logcat | grep " $1 "
+			;;
+		rollback)
+			logcat \
+				| grep upgrade \
+				| grep "$2" -A10000000 \
+				| grep "$3" -B10000000 \
+				| awk '{print $4"="$5}'
+			;;
+		*)
+			logcat
+	esac
+}
+
+ppa-find() {
+	# usage: ppa-find <search string>
+	wget -qO- "https://launchpad.net/ubuntu/+ppas?name_filter=${*// /+}" | \
+		sed -n 's#^.\+=\"\(.\+\)\">.\+</a></td>.*$#https://launchpad.net\1#p'
+}
+
+command -v python3 >/dev/null &&
+http_server() {
+	# Run a simple web server in the current directory
+	local -i port="${1:-8000}"
+	echo "Web server is available at: http://localhost:${port}/" >&2
+	python3 -m http.server "$port"
+}
+
+# create a new directory and enter it
+mkcd() { mkdir -p "$1" && cd "$1"; }
+
+scratch() {
+	local dir
+
+	dir=$(mktemp -d)
+
+	# echo "$dir" | xsel -i -b 2>/dev/null || \
+	# 	xclip -i -sel clipboard 2>/dev/null || \
+	# 	true
+
+	(
+		echo "Entering \"$dir\""
+		cd "$dir"
+		eval "$SHELL"
+	)
+
+	echo "Cleaning up \"$dir\""
+	rm -rf "$dir"
+}
+alias gg='scratch'
+
+# l() {
+# 	if [ -f "$1" ]; then
+# 		less "$1"
+# 	else
+# 		ls -l ${LS_OPTIONS} "${1:-.}"
+# 	fi
+# }
+
+command -v vimdiff >/dev/null &&
+vimdiffdir() {
+	vimdiff <(\ls -1F "$1") <(\ls -1F "${2:-.}")
+}
+
+diffdir() {
+	diff --width=80 -y <(\ls -1F "$1") <(\ls -1F "${2:-.}") | sed -n '/[<>]/p'
+}
+
+ssh-copy-pub() {
+	local PS3="(select key)> "
+	local COLUMNS=69
+	local pubkey
+	local -a pubkeys=()
+
+	clip-file() {
+		cat "$1" | tee >(xsel -i -b)
+	}
+
+	pubkeys=( "${(@f)$(ls -1rt "$HOME"/.ssh/*.pub)}" )
+
+	if [ "${#pubkeys[@]}" -eq 1 ]; then
+		clip-file "${pubkeys[0]}"
+	else
+		select pubkey in "${pubkeys[@]}"; do
+			clip-file "$pubkey"
+			break
+		done
+	fi
+}
+
+pull-repos() {
+	local dir="${1:-.}"
+
+	find "$dir" -maxdepth 3 -type d -name '.git' -printf '%h\n' |
+		xargs -t -I {} -P 0 git -C {} pull origin master
+
+	find "$dir" -maxdepth 3 -type d -name '.hg' -printf '%h\n' |
+		xargs -t -I {} -P 0 hg --cwd {} pull
+}
+
+command -v docker >/dev/null &&
+docker-pull-all-except() {
+	local exclude
+
+	exclude=${(j:|:)@}
+
+	if [ -z "$@" ]; then
+		docker images --format "{{.Repository}}:{{.Tag}}" | \
+			xargs -t -I % docker pull %
+	else
+		docker images --format "{{.Repository}}:{{.Tag}}" | \
+			egrep -v "$exclude" | xargs -t -I % docker pull %
+	fi
+}
+
+add2path() {
+	local dir=${1:-$PWD}
+	export PATH="$(readlink -f "$dir"):$PATH"
+}
+
+command -v apt-mark >/dev/null &&
+list_installed_packages() {
+	# returns list of packages installed by user
+	# https://askubuntu.com/a/492343/565749
+	comm -23 \
+		<(apt-mark showmanual | sort -u) \
+		<(gzip -dc /var/log/installer/initial-status.gz | awk '/Package/ {print $2}' | sort -u)
+}
+
+bssid_loc() {
+	local bssid="$1:gs/://:u"
+
+	curl -i -s -k -X 'POST' \
+		-H 'User-Agent: Dalvik/2.1.0 (Linux; U; Android 5.0.1; Nexus 5 Build/LRX22C)' \
+		-H 'Content-Type: application/x-www-form-urlencoded' \
+		"http://mobile.maps.yandex.net/cellid_location/?clid=1866854&lac=-1&cellid=-1&operatorid=null&countrycode=null&signalstrength=-1&wifinetworks=${bssid}:-65&app=ymetro"
+}
+
+command -v peco >/dev/null &&
+icd() {
+	cd "$(find . -maxdepth 4 -type d -printf '%P\n' 2>/dev/null | peco --layout bottom-up)"
+}
+
+command -v mkvmerge >/dev/null &&
+mkvmerge_all() {
+	# Adds related audio/sub to a MKV container
+	local src_dir="$1"
+
+	[ -d "$src_dir" ] || return 1
+
+	for f in "$src_dir"/*.mkv; do
+		file_name="$(basename "$f" .mkv)"  # $f:t:r do the same
+		mkvmerge -o "${file_name}_merged.mkv" "$file_name"*
+	done
+}
+
+command -v dig >/dev/null &&
+command -v parallel >/dev/null &&
+dns_bench() {
+	# usage: dns_bench [@server ...] [domain ...]
+	local arg
+	local -a dns_servers=(
+		# OpenDNS
+		208.67.222.222
+		208.67.220.220
+
+		# Norton DNS
+		198.153.192.1
+		198.153.194.1
+
+		# Neustar
+		156.154.70.1
+		156.154.71.1
+
+		# Google DNS
+		8.8.8.8
+		8.8.4.4
+
+		# Cloudflare DNS
+		1.1.1.1
+		1.0.0.1
+
+		# Quad9
+		9.9.9.9
+
+		# PCH global anycast DNS recursive resolver
+		149.112.112.112
+
+		# Adguard DNS
+		176.103.130.130
+		176.103.130.131
+
+		# Yandex.DNS
+		77.88.8.8
+		77.88.8.1
+	)
+
+	if [ -r "/etc/resolv.conf" ]; then
+		dns_servers+=( $(awk '/nameserver/{print $2}' /etc/resolv.conf) )
+	fi
+
+	for arg in "$@"; do
+		case "$arg" in
+		@*) dns_servers+=( "${arg#@}" )
+			shift ;;
+		esac
+	done
+
+	parallel -j0 --tag dig @{} "${@:-google.com}" ::: "${dns_servers[@]}" |
+		grep Query |
+		sort -nk5  |
+		column -t
+}
+
+command -v dig >/dev/null &&
+command -v parallel >/dev/null &&
+digger() {
+	# usage: digger [opts ...] domain ...
+	local -a _dns_types=(
+		A AAAA AFSDB ANY APL CAA CDNSKEY CDS CERT CNAME DHCID DLV DNAME DNSKEY
+		DS HINFO HIP IPSECKEY KEY KX LOC MX NAPTR NS NSEC NSEC3 NSEC3PARAM OPT
+		PTR RP RRSIG SIG SOA SPF SRV SSHFP TA TKEY TLSA TSIG TXT
+	)
+
+	parallel -j0 dig -t {} +nocmd +noall +answer "$@" ::: "${_dns_types[@]}"
+}
+
+command -v parallel >/dev/null &&
+command -v doh >/dev/null &&
+doh_bench() {
+	# usage: doh_bench [@server ...] [domain]
+	local arg domain
+	local -a doh_servers=(
+		"https://dns.adguard.com/dns-query"
+		"https://dns.google/dns-query"
+		"https://cloudflare-dns.com/dns-query"
+		"https://dns.quad9.net/dns-query"
+		"https://doh.opendns.com/dns-query"
+		"https://doh.cleanbrowsing.org/doh/family-filter"
+		"https://doh.crypto.sx/dns-query"
+		"https://doh.powerdns.org"
+		"https://doh-de.blahdns.com/dns-query"
+		"https://doh.securedns.eu/dns-query"
+	)
+
+	for arg in "$@"; do
+		case "$arg" in
+		@*) dns_servers+=( "${arg#@}" )
+			shift ;;
+		esac
+	done
+
+	parallel -j0 --tag -- /usr/bin/time -p doh -t "${@:-google.com}" {} ::: "${doh_servers[@]}" 2>&1 |
+		grep real |
+		column -t
+}
+
+command -v ghi >/dev/null &&
+ghi_complete() {
+	integer -i issue_no="$1"
+
+	if (( issue_no )); then
+		ghi label "$issue_no" -a completed
+		ghi close "$issue_no"
+	else
+		ghi list -s open | fzf -m --header-lines=1 | awk '{print $1}' |
+			while read -r issue_no; do
+				[ -n "$issue_no" ] || continue
+				ghi label "$issue_no" -a completed
+				ghi close "$issue_no"
+			done
+	fi
+}
+
+command -v ghi >/dev/null &&
+ghi_close() {
+	integer -i issue_no="$1"
+
+	if (( issue_no )); then
+		ghi label "$issue_no" -a completed
+		ghi close "$issue_no"
+	else
+		ghi list -s open | fzf -m --header-lines=1 | awk '{print $1}' |
+			while read -r issue_no; do
+				[ -n "$issue_no" ] || continue
+				ghi close "$issue_no"
+			done
+	fi
+}
+
+command -v curl >/dev/null &&
+cheat.sh() {
+	# see curl cheat.sh/:help
+	local topic="${1:=:help}"
+	local opts="${2:=q&style=friendly}"
+
+	curl cheat.sh/${topic}\?${opts} 2>/dev/null | less -Re
+}
+
+command -v curl >/dev/null &&
+wttr() {
+	# see curl wttr.in/:help
+	local loc="${1:=~47.756,37.217}"
+	local opts="${2:=2}"
+
+	curl wttr.in/${loc}\?${opts} 2>/dev/null | less -Re
+}
+
+command -v curl >/dev/null &&
+wttrv2() {
+	# see curl wttr.in/:help
+	local loc="${1:=~47.756,37.217}"
+	local opts="${2:=}"
+
+	curl v2.wttr.in/${loc}\?${opts} 2>/dev/null | less -Re
+}
+
+command -v curl >/dev/null &&
+rate.sx() {
+	# see curl rate.sx/:help
+	local cmd="${1:=}"
+	local opts="${2:=qF\&n=15}"
+
+	curl rate.sx/${cmd}\?${opts} 2>/dev/null | less -Re
+}
+
+killall-zombies() {
+	# kill zombie process
+	ps -A -ostat,ppid | awk '/^Z/ { print $2; }' | xargs -r -L1 kill -HUP
+}
+
+command -v wget >/dev/null &&
+download_files_from_page() {
+	if [ "$#" -lt 2 ]; then
+		cat <<- EOF
+		Download all files with specific extension on a webpage
+
+		Usage: $0 extension[,extension...] URL
+
+		Example:
+
+		$0 mp4 http://example.com/files/
+		$0 mp3,ogg,wma http://samples.com/files/
+
+		Google: http://lmgtfy.com/?q=intitle%3Aindex.of+mp3+-html+-htm+-php+-asp+-txt+-pls+madonna
+
+		based on http://stackoverflow.com/a/18709707
+		EOF
+
+		return 1
+	fi
+
+	outputdir_name="$(awk -F/ '{print $(NF-1);}' <<< "$1")"
+	mkdir -pv "$outputdir_name"
+	cd "$outputdir_name" && wget -r -l1 -H -t1 -nd -N -np -A "$1" -erobots=off "$2"
+}
+
+command -v mpv >/dev/null &&
+command -v jq >/dev/null &&
+somafm() {
+	local station title playlist
+	local -A stations
+	local PS3='> '
+
+	while IFS=$'\t' read -r title playlist; do
+		stations["$title"]="$playlist"
+	done <<< $(wget -qO- https://somafm.com/channels.json | jq -r '.[][] | [ .title, .playlists[0].url ] | @tsv')
+
+	while true; do
+		echo "Select a station to listen:"
+		select station in "${(@k)stations}" quit; do
+			case "${station:-$REPLY}" in
+				[qQ]*) return 0 ;;
+			esac
+			break
+		done
+		mpv --playlist="${stations[$station]}"
+	done
+}
+
+command -v snap >/dev/null &&
+snap-cleanup() {
+	# remove disabled snaps
+	snap list --all \
+		| awk '/disabled/ { print $1, "--revision="$3 }' \
+		| xargs -r -L1 sudo snap remove
+
+	# remove cache files without hardlinks
+	sudo find /var/lib/snapd/cache -type f -links 1 -delete
+}
+
+command -v flatpak >/dev/null &&
+fz-flatpak-uninstall() {
+	flatpak list --columns=app,arch,branch \
+		| fzf -m \
+		| awk 'BEGIN{OFS="/";} {print $1,$2,$3;}' \
+		| xargs -r -L1 flatpak uninstall -y --noninteractive --delete-data
+}
+
+command -v dnf >/dev/null &&
+fz-dnf-remove() {
+	rpm -qa \
+		| fzf -m \
+		| xargs --no-run-if-empty -L1 sudo dnf remove -y
+}
+
+command -v docker >/dev/null &&
+fz-docker-image-rm() {
+	docker image ls --no-trunc --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}\t{{.CreatedSince}}" \
+		| fzf -m --header-lines=1 \
+		| awk 'BEGIN{OFS=":";} {print $1,$2}' \
+		| xargs --no-run-if-empty -L1 docker image rm
+}
+
+command -v podman >/dev/null &&
+fz-podman-image-rm() {
+	podman image ls --no-trunc --format "table {{.Repository}} {{.Tag}} {{.Size}} {{.Created}}" \
+		| fzf -m --header-lines=1 \
+		| awk 'BEGIN{OFS=":";} {print $1,$2}' \
+		| xargs --no-run-if-empty -L1 podman image rm
+}
+
+test -f "$HOME"/.config/google-chrome/Default/History &&
+fz-chrome_history() {
+	# https://junegunn.kr/2015/04/browsing-chrome-history-with-fzf/
+	# https://github.com/junegunn/fzf/wiki/examples#browsing-history
+	local cols sep temp_hist
+
+	cols=$(( COLUMNS / 3 ))
+	sep='{::}'
+	temp_hist="$(mktemp -u)"
+
+
+	command cp -f "$HOME"/.config/google-chrome/Default/History "$temp_hist"
+
+	sqlite3 -separator "$sep" "$temp_hist" \
+		"select substr(title, 1, $cols), url from urls order by last_visit_time desc" |
+			awk -F "$sep" '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
+			fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs -r xdg-open
+
+	rm -f "$temp_hist"
+}
+
+bigger_than() {
+	# find current dir files bigger than X size
+	# usage: bigger_than SIZE [PATTERN] [PATH]
+	find "${3:-.}" -type f -size +${1:-10M} -iname "${2:-*}"
+}
+
+anywhere() {
+	local -a dbs=( -d /var/lib/mlocate/mlocate.db )
+
+	# don't throw errors when file globs don't match anything
+	setopt NULL_GLOB
+
+	for db in "$HOME/.cache/updatedb"/*.db; do
+		[ -f "$db" ] || break
+		dbs+=( -d "$db" )
+	done
+
+	unsetopt NULL_GLOB
+
+	locate "${dbs[@]}" "$@"
+}
+
+updatedb-mountpoint() {
+	# usage: updatedb-mountpoint <mountpoint>
+	# http://askubuntu.com/questions/460535/how-do-i-tell-locate-to-keep-the-index-of-an-external-hdd
+	local db_file="${XDG_CACHE_HOME:=$HOME/.cache}/updatedb/$1:t.db"
+
+	[ -n "$1" ] || return 1
+
+	mkdir -p "$db_file:A:h"
+	updatedb -l 0 -o "$db_file" -U "$1"
+}
+
+most-used-commands() {
+	local -i top="${1:-10}"
+	local -i last="${2:-999999}"
+
+	tail -n "$last" "$HOME/.zsh_history" \
+		| awk '
+			{ $1 == "sudo" ? CMD[$2]++ : CMD[$1]++; count++; }
+			END {
+				for (a in CMD)
+					print CMD[a] " " CMD[a]/count*100 "% " a;
+				}' \
+		| sort -nr \
+		| head -n "$top" \
+		| column -c2 -s " " -t \
+		| nl
+}
+
+xopen() {
+	xdg-open "$@" >/dev/null 2>&1
+}
+
+command -v jq >/dev/null &&
+gh_get_latest_release_assets() {
+	local repo="$1"
+	local pattern="${2:-}"
+
+	curl -nsS "https://api.github.com/repos/$repo/releases/latest" \
+		| jq -r --arg expr "$pattern" \
+		'.assets[] | select(.name | test($expr)) | .browser_download_url'
+}
+
+command -v jq >/dev/null &&
+gh_get_latest_prerelease_assets() {
+	local repo="$1"
+	local pattern="${2:-}"
+
+	curl -nsS "https://api.github.com/repos/$repo/releases" \
+		| jq -r --arg expr "$pattern" \
+		'.[0].assets[] | select(.name | test($expr)) | .browser_download_url'
+}
+
+_helper_get_bin() {
+	local bin_name="${1:?Filename is missing.}"
+	local download_url="${2:?URL is missing.}"
+	local bin_path temp_file
+
+	bin_path="$(command -v "$bin_name")" || true
+	temp_file="$(mktemp -u)"
+
+	: "${bin_path:=$HOME/.local/bin/$bin_name}"
+
+	wget --show-progress -qO "$temp_file" "${download_url:?URL not found.}" || return 1
+	cp -vf "$temp_file" "$bin_path"
+	chmod -v +x "$bin_path"
+	rm -vf "$temp_file"
+}
+
+_helper_get_zip() {
+	local bin_name="${1:?Filename is missing.}"
+	local download_url="${2:?URL is missing.}"
+	local bin_path temp_dir
+
+	bin_path="$(command -v "$bin_name")" || true
+	temp_dir="$(mktemp -d)"
+
+	: "${bin_path:=$HOME/.local/bin/$bin_name}"
+
+	wget --show-progress -qO "$temp_dir/$bin_name.zip" "${download_url:?URL not found.}"
+	unzip -j "$temp_dir/$bin_name.zip" -d "$temp_dir" || return 1
+	cp -vf "$temp_dir/$bin_name" "$bin_path"
+	chmod -v +x "$bin_path"
+	rm -vrf "$temp_dir"
+}
+
+_helper_get_targz() {
+	local bin_name="${1:?Filename is missing.}"
+	local download_url="${2:?URL is missing.}"
+	local bin_path temp_dir
+
+	bin_path="$(command -v "$bin_name")" || true
+	temp_dir="$(mktemp -d)"
+
+	: "${bin_path:=$HOME/.local/bin/$bin_name}"
+
+	wget --show-progress -qO- "${download_url:?URL not found.}" | \
+		tar --transform='s/^.*\///' -C "$temp_dir" -xzf - || return 1
+	cp -vf "$temp_dir/$bin_name" "$bin_path"
+	chmod -v +x "$bin_path"
+	rm -vrf "$temp_dir"
+}
+
+_helper_get_deb() {
+	local deb_name="${1:?App name is missing.}"
+	local download_url="${2:?URL is missing.}"
+	local deb_file="/tmp/$deb_name-latest.deb"
+
+	wget --show-progress -qO "$deb_file" "${download_url:?URL not found.}" || return 1
+	sudo dpkg -i "$deb_file"
+	rm -vf "$deb_file"
+}
+
+_helper_get_rpm() {
+	local rpm_name="${1:?App name is missing.}"
+	local download_url="${2:?URL is missing.}"
+	local rpm_file="/tmp/$rpm_name-latest.rpm"
+
+	wget --show-progress -qO "$rpm_file" "${download_url:?URL not found.}" || return 1
+	sudo rpm -vU "$rpm_file"
+	rm -vf "$rpm_file"
+}
+
+du_here() { du -haxd1 "${1:-.}" | sort -h; }
+
+command -v lsof >/dev/null &&
+lsports() {
+	lsof -iTCP -sTCP:LISTEN -P -n
+	lsof -iUDP -P -n
+}
+
+command -v lsof >/dev/null &&
+lsconn() {
+	lsof -Pni -r "1m==== %T ===="
+}
+
+command -v git >/dev/null &&
+gh_get_org_repo() {
+	git remote get-url origin |
+		sed -e 's/git@github.com://' \
+			-e 's/https:\/\/github.com//' \
+			-e 's/\.git//'
+}
+
+gh() {
+	# Easily open Github from your command line
+	#
+	# Commands:
+	#   gh           opens the current branch
+	#   gh [file]    opens the file for the current branch (ie. gh README.md)
+	#   gh issues    opens the issues page
+	#   gh pulls     opens the pull requests page
+	#   gh actions   opens the actions page
+	#   gh compare   opens the compare for the current branch
+	#   gh commit    opens the last commit of the current branch
+	#   gh commits   opens the commits page for the current branch
+	local org_repo curr_branch latest_commit
+
+	latest_commit="$(git rev-parse HEAD 2>/dev/null)"
+	curr_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
+	org_repo="$(gh_get_org_repo 2>/dev/null)"
+
+	if [ -z "$org_repo" ]; then
+		echo "ERROR: It is not GitHub repository." >&2
+		return 1
+	fi
+
+	if [ -f "$1" ]; then
+		xdg-open "https://github.com/$org_repo/blob/$latest_commit/$1" 2>/dev/null
+		return 0
+	elif [ -z "$1" ]; then
+		xdg-open "https://github.com/$org_repo/tree/$curr_branch" 2>/dev/null
+		return 0
+	fi
+
+	case "$1" in
+		issues)
+			xdg-open "https://github.com/$org_repo/issues" 2>/dev/null
+			;;
+		pulls)
+			xdg-open "https://github.com/$org_repo/pulls" 2>/dev/null
+			;;
+		actions)
+			xdg-open "https://github.com/$org_repo/actions" 2>/dev/null
+			;;
+		compare|diff)
+			xdg-open "https://github.com/$org_repo/compare/$curr_branch" 2>/dev/null
+			;;
+		commits)
+			xdg-open "https://github.com/$org_repo/commits/$curr_branch" 2>/dev/null
+			;;
+		commit)
+			xdg-open "https://github.com/$org_repo/commit/$latest_commit" 2>/dev/null
+			;;
+		*)
+			if command -v gh >/dev/null; then
+				command gh "$@"
+			else
+				echo "ERROR: invalid command." >&2
+				return 1
+			fi
+	esac
+}
+
+inc_version() {
+	awk -F. -vOFS=. '{ $ver++; while(ver++<NF) $ver=0; print $0 }' ver=$1
+}
+
+command -v rpm >/dev/null &&
+rpm-history() {
+	# eq. LC_TIME=us_US.UTF-8 rpm -qa --last | tac
+	rpm -qa --queryformat "%{INSTALLTIME} %{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}\n" |
+		sort -n -k1,1 | awk '{$1=strftime("%Y-%m-%d %H:%M:%S", $1); print $0}'
+}
+
+command -v ranger >/dev/null &&
+tagged-xargs() {
+	local tagged_file="${XDG_CONFIG_HOME:-$HOME/.config}/ranger/tagged"
+
+	[ -s "$tagged_file" ] || return 1
+	xargs -a "$tagged_file" -r -I{} "$@"
+}
+
+command -v jq >/dev/null &&
+! command -v geoiplookup >/dev/null &&
+geoiplookup() {
+	local ip="${1-}"
+	curl --silent \
+		--request GET \
+		--url "https://freegeoip.app/json/$ip" \
+		--header 'accept: application/json' \
+		--header 'content-type: application/json' | \
+		jq -r 'to_entries[] | "\(.key),\(.value)"' | \
+		column -t -s,
+}
+
+# vim:ft=zsh

@@ -1,0 +1,22 @@
+[ui]
+username = Sergei Eremenko <sergei@eremenko.pp.ua>
+verbose = True
+
+[web]
+push_ssl=False
+allow_push=*
+
+[extensions]
+color =
+graphlog =
+pager =
+
+[pager]
+pager = LESS='FSRX' less
+attend = annotate, cat, diff, export, glog, log, qdiff, hist, help
+
+[alias]
+slog = log --template '{date|shortdate} [{rev}:{node|short}] {author|person}: {desc|firstline}\n'
+hist = glog --template "{node|short} <{author|person}> ({date|age}) \n\t\t{desc}\n"
+ls = locate
+up = update --check

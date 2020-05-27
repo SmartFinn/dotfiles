@@ -1,0 +1,204 @@
+## Generic
+*~
+*-
+*.backup
+*.save
+*.lock
+*.swp
+*.tmp
+.Private
+.cache/
+.gvfs
+.mail/
+.thumbnails*/
+[Tt]rash*/
+.trash/
+core
+lock
+lost+found/
+.Xauthority
+.xsession-errors*
+tmp/
+
+## Root
+/dev/
+/docker/
+/etc/mtab
+/media/
+/mnt/
+/proc/
+/run/
+/sys/
+/tmp/
+/var/backup/
+/var/cache/
+/var/lib/apt/lists/*
+/var/log/
+/var/run/
+/var/tmp/
+
+## Home
+.cache/
+.ccache/
+.compiz/
+.dbus/
+.icons/
+.fontconfig/
+.local/bin/
+.local/include/
+.local/lib/
+.local/share/gvfs-metadata/
+.themes/
+.thumbnails/
+.rnd
+
+## Atom
+.atom/.apm/
+.atom/.node-gyp/
+.atom/compile-cache
+.config/Atom/
+
+## flatpak
+.local/share/flatpak/
+.var/app/*/cache/
+/var/lib/flatpak/
+
+## snap
+**/snap/
+/snap/
+/var/lib/snapd/snaps/
+
+## Kodi
+.kodi/addons/
+.kodi/media/
+.kodi/system/
+.kodi/temp/
+.kodi/userdata/Thumbnails/
+
+## Node.Js
+.npm/
+.local/share/npm/
+node_modules/
+
+## Ruby
+.local/share/gem/
+
+## Python
+*.pyc
+*.pyo
+__pycache__/
+.pytest_cache/
+.pylint.d/
+venv/
+virtualenv/
+
+## Chromium-based and Electron-based
+.config/Bitwarden/
+.config/Boostnote/
+.config/chromium/
+.config/draw.io/
+.config/Gisto
+.config/google-chrome/
+.config/Min/
+.config/Notable/
+.config/odrive/
+.config/opera/
+.config/spotify/
+.config/WebTorrent/
+
+## Dropbox
+.dropbox*/
+.dropbox.img
+
+## App cache
+.local/share/webbrowser-app/
+.local/share/Zeal/
+.mozilla/
+.thunderbird/
+
+## Steam
+Steam/
+.steampath
+.steampid
+.steam/
+.steam/steam/SteamApps/common/
+
+## Vim
+.vim/bundle/
+.viminfo
+
+## Syncthing
+.stfolder
+.stversions
+
+## GPXSee
+.gpxsee/tiles/
+
+## Wine
+.wine/dosdevices/
+.wine/drive_c/
+
+## WPS Office
+.kingsoft/office6/cache/
+
+## VSCode
+.vscode/
+
+## TeamViewer
+.local/share/teamviewer*/
+
+## Telegram
+.local/share/TelegramDesktop/
+
+## Tmux
+.tmux/plugins/
+
+## Pbuilder
+.pbuilder/
+
+## Viber
+Documents/ViberDownloads/
+
+## Electron-based apps
+Application Cache/
+blob_storage/
+Cache/
+CachedData/
+GPUCache/
+IndexedDB/
+Local Storage/
+Service Worker/
+
+## Logs
+logs/
+*.log
+*.log.*
+
+## ssh
+.ssh/controls/
+
+## pulseaudio
+.config/pulse/
+
+## Homebrew on Linux
+.linuxbrew/
+
+## ZSH
+.zcompdump*
+
+## Android Studio
+.AndroidStudio?.?/
+.gradle/
+.java/
+.local/share/Google/
+Android/
+
+# toolbox
+rpmbuild/
+.local/share/containers/
+
+# gnome-boxes
+.local/share/gnome-boxes/
+
+# pipx
+.local/pipx

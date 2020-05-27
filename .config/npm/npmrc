@@ -1,0 +1,4 @@
+prefix=${HOME}/.local/share/npm
+cache=${HOME}/.cache/npm
+tmp=${XDG_RUNTIME_DIR}/npm
+init-module=${HOME}/.config/npm/config/npm-init.js
