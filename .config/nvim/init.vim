@@ -282,9 +282,6 @@ set sessionoptions-=options
 " confusing.
 set nrformats-=octal
 
-set fileencodings=utf-8,cp1251,koi8-r,cp866
-set fileformats=unix,dos,mac
-
 set dictionary=/usr/share/dict/words
 
 "           +--Disable hlsearch while loading viminfo
