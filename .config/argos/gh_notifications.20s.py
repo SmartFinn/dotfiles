@@ -78,29 +78,29 @@ def print_notifications(notifications):
                 title='{title} ({count})'.format(title=repo, count=len(repo_notifications)),
                 iconName='repo-symbolic'
             )
-            print_bitbar_line(
-                title='{title} ({count})'.format(title=repo, count=len(repo_notifications)),
-                iconName='ok-symbolic',
-                alternate='true',
-                refresh='true',
-                bash=__file__,
-                terminal='false',
-                param1='readrepo',
-                param2=repo,
-            )
+            # print_bitbar_line(
+            #     title='{title} ({count})'.format(title=repo, count=len(repo_notifications)),
+            #     iconName='ok-symbolic',
+            #     alternate='true',
+            #     refresh='true',
+            #     bash=__file__,
+            #     terminal='false',
+            #     param1='readrepo',
+            #     param2=repo,
+            # )
             for notification in repo_notifications:
                 formatted_notification = format_notification(notification)
                 print_bitbar_line(refresh='true', **get_dict_subset(formatted_notification, 'title', 'href', 'iconName'))
-                print_bitbar_line(
-                    refresh='true',
-                    iconName='ok-symbolic',
-                    alternate='true',
-                    bash=__file__,
-                    terminal='false',
-                    param1='readthread',
-                    param2=notification['url'],
-                    **get_dict_subset(formatted_notification, 'title')
-                )
+                # print_bitbar_line(
+                #     refresh='true',
+                #     iconName='ok-symbolic',
+                #     alternate='true',
+                #     bash=__file__,
+                #     terminal='false',
+                #     param1='readthread',
+                #     param2=notification['url'],
+                #     **get_dict_subset(formatted_notification, 'title')
+                # )
 
 
 def format_notification(notification):
