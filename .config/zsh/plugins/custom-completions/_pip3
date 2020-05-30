@@ -1,0 +1,3 @@
+#compdef pip3
+
+compdef pip3=pip

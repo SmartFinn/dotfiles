@@ -51,6 +51,7 @@ HITBTC_SECRET_KEY="$(secret-tool lookup hitbtc_api secret_key)"; export HITBTC_S
 export SHELLCHECK_OPTS='--exclude=SC1091 --exclude=SC1117'
 export FZF_DEFAULT_OPTS='--height 80% --layout=reverse --border'
 export TUIR_URLVIEWER='urlscan'
+export DOTBARE_DIR="$HOME/.local/var/dotbare"
 
 # ranger: ignore config file placed in /etc/ranger
 # export RANGER_LOAD_DEFAULT_RC="FALSE"

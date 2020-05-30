@@ -1,41 +1,49 @@
-## Plugins - list
+# ZSH plugins and their settings
 
 ZSH_PLUGINS=(
 	activate-venv
-	# auto-notify
 	clip-tools
 	clipcopy
-	command-not-found
 	copyq
-	ctrl-z
 	custom-completions
-	dotbare
-	dotenv
+	ding
 	exa
 	# fzf
 	fzf-widgets
-	fast-syntax-highlighting
 	files-completer
-	forgit
 	gio-trash
 	git-extras-completion
 	grlm-features
 	insert-datestamp
-	minimal
 	pet
 	ranger
-	tmux-pane-words
-	zsh-256color
+	# tmux-pane-words
 	zsh-abbrev
-	zsh-autosuggestions
-	zsh-bash-completions-fallback
-	zsh-completions
-	# zsh-peco-history
-	# you-should-use
-	# zsh-syntax-highlighting
 )
 
-## Plugins - pre-configuration
+# Anibody plugin file
+# https://getantibody.github.io/usage/
+read -r -d '' ANTIBODY_BUNDLE <<BUNDLE
+# MichaelAquilina/zsh-auto-notify
+kazhala/dotbare
+zdharma/fast-syntax-highlighting
+wfxr/forgit
+# ytet5uy4/fzf-widgets
+subnixr/minimal
+# MichaelAquilina/zsh-you-should-use
+# rupa/z
+chrissicool/zsh-256color
+zsh-users/zsh-autosuggestions
+3v1n0/zsh-bash-completions-fallback
+zsh-users/zsh-completions
+# jimeh/zsh-peco-history
+zsh-users/zsh-syntax-highlighting
+robbyrussell/oh-my-zsh path:plugins/dotenv
+robbyrussell/oh-my-zsh path:plugins/fancy-ctrl-z
+# robbyrussell/oh-my-zsh path:plugins/command-not-found
+BUNDLE
+
+## ==[Plugins]===(pre-configuration)==================================
 
 # Minimal
 MNML_USER_CHAR='$'
@@ -49,9 +57,12 @@ MNML_INFOLN=(mnml_err mnml_jobs prompt_info_line mnml_files)
 VIRTUAL_ENV_DISABLE_PROMPT=1
 FORGIT_NO_ALIASES=1
 
+ZSH_DOTENV_ALLOWED_LIST="${XDG_CACHE_HOME:-$HOME/.cache}/dotenv-allowed.list"
+
+
 # zsh-abbrev
-typeset -Ag abbreviations
-abbreviations=(
+typeset -gA ZSH_ABBREVIATIONS
+ZSH_ABBREVIATIONS+=(
 	"vi"	"vim"
 	"gti"	"git"
 	"got"	"git"
@@ -62,22 +73,31 @@ abbreviations=(
 	"docekr"	"docker"
 	"dokcer-compose"	"docker-compose"
 	"dwon"	"down"
-	"iamge" "image"
-	"amke" "make"
-	"maek" "make"
-	"mkae" "make"
-	"soud" "sudo"
-	"sudp" "sudo"
-	"sdo" "sudo"
+	"iamge"	"image"
+	"amke"	"make"
+	"maek"	"make"
+	"amek"	"make"
+	"mkae"	"make"
+	"soud"	"sudo"
+	"sudp"	"sudo"
+	"sdo"	"sudo"
 )
 
 ZSH_BASH_COMPLETIONS_FALLBACK_WHITELIST=(gdbus zramctl snap)
 
-## Plugins - initialize
 
+## ==[Plugins]===(initialize)=========================================
+
+# initialize plugins installed with antibody
+if (( $+commands[antibody] )); then
+	source <(antibody bundle <<< $ANTIBODY_BUNDLE)
+fi
+
+# initialize custom plugins (more clean way than with antibody)
 zsh_load_plugins "${ZSH_PLUGINS[@]}"
 
-## Plugins - post-configuration
+
+## ==[Plugins]===(post-configuration)=================================
 
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=expand-or-complete
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=buffer-empty
@@ -90,6 +110,5 @@ AUTO_NOTIFY_IGNORE+=("newsboat" "tuir" "ranger" "ncdu" "ssh" "ipython"
 	"bpython" "sudoedit" "inkscape" "git diff" "git amend" "imv" "vi"
 	"vim" "nvim")
 
-export DOTBARE_DIR="$HOME/.local/var/dotbare"
 
 # vim:ft=zsh

@@ -3,18 +3,18 @@ function prompt_collapsed_cwd() {
 	local len_percent="${1:-30}"
 
 	local -a cwd=( "${(s:/:)${(%):-%~}}" )
-	integer len=$(( COLUMNS * len_percent / 100))
+	integer len=$((COLUMNS * len_percent / 100))
 	integer i
 
 	for (( i=2; i < ${#cwd}; i++ )); do
-		[ "${(c)#cwd}" -gt "$len" ] || continue
+		[[ "${(c)#cwd}" -gt "$len" ]] || break
 
 		# if directory name begins from '.', '_' or '@'
-		if [[ ${cwd[$i]:0:1} = (.|_|@) ]]; then
-			# left 2 chars
+		if [[ ${cwd[$i]:0:1} == (.|_|@) ]]; then
+			# trim to 2 chars
 			cwd[$i]="${cwd[$i]:0:2}"
 		else
-			# left 1 char
+			# otherwise trim to 1 char
 			cwd[$i]="${cwd[$i]:0:1}"
 		fi
 	done

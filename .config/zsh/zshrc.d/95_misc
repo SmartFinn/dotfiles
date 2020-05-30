@@ -36,7 +36,8 @@ up2date() {
 	_run apm update --confirm=false
 
 	_run nvim +PlugUpdate +quitall
-	_run zsh_update_plugins
+	# _run zsh_update_plugins
+	_run antibody update --parallelism 16
 	_run pipx upgrade-all
 	_run ncu -g
 }

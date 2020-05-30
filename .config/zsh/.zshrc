@@ -31,6 +31,9 @@ if [ -r "$HOME/.dircolors" ]; then
 	eval $(dircolors -b $HOME/.dircolors) || eval $(dircolors -b)
 fi
 
+# unexport FPATH to avoid duplication in subshell
+typeset +x FPATH
+
 # EXTENSIONS
 # ----------
 #
@@ -111,7 +114,6 @@ setopt $ZSH_OPTIONS
 # PLUGINS
 # -------
 #
-# support oh-my-zsh plugins
 function zsh_load_plugins() {
 	# Usage:
 	#
@@ -151,19 +153,13 @@ function zsh_update_plugins() {
 	done
 }
 
-# COMPLETIONS
-# -----------
-#
-# autoload -Uz compinit
-# compinit -i -d "${TMPPREFIX}_zcompdump-${HOST:-localhost}-${ZSH_VERSION}"
-
-# Used to defer compinit/compdef
-typeset -a __deferred_compdefs
-compdef () { __deferred_compdefs=($__deferred_compdefs "$*") }
-
 # EXTERNAL
 # --------
 #
+# Used to defer compinit/compdef
+typeset -a __compdefs
+compdef() { __compdefs=($__compdefs "$*") }
+
 # import configuration from ~/.zsh directory
 for rcfile (${ZDOTDIR:-$HOME/.zsh}/zshrc.d/??_*(N^/)); do
 	source "$rcfile"
@@ -171,17 +167,24 @@ done
 
 unset rcfile
 
+# COMPLETIONS
+# -----------
+#
 # Load the compinit module. This will readefine the `compdef` function to
 # the one that actually initializes completions.
 # https://github.com/zsh-users/antigen
 autoload -Uz compinit
-compinit -i -d "${TMPPREFIX}_zcompdump-${HOST:-localhost}-${ZSH_VERSION}"
+
+if [[ -n "${TMPPREFIX}_zcompdump-${HOST:-localhost}-${ZSH_VERSION}"(N.mh+24) ]]; then
+	compinit -d "${TMPPREFIX}_zcompdump-${HOST:-localhost}-${ZSH_VERSION}"
+	{ zcompile "${TMPPREFIX}_zcompdump-${HOST:-localhost}-${ZSH_VERSION}" } &!
+else
+	compinit -C -d "${TMPPREFIX}_zcompdump-${HOST:-localhost}-${ZSH_VERSION}"
+fi
 
 # Apply all `compinit`s that have been deferred.
-for cdef in "${__deferred_compdefs[@]}"; do
+for cdef in "${__compdefs[@]}"; do
 	compdef "${(fs/ /)cdef}"
 done
 
-{ zcompile "${TMPPREFIX}_zcompdump-${HOST:-localhost}-${ZSH_VERSION}" } &!
-
-unset cdef __deferred_compdefs
+unset cdef __compdefs
