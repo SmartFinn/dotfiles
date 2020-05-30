@@ -214,14 +214,6 @@ scratch() {
 }
 alias gg='scratch'
 
-# l() {
-# 	if [ -f "$1" ]; then
-# 		less "$1"
-# 	else
-# 		ls -l ${LS_OPTIONS} "${1:-.}"
-# 	fi
-# }
-
 command -v vimdiff >/dev/null &&
 vimdiffdir() {
 	vimdiff <(\ls -1F "$1") <(\ls -1F "${2:-.}")
@@ -292,15 +284,6 @@ list_installed_packages() {
 		<(gzip -dc /var/log/installer/initial-status.gz | awk '/Package/ {print $2}' | sort -u)
 }
 
-bssid_loc() {
-	local bssid="$1:gs/://:u"
-
-	curl -i -s -k -X 'POST' \
-		-H 'User-Agent: Dalvik/2.1.0 (Linux; U; Android 5.0.1; Nexus 5 Build/LRX22C)' \
-		-H 'Content-Type: application/x-www-form-urlencoded' \
-		"http://mobile.maps.yandex.net/cellid_location/?clid=1866854&lac=-1&cellid=-1&operatorid=null&countrycode=null&signalstrength=-1&wifinetworks=${bssid}:-65&app=ymetro"
-}
-
 command -v peco >/dev/null &&
 icd() {
 	cd "$(find . -maxdepth 4 -type d -printf '%P\n' 2>/dev/null | peco --layout bottom-up)"
@@ -325,39 +308,21 @@ dns_bench() {
 	# usage: dns_bench [@server ...] [domain ...]
 	local arg
 	local -a dns_servers=(
-		# OpenDNS
-		208.67.222.222
-		208.67.220.220
+		# Google DNS       Cloudflare DNS
+		8.8.8.8            1.1.1.1
+		8.8.4.4            1.0.0.1
 
-		# Norton DNS
-		198.153.192.1
-		198.153.194.1
+		# OpenDNS          Yandex.DNS
+		208.67.222.222     77.88.8.8
+		208.67.220.220     77.88.8.1
 
-		# Neustar
-		156.154.70.1
-		156.154.71.1
+		# Quad9            Adguard DNS
+		9.9.9.9            176.103.130.130
+		149.112.112.112    176.103.130.131
 
-		# Google DNS
-		8.8.8.8
-		8.8.4.4
-
-		# Cloudflare DNS
-		1.1.1.1
-		1.0.0.1
-
-		# Quad9
-		9.9.9.9
-
-		# PCH global anycast DNS recursive resolver
-		149.112.112.112
-
-		# Adguard DNS
-		176.103.130.130
-		176.103.130.131
-
-		# Yandex.DNS
-		77.88.8.8
-		77.88.8.1
+		# Neustar          Norton DNS
+		156.154.70.1       198.153.192.1
+		156.154.71.1       198.153.194.1
 	)
 
 	if [ -r "/etc/resolv.conf" ]; then
@@ -415,8 +380,7 @@ doh_bench() {
 		esac
 	done
 
-	parallel -j0 --tag -- /usr/bin/time -p doh -t "${@:-google.com}" {} ::: "${doh_servers[@]}" 2>&1 |
-		grep real |
+	parallel -j0 --tag -- /usr/bin/time -f %es doh -t "${@:-google.com}" {} ::: "${doh_servers[@]}" |
 		column -t
 }
 
@@ -606,7 +570,7 @@ fz-chrome_history() {
 	rm -f "$temp_hist"
 }
 
-bigger_than() {
+find_bigger_than() {
 	# find current dir files bigger than X size
 	# usage: bigger_than SIZE [PATTERN] [PATH]
 	find "${3:-.}" -type f -size +${1:-10M} -iname "${2:-*}"
@@ -643,7 +607,7 @@ most-used-commands() {
 	local -i top="${1:-10}"
 	local -i last="${2:-999999}"
 
-	tail -n "$last" "$HOME/.zsh_history" \
+	tail -n "$last" "${HISTFILE:-${ZDOTDIR:-$HOME}/.zsh_history}" \
 		| awk '
 			{ $1 == "sudo" ? CMD[$2]++ : CMD[$1]++; count++; }
 			END {
@@ -658,96 +622,6 @@ most-used-commands() {
 
 xopen() {
 	xdg-open "$@" >/dev/null 2>&1
-}
-
-command -v jq >/dev/null &&
-gh_get_latest_release_assets() {
-	local repo="$1"
-	local pattern="${2:-}"
-
-	curl -nsS "https://api.github.com/repos/$repo/releases/latest" \
-		| jq -r --arg expr "$pattern" \
-		'.assets[] | select(.name | test($expr)) | .browser_download_url'
-}
-
-command -v jq >/dev/null &&
-gh_get_latest_prerelease_assets() {
-	local repo="$1"
-	local pattern="${2:-}"
-
-	curl -nsS "https://api.github.com/repos/$repo/releases" \
-		| jq -r --arg expr "$pattern" \
-		'.[0].assets[] | select(.name | test($expr)) | .browser_download_url'
-}
-
-_helper_get_bin() {
-	local bin_name="${1:?Filename is missing.}"
-	local download_url="${2:?URL is missing.}"
-	local bin_path temp_file
-
-	bin_path="$(command -v "$bin_name")" || true
-	temp_file="$(mktemp -u)"
-
-	: "${bin_path:=$HOME/.local/bin/$bin_name}"
-
-	wget --show-progress -qO "$temp_file" "${download_url:?URL not found.}" || return 1
-	cp -vf "$temp_file" "$bin_path"
-	chmod -v +x "$bin_path"
-	rm -vf "$temp_file"
-}
-
-_helper_get_zip() {
-	local bin_name="${1:?Filename is missing.}"
-	local download_url="${2:?URL is missing.}"
-	local bin_path temp_dir
-
-	bin_path="$(command -v "$bin_name")" || true
-	temp_dir="$(mktemp -d)"
-
-	: "${bin_path:=$HOME/.local/bin/$bin_name}"
-
-	wget --show-progress -qO "$temp_dir/$bin_name.zip" "${download_url:?URL not found.}"
-	unzip -j "$temp_dir/$bin_name.zip" -d "$temp_dir" || return 1
-	cp -vf "$temp_dir/$bin_name" "$bin_path"
-	chmod -v +x "$bin_path"
-	rm -vrf "$temp_dir"
-}
-
-_helper_get_targz() {
-	local bin_name="${1:?Filename is missing.}"
-	local download_url="${2:?URL is missing.}"
-	local bin_path temp_dir
-
-	bin_path="$(command -v "$bin_name")" || true
-	temp_dir="$(mktemp -d)"
-
-	: "${bin_path:=$HOME/.local/bin/$bin_name}"
-
-	wget --show-progress -qO- "${download_url:?URL not found.}" | \
-		tar --transform='s/^.*\///' -C "$temp_dir" -xzf - || return 1
-	cp -vf "$temp_dir/$bin_name" "$bin_path"
-	chmod -v +x "$bin_path"
-	rm -vrf "$temp_dir"
-}
-
-_helper_get_deb() {
-	local deb_name="${1:?App name is missing.}"
-	local download_url="${2:?URL is missing.}"
-	local deb_file="/tmp/$deb_name-latest.deb"
-
-	wget --show-progress -qO "$deb_file" "${download_url:?URL not found.}" || return 1
-	sudo dpkg -i "$deb_file"
-	rm -vf "$deb_file"
-}
-
-_helper_get_rpm() {
-	local rpm_name="${1:?App name is missing.}"
-	local download_url="${2:?URL is missing.}"
-	local rpm_file="/tmp/$rpm_name-latest.rpm"
-
-	wget --show-progress -qO "$rpm_file" "${download_url:?URL not found.}" || return 1
-	sudo rpm -vU "$rpm_file"
-	rm -vf "$rpm_file"
 }
 
 du_here() { du -haxd1 "${1:-.}" | sort -h; }
@@ -771,6 +645,7 @@ gh_get_org_repo() {
 			-e 's/\.git//'
 }
 
+command -v git >/dev/null &&
 gh() {
 	# Easily open Github from your command line
 	#
@@ -831,10 +706,6 @@ gh() {
 	esac
 }
 
-inc_version() {
-	awk -F. -vOFS=. '{ $ver++; while(ver++<NF) $ver=0; print $0 }' ver=$1
-}
-
 command -v rpm >/dev/null &&
 rpm-history() {
 	# eq. LC_TIME=us_US.UTF-8 rpm -qa --last | tac
@@ -843,7 +714,7 @@ rpm-history() {
 }
 
 command -v ranger >/dev/null &&
-tagged-xargs() {
+xargs_tagged() {
 	local tagged_file="${XDG_CONFIG_HOME:-$HOME/.config}/ranger/tagged"
 
 	[ -s "$tagged_file" ] || return 1

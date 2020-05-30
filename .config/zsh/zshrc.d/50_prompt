@@ -23,15 +23,10 @@ function prompt_collapsed_cwd() {
 }
 
 function prompt_collapsed_cwd_color() {
-	local cwd_color="${1:-244}"
-	local cwd="$(prompt_collapsed_cwd)"
-
-	print "%F{$cwd_color}${cwd}%f"
+	print "%F{244}$(prompt_collapsed_cwd)%f"
 }
 
 function prompt_info_line() {
-	# local cwd="${(%):-%~}"
-
 	print "%F{244}%n%f@%F{244}%m%f"
 }
 
@@ -41,32 +36,25 @@ function prompt_ranger() {
 	fi
 }
 
-# function PROMPT {
-# 	local c p s
-#
-# 	if [ "$PWD" != "$HOME" ]; then
-# 		p=$(colapsed_pwd)
-# 		s=" "
-# 	fi
-#
-# 	if [ -n "${vcs_info_msg_0_}" ]; then
-# 		c="${vcs_info_msg_0_}${vcs_info_msg_1_}"
-# 		s=" "
-# 	fi
-#
-# 	print "$p$c$s%(?.%F{normal}.%F{red})%(!.#.$)%f "
-# }
-#
-# function RPROMPT {
-# 	if [ -n "$SSH_CONNECTION" ]; then
-# 		print "(%B%F{green}%n@%m%f%b)"
-# 	else
-# 		print "%F{white}%n@%m%f"
-# 	fi
-# }
+function __prompt {
+	print -n "$(prompt_ranger)"
+	print -n "%(?.%F{green}.%F{red})%(!.#.$)%f > "
+}
 
-# PROMPT='$(PROMPT)'
-# RPROMPT='$(RPROMPT)'
+function __prompt_right {
+	if [ -n "$SSH_CONNECTION" ]; then
+		print -n "%B%F{green}%n@%m%f%b:"
+	fi
+
+	print -n "$(prompt_collapsed_cwd_color)"
+
+	if [ -n "${vcs_info_msg_0_}" ]; then
+		print -n "%F{248}:${vcs_info_msg_0_}%f${vcs_info_msg_1_}"
+	fi
+}
+
+PROMPT='$(__prompt)'
+RPROMPT='$(__prompt_right)'
 SPROMPT='  %B%F{red}%R%f%b > %B%F{green}%r%f%b? [y/N/a/e]: '
 PROMPT2='(%_)> '
 PROMPT3='? > '
