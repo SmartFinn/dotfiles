@@ -1,10 +1,10 @@
 # Modify the colors and symbols in these variables as desired
-VCS_INFO_AHEAD="%F{cyan}↑NUM%f"
+VCS_INFO_AHEAD="%F{blue}↑NUM%f"
 VCS_INFO_BEHIND="%F{red}↓NUM%f"
-VCS_INFO_STAGED="%F{green}±%f"
+VCS_INFO_STAGED="%F{yellow}±%f"
 VCS_INFO_STASHED="%F{blue}⍟NUM%f"
-VCS_INFO_UNSTAGED="%F{yellow}±%f"
-VCS_INFO_UNTRACKED="%F{red}…%f"
+VCS_INFO_UNSTAGED="%F{green}±%f"
+VCS_INFO_UNTRACKED="%F{cyan}⁇%f"
 
 # VCS integration for command prompt using vcs_info
 autoload -Uz vcs_info

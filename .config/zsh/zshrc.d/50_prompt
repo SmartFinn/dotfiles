@@ -36,12 +36,18 @@ function prompt_ranger() {
 	fi
 }
 
-function __prompt {
+function prompt_git_indicators() {
+	if [ -n "${vcs_info_msg_1_}" ]; then
+		print -n "${vcs_info_msg_1_}"
+	fi
+}
+
+function __prompt() {
 	print -n "$(prompt_ranger)"
 	print -n "%(?.%F{green}.%F{red})%(!.#.$)%f > "
 }
 
-function __prompt_right {
+function __prompt_right() {
 	if [ -n "$SSH_CONNECTION" ]; then
 		print -n "%B%F{green}%n@%m%f%b:"
 	fi
