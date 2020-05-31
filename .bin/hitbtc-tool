@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+readonly PROGNAME="$(basename "$0")"
+readonly BASE_URL="https://api.hitbtc.com/api/2"
+readonly PUBLIC_KEY="$(secret-tool lookup hitbtc_api public_key)"
+readonly SECRET_KEY="$(secret-tool lookup hitbtc_api secret_key)"
+
+_history_trades() {
+	http --auth "${PUBLIC_KEY}:${SECRET_KEY}" \
+		"$BASE_URL/history/trades" "$@" \
+		| jq -r ".[] | [ .timestamp, .symbol, .side, .quantity, .price, .fee ] | @csv" \
+		| awk -F, 'BEGIN {OFS = "\t"} { "date \"+%F %T\" --date=" $1 | getline time; $1 = time; print }'
+}
+
+_order() {
+	http --auth "${PUBLIC_KEY}:${SECRET_KEY}" \
+		"$BASE_URL/order" "$@" \
+		| jq -r '.[] | [ .createdAt, .symbol, .side, .quantity, .price, .status ] | @csv' \
+		| awk -F, 'BEGIN {OFS = "\t"} { "date \"+%F %T\" --date=" $1 | getline time; $1 = time; print }'
+}
+
+_trading_balance() {
+	http --auth "${PUBLIC_KEY}:${SECRET_KEY}" \
+		"$BASE_URL/trading/balance" \
+		| jq -r '.[] | [ .currency, .available, .reserved ] |  @csv' \
+		| awk -F, 'BEGIN {OFS = FS} { if ($2 != "\"0\"" || $3 != "\"0\"") print $0 }' \
+		| column -s, -t
+}
+
+_api_call() {
+	local endpoint="$1"
+	local -a params=( "${@:2}" )
+
+	http --auth "${PUBLIC_KEY}:${SECRET_KEY}" \
+		"$BASE_URL/${endpoint#/api/2/}" "${params[@]}"
+}
+
+case "$1" in
+	balance|bal)
+		shift
+		_trading_balance "$@"
+		;;
+	order|o)
+		shift
+		_order "$@"
+		;;
+	history|hist)
+		shift
+		_history_trades "$@"
+		;;
+	help|-h|--help)
+		cat <<-EOF
+		Usage:
+		  $PROGNAME endpoint [parameter ...]
+		  $PROGNAME command  [parameter ...]
+
+		  available commands:
+		    [bal]ance
+		    [o]rder
+		    [hist]ory
+
+		  available endpoints:
+		    https://api.hitbtc.com
+		EOF
+		;;
+	*)
+		_api_call "$@"
+		;;
+esac

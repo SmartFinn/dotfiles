@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Google Apps Integration
+Exec=gio_target_uri_opener.sh %f
+TryExec=gio_target_uri_opener.sh
+Type=Application
+Categories=Network;
+MimeType=application/vnd.google-apps.document;application/vnd.google-apps.drawing;application/vnd.google-apps.form;application/vnd.google-apps.fusiontable;application/vnd.google-apps.map;application/vnd.google-apps.presentation;application/vnd.google-apps.script;application/vnd.google-apps.site;application/vnd.google-apps.spreadsheet;application/vnd.google-apps.drive-sdk;
+NoDisplay=true

@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+IFS=$'\n\t'
+PROGNAME="${BASH_SOURCE[0]##*/}"
+
+: "${XDG_DATA_HOME:="$HOME"/.local/share}"
+: "${WINBOX_EXE:="$XDG_DATA_HOME"/winbox/winbox.exe}"
+
+usage() {
+	cat <<- EOF
+	USAGE
+	 $PROGNAME [options]
+
+	OPTIONS
+	 -u    update winbox.exe
+	 -r    uninstall winbox.exe
+	 -V    print $PROGNAME version and exit
+	 -v    be verbose
+	 -h    show this help
+	EOF
+
+	exit "${1:-0}"
+}
+
+winbox::download() {
+	mkdir -p "${WINBOX_EXE%/*}"
+	rm -f "$WINBOX_EXE".new
+	wget -O "$WINBOX_EXE".new https://mt.lv/winbox
+}
+
+winbox::install() {
+	mv -f "$WINBOX_EXE".new "$WINBOX_EXE"
+	winbox::install_icons
+	winbox::install_launcher
+}
+
+winbox::uninstall() {
+	rm -f -v "$WINBOX_EXE"
+	rmdir -v "${WINBOX_EXE%/*}" || true
+	rm -f -v "$XDG_DATA_HOME/applications/winbox.desktop"
+	winbox::remove_icons
+}
+
+winbox::install_icons() {
+	local prefix="https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme"
+
+	for size in 16x16 22x22 24x24 32x32 48x48 64x64; do
+		mkdir -p "$XDG_DATA_HOME/icons/hicolor/$size/apps"
+		wget -O "$XDG_DATA_HOME/icons/hicolor/$size/apps/winbox.svg" \
+			"$prefix/master/Papirus/$size/apps/winbox.svg"
+	done
+}
+
+winbox::remove_icons() {
+	for size in 16x16 22x22 24x24 32x32 48x48 64x64; do
+		rm -f -v "$XDG_DATA_HOME/icons/hicolor/$size/apps/winbox.svg"
+	done
+}
+
+winbox::install_launcher() {
+	[ -f "$XDG_DATA_HOME/applications/winbox.desktop" ] && return 0
+
+	cat > "$XDG_DATA_HOME/applications/winbox.desktop" <<-'EOL'
+	[Desktop Entry]
+	Name=Winbox
+	Type=Application
+	GenericName=Configuration tool for RouterOS
+	Comment=Configuration tool for RouterOS
+	Icon=winbox
+	Exec=winbox
+	TryExec=winbox
+	Terminal=false
+	StartupNotify=true
+	StartupWMClass=winbox.exe
+	Categories=Network;RemoteAccess;
+	Keywords=winbox;mikrotik;
+	EOL
+}
+
+while getopts ":hur" opt; do
+	case "$opt" in
+		u ) winbox::download
+			winbox::uninstall
+			winbox::install
+			;;
+		r ) WINBOX_UNINSTALL=1 ;;
+		h ) usage 0 ;;
+		: ) echo "Error: option requires an argument -- '-$OPTARG'" >&2
+			usage 2
+			;;
+		\?) echo "Error: illegal option -- '-$OPTARG'" >&2
+			usage 2
+			;;
+	esac
+done
+
+shift $((OPTIND-1))
+
+if [ -n "${1:-}" ]; then
+	echo "Error: illegal parameters passed -- '$*'" >&2
+	usage 2
+fi
+
+command -v wine >/dev/null || {
+	printf "Fatal: Install wine first!\n" >&2
+	exit 1
+}
+
+command -v winbox >/dev/null || {
+	printf 'Warning: %s is not in your PATH!' "$PROGNAME"
+}
+
+if [ -n "${WINBOX_UNINSTALL:-}" ]; then
+	winbox::uninstall
+	exit 0
+fi
+
+if [ ! -f "$WINBOX_EXE" ]; then
+	winbox::download
+	winbox::install
+fi
+
+env FREETYPE_PROPERTIES="truetype:interpreter-version=35" \
+	wine "$WINBOX_EXE"

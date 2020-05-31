@@ -1,0 +1,13 @@
+#!/bin/sh
+
+qemu-system-x86_64 \
+	-enable-kvm \
+	-cpu host \
+	-m 2048 \
+	-netdev user,id=network0 -device e1000,netdev=network0 \
+	-show-cursor \
+	-device qemu-xhci,id=xhci \
+	-device usb-tablet,bus=xhci.0 \
+	-display sdl -vga none -device virtio-vga,xres=1200,yres=700 \
+	-soundhw hda \
+	"$@"

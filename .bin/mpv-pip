@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+declare -a CMD=(
+	mpv
+	--quiet
+	--x11-name=mpv-pip
+	--ontop
+	--no-border
+	--autofit=426
+	--geometry=100%:20%
+	"$@"
+)
+
+if command -v tsp >/dev/null; then
+	tsp "${CMD[@]}"
+else
+	exec "${CMD[@]}" >/dev/null 2>&1
+fi
+
+exit 0
