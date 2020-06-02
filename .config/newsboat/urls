@@ -23,6 +23,7 @@ https://www.reddit.com/r/commandline/.rss "~/r/commandline" "Reddit"
 https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA "~Luke Smith" "Youtube"
 https://www.youtube.com/feeds/videos.xml?channel_id=UCkf4VIqu3Acnfzuk3kRIFwA "~Gotbletu" "Youtube"
 https://extensions.gnome.org/rss/ "~The latest GNOME Shell Extensions"
-http://linuxoidblog.blogspot.com/feeds/posts/default?alt=rss
-https://feeds.feedburner.com/ItsFoss
-https://weblance.com.ua/rss.xml
+http://linuxoidblog.blogspot.com/feeds/posts/default?alt=rss "Linux"
+https://feeds.feedburner.com/ItsFoss "Linux"
+https://weblance.com.ua/rss.xml "MikroTik"
+https://mikrotik.com/download.rss "MikroTik"
