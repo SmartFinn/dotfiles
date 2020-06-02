@@ -80,10 +80,10 @@ ZSH_ABBREVIATIONS+=(
 	"mkae"	"make"
 	"soud"	"sudo"
 	"sudp"	"sudo"
+	"suod"	"sudo"
+	"sduo"	"sudo"
 	"sdo"	"sudo"
 )
-
-ZSH_BASH_COMPLETIONS_FALLBACK_WHITELIST=(gdbus zramctl snap)
 
 
 ## ==[Plugins]===(initialize)=========================================
