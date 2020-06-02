@@ -734,4 +734,9 @@ geoiplookup() {
 		column -t -s,
 }
 
+command -v zsh >/dev/null &&
+zshrc_bench() {
+	for _ ({1..10}); time zsh -i -c exit
+}
+
 # vim:ft=zsh
