@@ -1,5 +1,21 @@
 #!/usr/bin/env bash
 
+# This script able to install, update, uninstall, and run Mikrotik Winbox with
+# the command and the desktop launcher.
+
+# Copyright (c) 2020 Sergei Eremenko (https://github.com/SmartFinn)
+#
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+# REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+# AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+# INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+# LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+# OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+
 set -euo pipefail
 
 IFS=$'\n\t'
@@ -104,7 +120,12 @@ if [ -n "${1:-}" ]; then
 fi
 
 command -v wine >/dev/null || {
-	printf "Fatal: Install wine first!\n" >&2
+	if [ ! -t 0 ] && command -v zenity >/dev/null; then
+		zenity --error --no-wrap --text 'Fatal: Install wine first!'
+	else
+		printf "Fatal: Install wine first!\n" >&2
+	fi
+
 	exit 1
 }
 
