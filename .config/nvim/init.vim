@@ -147,11 +147,11 @@ Plug 'nfnty/vim-nftables', { 'for': 'nftables' }
 Plug 'sheerun/vim-polyglot'
 
 " Make terminal vim and tmux work better together
-" Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'tmux-plugins/vim-tmux-focus-events', !empty($TMUX) ? {} : { 'on': [] }
 
 " seamless integration for vim and tmux's clipboard
 " requires: 'tmux-plugins/vim-tmux-focus-events'
-" Plug 'roxma/vim-tmux-clipboard'
+Plug 'roxma/vim-tmux-clipboard', !empty($TMUX) ? {} : { 'on': [] }
 
 " Directory viewer for Vim
 Plug 'justinmk/vim-dirvish'
@@ -167,7 +167,7 @@ command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args
 Plug 'ConradIrwin/vim-bracketed-paste'
 
 " Vim plugin for shfmt
-Plug 'z0mbix/vim-shfmt'
+Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
 
 " A dark Vim/Neovim color scheme inspired by Atom's One Dark syntax theme
 Plug 'joshdick/onedark.vim'
