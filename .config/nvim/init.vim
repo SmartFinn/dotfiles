@@ -96,7 +96,11 @@ let g:startify_custom_header = []
 " embedded filetypes
 " Ctrl-/ (Ctrl-_) by default
 Plug 'tomtom/tcomment_vim'
-" let g:tcomment_mapleader1 = '<c-\>'
+" let g:tcomment_mapleader1 = '<C-\>'
+let g:tcomment_maps = 0  " disable default mapping
+nmap <C-_> <Plug>TComment_<c-_><c-_>
+xmap <C-_> <Plug>TComment_<c-_><c-_>
+imap <C-_> <Plug>TComment_<c-_><c-_>
 
 " Readline style insertion
 Plug 'tpope/vim-rsi'
