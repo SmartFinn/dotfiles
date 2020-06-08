@@ -1,5 +1,5 @@
 # Collapsed path from /etc/nginx/conf.d to /e/n/conf.d
-function prompt_collapsed_cwd() {
+function _prompt_collapsed_cwd() {
 	local len_percent="${1:-30}"
 
 	local -a cwd=( "${(s:/:)${(%):-%~}}" )
@@ -22,28 +22,28 @@ function prompt_collapsed_cwd() {
 	print "${(j:/:)cwd}"
 }
 
-function prompt_collapsed_cwd_color() {
-	print "%F{244}$(prompt_collapsed_cwd)%f"
+function _prompt_collapsed_cwd_color() {
+	print "%F{244}$(_prompt_collapsed_cwd)%f"
 }
 
-function prompt_info_line() {
+function _prompt_info_line() {
 	print "%F{244}%n%f@%F{244}%m%f"
 }
 
-function prompt_ranger() {
+function _prompt_ranger() {
 	if [ -n "$RANGER_LEVEL" ]; then
 		print "%F{32}(ranger)%f"
 	fi
 }
 
-function prompt_git_indicators() {
+function _prompt_git_indicators() {
 	if [ -n "${vcs_info_msg_1_}" ]; then
 		print -n "${vcs_info_msg_1_}"
 	fi
 }
 
 function __prompt() {
-	print -n "$(prompt_ranger)"
+	print -n "$(_prompt_ranger)"
 	print -n "%(?.%F{green}.%F{red})%(!.#.$)%f %(2L.>>.>) "
 }
 
@@ -52,7 +52,7 @@ function __prompt_right() {
 		print -n "%B%F{green}%n@%m%f%b:"
 	fi
 
-	print -n "$(prompt_collapsed_cwd_color)"
+	print -n "$(_prompt_collapsed_cwd_color)"
 
 	if [ -n "${vcs_info_msg_0_}" ]; then
 		print -n "%F{248}:${vcs_info_msg_0_}%f${vcs_info_msg_1_}"
