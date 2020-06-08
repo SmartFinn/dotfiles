@@ -739,4 +739,28 @@ zshrc_bench() {
 	for _ ({1..10}); time zsh -i -c exit
 }
 
+command -v parallel >/dev/null &&
+ping_bench() {
+	local -a hosts
+
+	if [ $# -gt 0 ]; then
+		hosts=( "$@" )
+	elif [ -t 0 ]; then
+		cat >&2 <<-'USAGE_END'
+		usage:
+		$ ping_bench 192.168.0.{1..254}
+		$ dig -t A +noall +answer {0..3}.pool.ntp.org | awk '{print $(NF)}' | ping_bench
+		USAGE_END
+		return 1
+	else
+		hosts=( ${(f)"$(cat)"} )
+	fi
+
+	printf '%-40s %8s %8s %8s\n' HOST MIN AVG MAX
+	parallel -j252 --bar --tag ping -c 3 {} ::: "${hosts[@]}" |
+		awk -F'[ \t/]' '/rtt/{printf "%-40s %8s %8s %8s\n", $1,$8,$9,$10}' |
+		sort -nk2
+}
+
+
 # vim:ft=zsh
