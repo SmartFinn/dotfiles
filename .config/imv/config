@@ -60,3 +60,7 @@ e = exec echo $imv_current_file
 # Slideshow control
 t = slideshow +1
 <Shift+T> = slideshow -1
+
+# Rotate the currently open image (prefer lossless rotation for JPEG)
+<Shift+R> = exec jpegtran -perfect -rotate 90 -outfile "$imv_current_file" "$imv_current_file" || mogrify -rotate 90 "$imv_current_file"
+<Ctrl+Shift+R> = exec jpegtran -perfect -rotate 270 -outfile "$imv_current_file" "$imv_current_file" || mogrify -rotate -90 "$imv_current_file"
