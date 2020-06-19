@@ -48,6 +48,8 @@ GITEA_TOKEN="$(secret-tool lookup gitea_api token)"; export GITEA_TOKEN
 HITBTC_PUBLIC_KEY="$(secret-tool lookup hitbtc_api public_key)"; export HITBTC_PUBLIC_KEY
 HITBTC_SECRET_KEY="$(secret-tool lookup hitbtc_api secret_key)"; export HITBTC_SECRET_KEY
 
+TINYPNG_API_KEY="$(secret-tool lookup tinypng_api api_key)"; export TINYPNG_API_KEY
+
 export SHELLCHECK_OPTS='--exclude=SC1091 --exclude=SC1117'
 export FZF_DEFAULT_OPTS='--height 80% --layout=reverse --border'
 export TUIR_URLVIEWER='urlscan'
