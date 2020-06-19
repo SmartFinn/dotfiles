@@ -51,7 +51,7 @@ s = scaling next
 a = zoom actual
 r = reset
 e = exec echo $imv_current_file
-<Delete> = exec gio trash $imv_current_file
+<Delete> = exec gio trash $imv_current_file; close
 
 # Gif playback
 <period> = next_frame
