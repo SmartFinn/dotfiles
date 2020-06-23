@@ -18,7 +18,7 @@ case "$1" in
 		rm -f "$M2R_PREFIX/mtab"
 		;;
 	mount)
-		getent passwd | awk -F: '$3 >= 1000 && $3 < 65534 {print $(NF-1)}' |
+		getent passwd | awk -F: '$3 >= 1000 && $3 < 60000 {print $(NF-1)}' |
 			while read -r home_dir; do
 				[ -d "$home_dir" ] || continue
 
