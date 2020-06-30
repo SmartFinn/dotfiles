@@ -1,6 +1,6 @@
 config.version=6
 global.use_flock=true
-profile1.qt.last_path=/home/sergei/Development/ros-scripts
+profile1.qt.last_path=/home/sergei
 profile1.qt.places.SortColumn=0
 profile1.qt.places.SortOrder=1
 profile1.qt.settingsdialog.exclude.SortColumn=1
@@ -110,7 +110,7 @@ profile1.snapshots.use_checksum=true
 profile1.snapshots.user_backup.ionice=false
 profiles=1
 profiles.version=1
-qt.last_path=/home/sergei/Development/ros-scripts
+qt.last_path=/home/sergei
 qt.logview.height=500
 qt.logview.width=800
 qt.main_window.files_view.date_width=69
