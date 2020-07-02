@@ -97,6 +97,29 @@ autoload -Uz insert-files
 zle -N insert-files
 bindkey '^Xf' insert-files
 
+#f5# List files which have been accessed within the last {\it n} days, {\it n} defaults to 1
+function accessed () {
+	emulate -L zsh
+	print -l -- *(a-${1:-1})
+}
+
+#f5# List files which have been changed within the last {\it n} days, {\it n} defaults to 1
+function changed () {
+	emulate -L zsh
+	print -l -- *(c-${1:-1})
+}
+
+#f5# List files which have been modified within the last {\it n} days, {\it n} defaults to 1
+function modified () {
+	emulate -L zsh
+	print -l -- *(m-${1:-1})
+}
+
+# press esc-m for inserting last typed word again (thanks to caphuso!)
+function insert-last-typed-word () { zle insert-last-word -- 0 -1 }
+zle -N insert-last-typed-word
+bindkey '^[m' insert-last-typed-word
+
 #f1# Provides useful information on globbing
 function help-zshglob () {
 	cat <<- EOF

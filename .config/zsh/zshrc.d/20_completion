@@ -30,7 +30,8 @@ zstyle ':completion:*:warnings' format '%BNo matches for:%b %d'
 # statusline for many hits
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %m%s
 
-# show completion list in groups
+# separate matches into groups
+zstyle ':completion:*:matches' group 'yes'
 zstyle ':completion:*' group-name ''
 
 # match uppercase from lowercase
@@ -46,7 +47,7 @@ zstyle ':completion:*:(rm|cp|mv):*' ignore-line other
 # Don't complete completion functions/widgets.
 zstyle ':completion:*:functions' ignored-patterns '_*'
 
-# Manpages, ho!
+# complete manual by their section
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals.(^1*)' insert-sections true
 

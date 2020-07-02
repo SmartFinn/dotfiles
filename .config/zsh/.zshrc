@@ -34,6 +34,9 @@ fi
 # unexport FPATH to avoid duplication in subshell
 typeset +x FPATH
 
+# automatically remove duplicates from these arrays
+typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
+
 # EXTENSIONS
 # ----------
 #
