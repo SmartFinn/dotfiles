@@ -220,7 +220,7 @@ vimdiffdir() {
 }
 
 diffdir() {
-	diff --width=80 -y <(\ls -1F "$1") <(\ls -1F "${2:-.}") | sed -n '/[<>]/p'
+	diff --width="$(tput cols)" -y <(\ls -1F "$1") <(\ls -1F "${2:-.}") | sed -n '/[<|>]/p'
 }
 
 ssh-copy-pub() {
