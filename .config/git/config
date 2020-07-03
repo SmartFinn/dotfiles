@@ -28,6 +28,18 @@
 	hardreset = reset --hard origin/master
 	branches = for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:blue)%(objectname:short)%(color:reset) - %(contents:subject) - %(color:bold)%(authorname)%(color:reset) %(color:green)(%(committerdate:relative))%(color:reset)'
 	find = log --all --full-history --
+	# dotbare commands
+	fadd = !dotbare fadd
+	fbackup = !dotbare fbackup
+	fcheckout = !dotbare fcheckout
+	fedit = !dotbare fedit
+	finit = !dotbare finit
+	flog = !dotbare flog
+	freset = !dotbare freset
+	fstash = !dotbare fstash
+	fstat = !dotbare fstat
+	funtrack = !dotbare funtrack
+	fupgrade = !dotbare fupgrade
 [diff]
 	algorithm = minimal
 	compactionHeuristic = true
