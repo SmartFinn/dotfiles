@@ -37,7 +37,6 @@ export DEBEMAIL="finalitik@gmail.com"
 
 #export GPGKEY=DAF1B4B5	# sergei@eremenko.pp.ua
 export GPGKEY=9D2E78EC	# finalitik@gmail.com
-export GPG_TTY; GPG_TTY="$(tty)"
 
 GITHUB_TOKEN="$(secret-tool lookup github_api token)"; export GITHUB_TOKEN
 export GH_TOKEN="$GITHUB_TOKEN"
