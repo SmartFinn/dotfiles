@@ -3,9 +3,9 @@
 [user]
 	name = Sergei Eremenko
 	email = finalitik@gmail.com
+	signingkey = AB6D54C1C16D2507
 [github]
 	user = SmartFinn
-	token = 048d1db99e4d74ce01be8704c14fd5b76a9628e7
 [alias]
 	br = branch
 	ch = checkout
@@ -60,6 +60,10 @@
 	untracked = cyan
 [format]
 	pretty = %C(blue)%h%C(reset) — %s — %C(bold)%an%C(reset) %C(green)(%cr)%C(reset)%C(yellow bold)%d%C(reset)
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
 [push]
 	default = simple
 [mergetool]
