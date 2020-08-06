@@ -60,11 +60,11 @@ text-width 88
 
 goto-next-feed no
 
-browser "linkhandler %u"
+browser "linkhandler"
 player "mpv"
 download-path "~/Downloads/%n"
 save-path "~/Downloads"
-external-url-viewer "urlscan"
+external-url-viewer "urlscan -dc"
 
 bind-key ] next-feed articlelist
 bind-key [ prev-feed articlelist
@@ -85,3 +85,8 @@ unbind-key ^D delete-all-articles
 unbind-key D delete-article
 confirm-exit no
 cleanup-on-quit no
+
+
+# -- macros --------------------------------------------------------------------
+
+macro , set browser "readable %u | w3m -T text/html" ; open-in-browser ; set browser linkhandler
