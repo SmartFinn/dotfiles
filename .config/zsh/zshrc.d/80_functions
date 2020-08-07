@@ -429,7 +429,7 @@ cheat.sh() {
 command -v curl >/dev/null &&
 wttr() {
 	# see curl wttr.in/:help
-	local loc="${1:=~47.756,37.217}"
+	local loc="${1:=}"
 	local opts="${2:=2}"
 
 	curl wttr.in/${loc}\?${opts} 2>/dev/null | less -Re
@@ -438,7 +438,7 @@ wttr() {
 command -v curl >/dev/null &&
 wttrv2() {
 	# see curl wttr.in/:help
-	local loc="${1:=~47.756,37.217}"
+	local loc="${1:=}"
 	local opts="${2:=}"
 
 	curl v2.wttr.in/${loc}\?${opts} 2>/dev/null | less -Re
