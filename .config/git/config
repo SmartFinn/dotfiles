@@ -16,39 +16,53 @@
 	lg = log -p
 	ls = ls-files
 	st = status --short --branch
-	type = cat-file -t
-	dump = cat-file -p
 	history = log --graph --all
-	get-commit-count = rev-list HEAD --count
 	ls-diff = diff --name-status
 	please = push --force-with-lease
 	amend = commit --amend
+	fixlast = commit --all --amend --no-edit
 	drop = reset --hard HEAD
 	undo = reset HEAD^
-	hardreset = reset --hard origin/master
-	branches = for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:blue)%(objectname:short)%(color:reset) - %(contents:subject) - %(color:bold)%(authorname)%(color:reset) %(color:green)(%(committerdate:relative))%(color:reset)'
+	hardreset = reset --hard @{u}
+	ff = fetch --tags --prune
+	branches = branch -av
 	find = log --all --full-history --
-	# dotbare commands
-	fadd = !dotbare fadd
-	fbackup = !dotbare fbackup
-	fcheckout = !dotbare fcheckout
-	fedit = !dotbare fedit
-	finit = !dotbare finit
-	flog = !dotbare flog
-	freset = !dotbare freset
-	fstash = !dotbare fstash
-	fstat = !dotbare fstat
-	funtrack = !dotbare funtrack
-	fupgrade = !dotbare fupgrade
+	log-diff = log HEAD --not
+	mark-unchanged = update-index --assume-unchanged
+	unmark-unchanged = update-index --no-assume-unchanged
+	ls-unchanged = !git ls-files -v | grep '^[a-z]'
 [diff]
 	algorithm = minimal
 	compactionHeuristic = true
 	renames = true
+[format]
+	pretty = %C(blue)%h%C(reset) %s — %C(bold)%an%C(reset) %C(green)(%cr)%C(reset)%C(yellow bold)%d%C(reset)
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
+[pull]
+	ff = only
+[push]
+	default = simple
+[mergetool]
+	prompt = false
 [merge]
-	tool = meld
+	tool = vimdiff3
+	guitool = meld
 	conflictstyle = diff3
-[mergetool "gitmerge"]
-	cmd = gitmerge $BASE $LOCAL $REMOTE $MERGED
+[mergetool]
+	keepBackup = false
+[mergetool "vimdiff3"]
+	cmd = "${EDITOR:-vim}" -R -d "$LOCAL" "$MERGED" "$REMOTE" '+f local' '+winc l' '+set noro' '+%!cat '"$BASE" '+winc l' '+f remote' '+winc h'
+[mergetool "vscode"]
+	cmd = code --wait "$MERGED"
+[help]
+	autocorrect = 15
+[url "git+ssh://smartfinn@git.launchpad.net/"]
+	insteadof = lp:
+[url "git+ssh://smartfinn@git.launchpad.net/~smartfinn/+git/"]
+	insteadof = ppa:
 [color]
 	ui = auto
 	interactive = auto
@@ -61,33 +75,7 @@
 	frag = magenta bold
 	old = red bold
 	new = green bold
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold reverse
-	newNormal = green bold
-	newHighlight = green bold reverse
 [color "status"]
 	added = yellow
 	changed = green
 	untracked = cyan
-[format]
-	pretty = %C(blue)%h%C(reset) — %s — %C(bold)%an%C(reset) %C(green)(%cr)%C(reset)%C(yellow bold)%d%C(reset)
-[commit]
-	gpgsign = true
-[tag]
-	gpgSign = true
-[push]
-	default = simple
-[mergetool]
-	prompt = false
-[url "git+ssh://smartfinn@git.launchpad.net/"]
-	insteadof = lp:
-[url "git+ssh://smartfinn@git.launchpad.net/~smartfinn/+git/"]
-	insteadof = ppa:
-[filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-[help]
-	autocorrect = 15
