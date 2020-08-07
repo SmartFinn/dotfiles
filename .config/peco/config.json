@@ -11,6 +11,7 @@
     "Matched": ["cyan"],
     "Query": ["default"],
     "SavedSelection": ["on_blue", "white"],
-    "Selected": ["on_magenta", "default"]
+    "Selected": ["on_magenta", "default"],
+    "Use256Colors": true
   }
 }
