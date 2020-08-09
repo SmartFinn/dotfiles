@@ -24,7 +24,6 @@ ZSH_PLUGINS=(
 # Anibody plugin file
 # https://getantibody.github.io/usage/
 read -r -d '' ANTIBODY_BUNDLE <<BUNDLE
-# MichaelAquilina/zsh-auto-notify
 kazhala/dotbare
 zdharma/fast-syntax-highlighting
 wfxr/forgit
@@ -37,7 +36,6 @@ zsh-users/zsh-autosuggestions
 3v1n0/zsh-bash-completions-fallback
 zsh-users/zsh-completions
 # jimeh/zsh-peco-history
-zsh-users/zsh-syntax-highlighting
 robbyrussell/oh-my-zsh path:plugins/dotenv
 robbyrussell/oh-my-zsh path:plugins/fancy-ctrl-z
 # robbyrussell/oh-my-zsh path:plugins/command-not-found
@@ -103,12 +101,6 @@ ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=expand-or-complete
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=buffer-empty
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=completer
 # ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=magic-space
-
-# ZSH_HIGHLIGHT_STYLES[comment]=fg=90,bold
-
-AUTO_NOTIFY_IGNORE+=("newsboat" "tuir" "ranger" "ncdu" "ssh" "ipython"
-	"bpython" "sudoedit" "inkscape" "git diff" "git amend" "imv" "vi"
-	"vim" "nvim")
 
 
 # vim:ft=zsh
