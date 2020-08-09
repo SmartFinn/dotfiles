@@ -128,6 +128,7 @@ Steam/
 .viminfo
 
 ## Syncthing
+.config/syncthing/index-v0.14.0.db/
 .stfolder
 .stversions
 
@@ -137,12 +138,16 @@ Steam/
 ## Wine
 .wine/dosdevices/
 .wine/drive_c/
+.local/share/wine/dosdevices/
+.local/share/wine/drive_c/
 
 ## WPS Office
 .kingsoft/office6/cache/
 
 ## VSCode
 .vscode/
+.config/Code/CachedExtensionVSIXs/
+.config/Code/CachedExtensions/
 
 ## TeamViewer
 .local/share/teamviewer*/
@@ -158,16 +163,20 @@ Steam/
 
 ## Viber
 Documents/ViberDownloads/
+.ViberPC/
 
 ## Electron-based apps
 Application Cache/
 blob_storage/
 Cache/
 CachedData/
+Code Cache/
+Crash Reports/
 GPUCache/
 IndexedDB/
 Local Storage/
 Service Worker/
+Session Storage/
 
 ## Logs
 logs/
@@ -202,3 +211,30 @@ rpmbuild/
 
 # pipx
 .local/pipx
+
+# dotbare
+.local/var/dotbare/
+
+# qBittorrent
+.local/share/data/qBittorrent/
+
+# Grilo
+.local/share/grilo-plugins/
+
+# Meld
+.local/share/meld/
+
+# newsboat
+.local/share/newsboat/
+
+# winbox
+.local/share/winbox/
+
+# Hardcode-Tray
+.config/Hardcode-Tray/
+
+# Jet Brains
+.local/share/JetBrains/
+
+# Akonadi
+.local/share/akonadi/
