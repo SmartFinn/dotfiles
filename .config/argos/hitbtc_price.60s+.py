@@ -7,6 +7,7 @@ Created on Fri, 11 Aug 2017 05:41:46 +0300
 @documentation: https://github.com/hitbtc-com/hitbtc-api/blob/master/APIv2.md
 """
 
+import os
 import requests
 
 
@@ -23,10 +24,6 @@ class HitBTCMarket(object):
 
         if public_key and secret:
             self.session.auth = (public_key, secret)
-
-    @property
-    def name(self):
-        return 'HitBTC'
 
     def __request(self, endpoint, params=''):
         response_object = self.session.get(self.base_url + endpoint,
@@ -91,13 +88,11 @@ class HitBTCMarket(object):
     def own_currencies(self):
         balance = self.get_balance()
 
-        return tuple(i['currency'] for i in balance if i['available'] != '0'
-                     or i['reserved'] != '0')
+        return tuple(i['currency'] for i in balance if float(i['available']) > 0
+                     or float(i['reserved']) > 0)
 
 
 if __name__ == "__main__":
-    import os
-
     ignore_currencies = ['ETHBNT', 'LCC']
     menu_open = os.getenv('ARGOS_MENU_OPEN')
 

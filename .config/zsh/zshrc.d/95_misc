@@ -33,7 +33,7 @@ up2date() {
 	_run sudo apt update
 	_run sudo apt dist-upgrade -Vy
 
-	_run sudo dnf update -y
+	_run sudo dnf --refresh update -y
 
 	_run flatpak update -y
 
