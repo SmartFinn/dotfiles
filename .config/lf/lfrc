@@ -1,72 +1,459 @@
-# Basic vars
-set shell bash
-set previewer ~/.config/ranger/scope.sh
-set shellopts '-eu'
-set ifs "\n"
-set scrolloff 10
+# lf config (ranger-like)
+#
+# Basic Settings
 set color256
-set icons  # Enable icons. Requires nerd fonts and LF_ICONS variable.
+set dircounts
+set icons
+set preview
+set info size
+set period '2'
+set ratios '1:3:4'
+set scrolloff 3
+set shell bash
+set shellopts '-eu'
+set truncatechar '…'
 
-# cmds/functions
-cmd open ${{
-	case $(file --mime-type $f -b) in
-	text/troff) man ./ $f;;
-	text/*) $EDITOR $fx;;
-	image/x-xcf|image/svg+xml) setsid gimp $f >/dev/null 2>&1 & ;;
-	image/*) rotdir $f | setsid sxiv -aio 2>/dev/null | lf-select & ;;
-	audio/*) mpv --input-ipc-server=/tmp/mpvsoc$(date +%%s) $f ;;
-	video/*) setsid mpv --input-ipc-server=/tmp/mpvsoc$(date +%%s) $f -quiet >/dev/null 2>&1 & ;;
-	application/pdf) setsid zathura $fx >/dev/null 2>&1 & ;;
-	*) for f in $fx; do setsid $OPENER $f >/dev/null 2>&1 & done;;
-	esac
+# Init
+%{{
+    # -- Dynamically set wide of columns
+    if [ $(tput cols) -ge 120 ]; then
+        lf -remote "send $id set ratios 1:3:5"
+    fi
+
+    # -- Use ranger previewer if available
+    PREVIEWER="${XDG_CONFIG_HOME:-$HOME/.config}/ranger/scope.sh"
+    if [ -x "$PREVIEWER" ]; then
+        lf -remote "send $id set previewer '$PREVIEWER'"
+    fi
 }}
 
-cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
-
-cmd delete ${{
-	set -f
-	printf "%s\n\t" "$fx"
-	printf "delete?[y/N]"
-	read ans
-	[ $ans = "y" ] && rm -rf $fx
-}}
-
-cmd moveto ${{
-	set -f
-	clear; echo "Move to where?"
-	dest="$(cut -d'	' -f2- ~/.config/directories | fzf)" &&
-	eval mv -iv $fx $dest &&
-	notify-send "🚚 File(s) moved." "File(s) moved to $dest."
-}}
-
-cmd copyto ${{
-	set -f
-	clear; echo "Copy to where?"
-	dest="$(cut -d'	' -f2- ~/.config/directories | fzf)" &&
-	eval cp -ivr $fx $dest &&
-	notify-send "📋 File(s) copied." "File(s) copies to $dest."
-}}
+# Commands
+cmd edit $$EDITOR "$f"
+cmd spawn_shell $exec "$SHELL"
+cmd view $$PAGER "$f"
+cmd q :quit
 
 cmd bulkrename ${{
-	vidir
+    if command -v vimv >/dev/null; then
+        vimv $fs
+    elif command -v vidir >/dev/null; then
+        vidir $fs
+    fi
 }}
 
-# Bindings
-map c $lf -remote "send $id cd $(cut -d'	' -f2 ~/.config/directories | fzf)"
-map <c-f> $lf -remote "send $id select '$(fzf)'"
-map J $lf -remote "send $id cd $(cut -d'	' -f2 ~/.config/directories | fzf)"
-map gh
-map g top
-map D delete
-map C copyto
-map M moveto
-map a push %mkdir<space>
-map r push :rename<space>
-map R $lf -remote "send $id push :rename<space>$f"
-map b bulkrename
-map <c-r> reload
-map <enter> shell
-map x $$f
-map X !$f
-map o &mimeopen "$f"
-map O $mimeopen --ask "$f"
+cmd open ${{
+    case $(file -bL --mime-type "$f") in
+        text/*|application/json) $EDITOR "$f";;
+        *) $OPENER "$f" ;;
+    esac
+}}
+
+cmd touch ${{
+    # :touch <file_name>
+    touch "$*"
+    lf -remote "send $id load"$'\n'"send $id select '$*'"
+}}
+
+cmd mkdir %{{
+    # :mkdir <directory_name>
+    mkdir -pv "$*"
+    lf -remote "send $id load"$'\n'"send $id select '$*'"
+}}
+
+cmd chmod &{{
+    # :chmod <path> ...
+    xargs -d '\n' chmod "$*" <<< "$fx"
+    lf -remote "send $id unselect"
+    # hack to update the statusline
+    lf -remote "send $id reload"; sleep 1
+    lf -remote "send $id reload"
+}}
+
+cmd chown &{{
+    # :chown <path> ...
+    xargs -d '\n' chown "$*" <<< "$fx"
+    lf -remote "send $id unselect"
+    lf -remote "send $id reload"
+}}
+
+cmd chgrp &{{
+    # :chgrp <path> ...
+    xargs -d '\n' chgrp "$*" <<< "$fx"
+    lf -remote "send $id unselect"
+    lf -remote "send $id reload"
+}}
+
+cmd archive &{{
+    # :archive <archive_name>
+    archive_name="$*"
+
+    mapfile -t selected <<< "$fx"
+
+    for ((i=0; i < ${#selected[@]}; i++)); do
+        selected[$i]="$(realpath --relative-base=. "${selected[$i]}")"
+    done
+
+    lf -remote "send $id echomsg archive $archive_name creating ..."
+
+    case "$archive_name" in
+    *.tar.bz|*.tbz| \
+    *.tar.bz2|*.tbz2)
+        tar -cjf "$archive_name" "${selected[@]}" ;;
+    *.tar.gz|*.tgz)
+        tar -czf "$archive_name" "${selected[@]}" ;;
+    *.tar.xz|*.txz)
+        tar -cJf "$archive_name" "${selected[@]}" ;;
+    *.tar.[zZ]|*.t[zZ])
+        tar -cZf "$archive_name" "${selected[@]}" ;;
+    *.tar.lzma|*.tlzma| \
+    *.tar.lzo|*.tzo| \
+    *.tar.lz|*.tlz)
+        tar -caf "$archive_name" "${selected[@]}" ;;
+    *.tar)
+        tar -cf  "$archive_name" "${selected[@]}" ;;
+    *.7z)
+        7za a    "$archive_name" "${selected[@]}" ;;
+    *.zip)
+        zip -r   "$archive_name" "${selected[@]}" ;;
+    *)
+        lf -remote "send $id echoerr ${archive_name} unknown archive format"
+        exit 0
+    esac
+
+    lf -remote "send $id unselect"
+    lf -remote "send $id load"
+    lf -remote "send $id select '$archive_name'"
+    lf -remote "send $id echomsg $archive_name created."
+}}
+
+cmd extract &{{
+    # :extract [out_dir]
+    out_dir="$*"
+
+    if [ -n "$out_dir" ]; then
+        mkdir -p "$out_dir"
+        cd "$out_dir" || {
+            lf -remote "send $id echoerr unable to create dir"
+            exit 1
+        }
+    fi
+
+    [ -w . ] || {
+        lf -remote "send $id echoerr unable to extract to \
+            \'${out_dir:-.}\'. No write permissions"
+        exit 1
+    }
+
+    lf -remote "send $id echomsg ${f##*/} extracting ..."
+
+    case "$f" in
+    *.tar)  tar -xf "$f"       ;;
+    *.tar.bz|*.tbz| \
+    *.tar.bz2|*.tbz2)
+            tar -xjf "$f"      ;;
+    *.tar.gz|*.tgz)
+            tar -xzf "$f"      ;;
+    *.tar.xz|*.txz)
+            tar -xJf "$f"      ;;
+    *.tar.[zZ]|*.t[zZ])
+            tar -xZf "$f"      ;;
+    *.tar.lz|*.tlz| \
+    *.tar.lzma|*.tlzma| \
+    *.tar.lzo|*.tzo| \
+    *.tar.zst|*.tzst)
+            tar -xaf "$f"      ;;
+    *.7z)   7za x -- "$f"      ;;
+    *.a|*.ar)
+            ar x -- "$f"       ;;
+    *.ace)  unace e -- "$f"    ;;
+    *.alz)  unalz -- "$f"      ;;
+    *.arc|*.ark|*.ARC|*.ARK)
+            nomarch -- "$f"    ;;
+    *.arj|*.ARJ)
+            arj e -r -- "$f"   ;;
+    *.bz|*.bz2)
+            bunzip2 -k -- "$f" ;;
+    *.cab|*.CAB|*.exe|*.EXE)
+            cabextract "$f"    ;;
+    *.cpio) cpio -id -F "$f"   ;;
+    *.deb)  dpkg -x -- "$f" .  ;;
+    *.gz)   gunzip -k "$f"     ;;
+    *.lha|*.lzh)
+            lha x "$f"         ;;
+    *.lrz|*.lrzip|*.rz)
+            lrunzip -- "$f"    ;;
+    *.lz)   lzip -d -k -- "$f" ;;
+    *.lz4)  unlz4 -- "$f"      ;;
+    *.lzma) xz -d -k "$f"      ;;
+    *.lzo)  lzop -x "$f"       ;;
+    *.rar)  unrar x -- "$f"    ;;
+    *.src.rpm|*.rpm|*.spm)
+            rpm2cpio "$f" | cpio -dium ;;
+    *.xz)   unxz -k -- "$f"    ;;
+    *.[zZ]) uncompress -- "$f" ;;
+    *.zip)  unzip -- "$f"      ;;
+    *.zst)  unzstd -- "$f"     ;;
+    *.AppImage) ./"$f" --appimage-extract ;;
+    *)
+        lf -remote "send $id echoerr ${f##*/} unknown archive format"
+        exit 0
+    esac
+
+    if [ -n "$out_dir" ]; then
+        lf -remote "send $id select '$out_dir'"
+    fi
+
+    lf -remote "send $id reload"
+    lf -remote "send $id echomsg ${f##*/} extracted."
+}}
+
+cmd extract_here ${{
+    # :extract_here
+    # -- Extract an archive in subdirectory
+    lf -remote "send $id extract '$(basename -- "${f%.*}" .tar)'"
+}}
+
+cmd jump ${{
+    # -- Cd to directories with fuzzy finder
+    bookmarks="${XDG_DATA_HOME:-$HOME/.local/share}/bookmarks"
+    jump_file=$(mktemp -u --tmpdir "lf-jump.XXXXX")
+
+    trap 'rm "$jump_file"' INT QUIT TERM EXIT
+
+    # List directories in the current working directory
+    { shopt -s dotglob; command ls -1d */; } > "$jump_file"
+
+    if [ -r "$bookmarks" ]; then
+        cat "$bookmarks" >> "$jump_file"
+    fi
+
+    target=$(fzf --no-info --pointer=cd \
+        --header="Jump to location" < <(sort -Vu "$jump_file"))
+    lf -remote "send $id cd '$target'"
+}}
+
+cmd bookmark ${{
+    # -- Add current path to bookmarks file
+    bookmarks_file="${XDG_DATA_HOME:-$HOME/.local/share}/bookmarks"
+    bookmark_path="${f%/*}"
+
+    mkdir -p "$(dirname -- "$bookmarks_file)")"
+    echo "${bookmark_path}" >> "$bookmarks_file"
+    sort -u "$bookmarks_file" > "$bookmarks_file.$$"
+    mv -f "$bookmarks_file.$$" "$bookmarks_file"
+
+    lf -remote "send $id echomsg Bookmark to '$bookmark_path' created."
+}}
+
+cmd paste_symlink %{{
+    # -- Paste symlinks to copied/cuted files
+    mapfile -s1 -t files < <(lf -remote 'load' | head -n -1)
+
+    if [ "${#files[@]}" -lt 1 ]; then
+        lf -remote "send $id echoerr no file in copy/cut buffer"
+        exit 0
+    fi
+
+    ln -v -s "${files[@]}" -t .
+
+    lf -remote "send $id clear"
+    lf -remote "send $id unselect"
+    lf -remote "send $id reload"
+}}
+
+cmd paste_symlink_relative %{{
+    # -- Paste relative symlinks to copied/cuted files
+    mapfile -s1 -t files < <(lf -remote 'load' | head -n -1)
+
+    if [ "${#files[@]}" -lt 1 ]; then
+        lf -remote "send $id echoerr no file in copy/cut buffer"
+        exit 0
+    fi
+
+    ln -v -sr "${files[@]}" -t .
+
+    lf -remote "send $id clear"
+    lf -remote "send $id unselect"
+    lf -remote "send $id reload"
+}}
+
+cmd paste_hardlink %{{
+    # -- Paste hardlinks to copied/cuted files
+    mapfile -s1 -t files < <(lf -remote 'load' | head -n -1)
+
+    if [ "${#files[@]}" -lt 1 ]; then
+        lf -remote "send $id echoerr no file in copy/cut buffer"
+        exit 0
+    fi
+
+    ln -v "${files[@]}" -t .
+
+    lf -remote "send $id unselect"
+    lf -remote "send $id clear"
+    lf -remote "send $id reload"
+}}
+
+# Unmap default bindings
+map c
+map r
+map w
+map u
+map d
+map y
+map p
+
+map sa
+map sc
+map se
+map sn
+map ss
+map st
+
+# Keybindings
+map <f-2> rename
+map <f-3> view
+map <f-4> edit
+map <f-7> push :mkdir<space>
+map <f-8> delete
+map <delete> delete
+map <enter> open
+
+map A rename
+map a :rename; cmd-word-back; cmd-left
+map I :rename; cmd-home
+map C clear
+map S spawn_shell
+map E edit
+map B bookmark
+map J jump
+map <a-j> jump
+map D !stat "$f"
+map s shell
+map ` mark-load
+map r push $xdg-open<space>$fx<home><a-f><a-f>
+map [ push hkl
+map ] push hjl
+
+map Xc push :archive<space>
+map Xx push :extract<space>
+map XX extract_here
+
+map zc :set nopreview; set ratios '1:9'
+map zp :set preview; set ratios '1:4:5'
+
+map dd cut
+map du !du --max-depth=1 -h --apparent-size
+map dU !du --max-depth=1 -h --apparent-size | sort -rh
+map yy copy
+map pp paste
+map u  :unselect; clear
+map pl paste_symlink
+map pL paste_symlink_relative
+map ph paste_hardlink
+
+map cc push :rename<space>
+map cw bulkrename
+map co push :chown<space>
+map cg push :chgrp<space>
+map cm push :chmod<space>
+map =  push :chmod<space>
+
+map +ur :chmod u+r
+map +uw :chmod u+w
+map +ux :chmod u+x
+map +uX :chmod u+X
+map +us :chmod u+s
+map +ut :chmod u+t
+map +gr :chmod g+r
+map +gw :chmod g+w
+map +gx :chmod g+x
+map +gX :chmod g+X
+map +gs :chmod g+s
+map +gt :chmod g+t
+map +or :chmod o+r
+map +ow :chmod o+w
+map +ox :chmod o+x
+map +oX :chmod o+X
+map +os :chmod o+s
+map +ot :chmod o+t
+map +ar :chmod a+r
+map +aw :chmod a+w
+map +ax :chmod a+x
+map +aX :chmod a+X
+map +as :chmod a+s
+map +at :chmod a+t
+map  +r :chmod u+r
+map  +w :chmod u+w
+map  +x :chmod u+x
+map  +X :chmod u+X
+map  +s :chmod u+s
+map  +t :chmod u+t
+map -ur :chmod u-r
+map -uw :chmod u-w
+map -ux :chmod u-x
+map -uX :chmod u-X
+map -us :chmod u-s
+map -ut :chmod u-t
+map -gr :chmod g-r
+map -gw :chmod g-w
+map -gx :chmod g-x
+map -gX :chmod g-X
+map -gs :chmod g-s
+map -gt :chmod g-t
+map -or :chmod o-r
+map -ow :chmod o-w
+map -ox :chmod o-x
+map -oX :chmod o-X
+map -os :chmod o-s
+map -ot :chmod o-t
+map -ar :chmod a-r
+map -aw :chmod a-w
+map -ax :chmod a-x
+map -aX :chmod a-X
+map -as :chmod a-s
+map -at :chmod a-t
+map  -r :chmod u-r
+map  -w :chmod u-w
+map  -x :chmod u-x
+map  -X :chmod u-X
+map  -s :chmod u-s
+map  -t :chmod u-t
+
+map oa :set sortby atime;   set noreverse
+map oA :set sortby atime;   set reverse
+map ob :set sortby name;    set noreverse
+map oB :set sortby name;    set reverse
+map oc :set sortby ctime;   set noreverse
+map oC :set sortby ctime;   set reverse
+map oe :set sortby ext;     set noreverse
+map oE :set sortby ext;     set reverse
+map om :set sortby time;    set noreverse
+map oM :set sortby time;    set reverse
+map on :set sortby natural; set noreverse
+map oN :set sortby natural; set reverse
+map os :set sortby size;    set noreverse
+map oS :set sortby size;    set reverse
+map ot :set sortby time;    set noreverse
+map oT :set sortby time;    set reverse
+map or :set reverse!
+
+# Movement
+map g/ cd /
+map gr cd /
+map gd cd /dev
+map ge cd /etc
+map gm cd /media
+map gM cd /mnt
+map go cd /opt
+map gp cd /tmp
+map gs cd /srv
+map gu cd /usr
+map gv cd /var
+map gi $lf -remote "send $id cd '/run/media/$(id -nu)'"
+
+map gc cd ~/.config
+map gl cd ~/.local/share
+
+# History navigation
+cmap <up> cmd-history-prev
+cmap <down> cmd-history-next
