@@ -293,6 +293,16 @@ cmd paste_hardlink %{{
     lf -remote "send $id reload"
 }}
 
+cmd preview_enable ${{
+	lf -remote "send $id set preview"$'\n'"send $id set ratios '1:4:5'"
+	lf -remote "send $id map zp preview_disable"
+}}
+
+cmd preview_disable ${{
+	lf -remote "send $id set nopreview"$'\n'"send $id set ratios '1:9'"
+	lf -remote "send $id map zp preview_enable"
+}}
+
 # Unmap default bindings
 map c
 map r
@@ -338,8 +348,7 @@ map Xc push :archive<space>
 map Xx push :extract<space>
 map XX extract_here
 
-map zc :set nopreview; set ratios '1:9'
-map zp :set preview; set ratios '1:4:5'
+map zp preview_disable
 
 map dd cut
 map du !du --max-depth=1 -h --apparent-size
