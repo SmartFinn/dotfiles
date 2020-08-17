@@ -293,19 +293,19 @@ cmd paste_hardlink %{{
     lf -remote "send $id reload"
 }}
 
-cmd yank-dirname &{{
+cmd yank-dirname ${{
     dirname -- "$f" | tr -d '\n' | xsel -ib
 }}
 
-cmd yank-path &{{
+cmd yank-path ${{
     xargs -d '\n' printf '%q ' <<< "$fx" | xsel -ib
 }}
 
-cmd yank-basename &{{
+cmd yank-basename ${{
     xargs -d '\n' basename -a -- <<< "$fx" | xsel -ib
 }}
 
-cmd yank-basename-without-extension &{{
+cmd yank-basename-without-extension ${{
     mapfile -t selected <<< "$fx"
 
     for file in "${selected[@]}"; do
