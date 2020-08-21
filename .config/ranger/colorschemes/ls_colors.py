@@ -100,8 +100,6 @@ class ls_colors(ColorScheme):
                 return_attr |= style.bold
             elif attr == 4:
                 return_attr |= style.underline
-            elif attr == 5:
-                return_attr |= style.blink
             elif attr == 7:
                 return_attr |= style.reverse
             elif attr == 8:
