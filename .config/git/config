@@ -31,6 +31,11 @@
 	mark-unchanged = update-index --assume-unchanged
 	unmark-unchanged = update-index --no-assume-unchanged
 	ls-unchanged = !git ls-files -v | grep '^[a-z]'
+	in = log --graph ..@{u}
+	out = log --graph @{u}..
+	unstage = reset HEAD --
+	revertfile = checkout --
+	untrack = rm --cached --
 [diff]
 	algorithm = minimal
 	compactionHeuristic = true
