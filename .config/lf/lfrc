@@ -348,6 +348,41 @@ cmd previewer_toggle ${{
     done
 }}
 
+cmd fmount ${{
+    # -- mount block devices using udisks/pmount
+    while IFS=, read -r dev mountpoint; do
+        if mountpoint -q "$mountpoint"; then
+            if command -v udisksctl >/dev/null; then
+                udisksctl unmount -b "$dev"
+            else
+                pumount "$dev"
+            fi
+
+            lf -remote "send $id echomsg $dev unmounted."
+
+            if udisksctl power-off -b "$dev" 2>/dev/null; then
+                lf -remote "send $id echomsg $dev ejected."
+            fi
+        else
+            if command -v udisksctl >/dev/null; then
+                udisksctl mount -b "$dev"
+            else
+                pmount "$dev"
+            fi
+
+            mpoint="$(lsblk -n -o MOUNTPOINT "$dev")"
+
+            lf -remote "send $id cd '$mpoint'"
+            lf -remote "send $id echomsg $dev mounted to $mpoint."
+        fi
+    done < <(
+    lsblk -e 7,252 -o PATH,TYPE,SIZE,LABEL,MOUNTPOINT |
+        awk '!seen[$1]++' |
+        fzf --multi --no-info --header-lines=1 -0 |
+        awk '{printf "%s,%s\n", $1, $5}'
+    )
+}}
+
 # Unmap default bindings
 map c
 map r
@@ -392,6 +427,7 @@ map ] push hjl
 map Xc push :archive<space>
 map Xx push :extract<space>
 map XX extract_here
+map M  fmount
 
 map zi previewer_toggle
 map zp preview_toggle
