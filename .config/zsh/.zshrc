@@ -25,11 +25,22 @@ export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[47;30m'
 export LESS_TERMCAP_se=$'\e[0m'
 
+# load zsh/nearcolor if 24-bit colors aren't supported
+if [[ "$COLORTERM" != (24bit|truecolor) && "${terminfo[colors]}" -ne 16777216 ]]; then
+	zmodload zsh/nearcolor
+fi
+
 # to use the colors from the file ~/.dircolors if it exists,
 # otherwise use the default color
-if [ -r "$HOME/.dircolors" ]; then
-	eval $(dircolors -b $HOME/.dircolors) || eval $(dircolors -b)
-fi
+for dircolors (
+	"$HOME/.dircolors${terminfo[colors]}"
+	"$HOME/.dircolors"
+); do
+	[ -r "$dircolors" ] || continue
+	eval $(dircolors -b $dircolors) || eval $(dircolors -b)
+	break
+done
+unset dircolors
 
 # unexport FPATH to avoid duplication in subshell
 typeset +x FPATH
