@@ -1,6 +1,7 @@
 # Change title to command name
 function set-title {
 	[[ -n "$RANGER_LEVEL" ]] && return 0
+	[[ -n "$LF_LEVEL" ]] && return 0
 	set -- "${(@s/ /)1}"  # converts first arg to an array
 	(( ${+builtins[$1]} )) && return 0
 	# (( ${+aliases[$1]} )) && return 0
