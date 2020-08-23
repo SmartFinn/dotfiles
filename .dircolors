@@ -562,6 +562,10 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 .nix               0;32
 .rake              0;32
 
+# Patch files {{{2
+.diff              0;95
+.patch             0;95
+
 # Binary data {{{1
 # tcpdump, network traffic capture
 .pcap              2;36
