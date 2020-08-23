@@ -31,6 +31,11 @@ set truncatechar '…'
             break
         fi
     done
+
+    # -- Fallback to delete command if gio not installed
+    if ! command -v gio >/dev/null; then
+        lf -remote "send $id map <delete> delete"
+    fi
 }}
 
 # Commands
@@ -420,6 +425,28 @@ cmd fmount ${{
     done
 }}
 
+cmd move_to_trash %{{
+    # :move_to_trash
+    mapfile -t selected_items <<< "$fx"
+
+    if [ "${#selected_items[@]}" -gt 1 ]; then
+        items="${#selected_items[@]} items"
+    else
+        items="'${selected_items[*]}'"
+    fi
+
+    read -r -n 1 -p "delete $items [Y/n]: " yes_no </dev/tty
+    printf "\r%${COLUMNS:-80}s\r"  # clear line
+
+    case "$yes_no" in
+    [Yy]|'')
+        gio trash "${selected_items[@]}"
+        lf -remote "send $id reload"
+        ;;
+    [Nn]|*)  exit 1 ;;
+    esac
+}}
+
 # Unmap default bindings
 map c
 map r
@@ -442,7 +469,7 @@ map <f-3> view
 map <f-4> edit
 map <f-7> push :mkdir<space>
 map <f-8> delete
-map <delete> delete
+map <delete> move_to_trash
 map <enter> open
 
 map A rename
@@ -589,3 +616,5 @@ map gl cd ~/.local/share
 # History navigation
 cmap <up> cmd-history-prev
 cmap <down> cmd-history-next
+
+# vim:ft=config:et:sw=4:fdm=indent
