@@ -236,6 +236,7 @@ class ls_colors(ColorScheme):
                 if context.marked:
                     attr |= style.bold
                     fg = style.yellow
+                    fg += style.BRIGHT
             if context.inactive_pane:
                 fg = style.black
         elif context.in_titlebar:
@@ -256,18 +257,18 @@ class ls_colors(ColorScheme):
                 elif context.bad:
                     fg = style.magenta
             if context.marked:
-                attr |= bold | reverse
+                attr |= style.bold | style.reverse
                 fg = style.yellow
-                bg += BRIGHT
+                bg += style.BRIGHT
             if context.frozen:
-                attr |= bold | reverse
-                fg = cyan
-                fg += BRIGHT
+                attr |= style.bold | style.reverse
+                fg = style.cyan
+                fg += style.BRIGHT
             if context.message:
                 if context.bad:
-                    attr |= bold
+                    attr |= style.bold
                     fg = style.red
-                    fg += BRIGHT
+                    fg += style.BRIGHT
             if context.loaded:
                 bg = self.progress_bar_color
 
