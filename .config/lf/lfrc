@@ -16,7 +16,7 @@ set truncatechar '…'
 
 # Init
 %{{
-    # -- Dynamically set wide of columns
+    # -- Change width of columns on large terminal
     if [ $(tput cols) -ge 120 ]; then
         lf -remote "send $id set ratios 1:3:5"
     fi
@@ -67,7 +67,7 @@ cmd mkdir %{{
 }}
 
 cmd chmod &{{
-    # :chmod <path> ...
+    # :chmod <options>
     xargs -d '\n' chmod "$*" <<< "$fx"
     lf -remote "send $id unselect"
     # hack to update the statusline
@@ -76,14 +76,14 @@ cmd chmod &{{
 }}
 
 cmd chown &{{
-    # :chown <path> ...
+    # :chown <options>
     xargs -d '\n' chown "$*" <<< "$fx"
     lf -remote "send $id unselect"
     lf -remote "send $id reload"
 }}
 
 cmd chgrp &{{
-    # :chgrp <path> ...
+    # :chgrp <options>
     xargs -d '\n' chgrp "$*" <<< "$fx"
     lf -remote "send $id unselect"
     lf -remote "send $id reload"
@@ -300,18 +300,22 @@ cmd paste_hardlink %{{
 }}
 
 cmd yank-dirname ${{
+    # -- Copy path of the current directory to clipboard
     dirname -- "$f" | tr -d '\n' | xsel -ib
 }}
 
 cmd yank-path ${{
+    # -- Copy path of the selected items to clipboard
     xargs -d '\n' printf '%q ' <<< "$fx" | xsel -ib
 }}
 
 cmd yank-basename ${{
+    # -- Copy name.ext of the selected items to clipboard
     xargs -d '\n' basename -a -- <<< "$fx" | xsel -ib
 }}
 
 cmd yank-basename-without-extension ${{
+    # -- Copy name of the selected items to clipboard
     mapfile -t selected <<< "$fx"
 
     for file in "${selected[@]}"; do
@@ -321,6 +325,7 @@ cmd yank-basename-without-extension ${{
 }}
 
 cmd preview_toggle ${{
+    # -- Enable/disable preview pane
     case "$lf_preview" in
     true)
         lf -remote "send $id set nopreview"$'\n'"send $id set ratios '1:9'"
@@ -332,6 +337,7 @@ cmd preview_toggle ${{
 }}
 
 cmd previewer_toggle ${{
+    # -- Enable/disable custom preview script
     if [ -n "$lf_previewer" ]; then
         lf -remote "send $id set previewer"
         exit 0
