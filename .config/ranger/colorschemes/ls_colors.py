@@ -74,7 +74,7 @@ class ls_colors(ColorScheme):
             "socket"
         ]
 
-        self.progress_bar_color = 1
+        self.progress_bar_color = style.green
 
     def new_hook_before_drawing(self, fsobject, color_list):
         for key in self.ls_colors_extensions:
@@ -247,7 +247,7 @@ class ls_colors(ColorScheme):
                 fg = style.blue
             elif context.tab:
                 if context.good:
-                    bg = style.blue
+                    bg = self.progress_bar_color
             elif context.link:
                 fg = style.cyan
         elif context.in_statusbar:
