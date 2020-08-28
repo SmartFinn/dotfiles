@@ -20,7 +20,7 @@ _auto_hist_fix() {
 	fi
 }
 
-bindkey '^[Q' push-line-or-edit
+bindkey '^Q' push-line-or-edit
 
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _auto_hist_fix
