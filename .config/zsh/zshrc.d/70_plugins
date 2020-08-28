@@ -2,6 +2,7 @@
 
 ZSH_PLUGINS=(
 	activate-venv
+	auto-hist-fix
 	clip-tools
 	clipcopy
 	copyq
@@ -32,6 +33,7 @@ subnixr/minimal
 # MichaelAquilina/zsh-you-should-use
 # rupa/z
 chrissicool/zsh-256color
+marlonrichert/zsh-hist
 zsh-users/zsh-autosuggestions
 3v1n0/zsh-bash-completions-fallback
 zsh-users/zsh-completions

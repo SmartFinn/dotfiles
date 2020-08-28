@@ -59,7 +59,6 @@ alias drop2disk='sync && sudo sysctl -w vm.drop_caches=3; sync'
 alias mkown='sudo chown $USER: -cR'
 alias delthumbs="find $HOME/.thumbnails $HOME/.cache/thumbnails -iname '*.png' -delete"
 alias nocomment="grep -Ev '^\s*(#|$)'"
-alias hist='fc -l 1'
 alias nocow='chattr +C'
 alias reflink='cp -ax --reflink=always'
 
