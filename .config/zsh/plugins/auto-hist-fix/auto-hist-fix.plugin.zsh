@@ -9,15 +9,15 @@ typeset -f hist >/dev/null || return 0
 _auto_hist_fix() {
 	local last_exit_code="${(%)?}"
 
-	if [ "$last_exit_code" -ne 0 ]; then
-		# ignore SIGINT (Ctrl-C)
-		[ "$last_exit_code" -ne 130 ] || return 0
+	[ "$last_exit_code" -eq 0 ] && return 0
 
-		print -P "%F{blue}auto-hist-fix%f\n" \
-			"Press %F{green}Ctrl-Q%f to save the command in history" \
-			"without execution or %F{red}Ctrl-C%f to clear"
-		hist -s f -1
-	fi
+	# ignore SIGINT (Ctrl-C)
+	[ "$last_exit_code" -eq 130 ] && return 0
+
+	print -P "%F{blue}auto-hist-fix%f\n" \
+		"Press %F{green}Ctrl-Q%f to save the command in history" \
+		"without execution or %F{red}Ctrl-C%f to clear"
+	hist -s f -1
 }
 
 bindkey '^Q' push-line-or-edit
