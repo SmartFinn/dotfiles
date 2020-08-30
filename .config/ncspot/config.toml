@@ -1,0 +1,105 @@
+default_keybindings = false
+use_nerdfont = true
+volnorm = false
+volnorm_pregain = -3
+
+[theme]
+primary = "light white"
+secondary = "light black"
+title = "green"
+playing = "cyan"
+playing_selected = "cyan"
+playing_bg = "black"
+highlight = "light white"
+highlight_bg = "black"
+error = "light white"
+error_bg = "red"
+statusbar = "black"
+statusbar_progress = "green"
+statusbar_bg = "green"
+cmdline = "light white"
+cmdline_bg = "black"
+
+[keybindings]
+
+# Track manipulation
+# ------------------
+" " = "playpause"
+"Enter" = "play"
+"p" = "playpause"
+"s" = "stop"
+# Fast forward / rewind
+"Shift+Right" = "seek +5000"
+"Shift+Left" = "seek -5000"
+"," = "seek -5000"
+"." = "seek +5000"
+"<" = "seek -15000"
+">" = "seek +15000"
+# Volume
+"=" = "volup"
+"-" = "voldown"
+
+# Control
+# -------
+"Ctrl+s" = "save queue"
+"Ctrl+r" = "update"
+"Del" = "delete"
+"b" = "previous"
+"n" = "next"
+"r" = "repeat"
+"z" = "shuffle"
+"d" = "delete"
+"S" = "save"
+# Open context menu
+"o" = "open selected"
+"O" = "open current"
+"y" = "share selected"
+"Y" = "share current"
+
+# Queue
+# -----
+# Add to queue
+"a" = "queue"
+# Move selected song up/down in the queue
+"Shift+Up" = "shift up 1"
+"Shift+Down" = "shift down 1"
+"[" = "shift up 1"
+"]" = "shift down 1"
+"c" = "clear"
+# Go to the playing track in the queue
+"`" = "move playing"
+
+# Navigation
+# ----------
+"F1" = "focus library"
+"F2" = "focus queue"
+"F3" = "focus search"
+"1" = "focus library"
+"2" = "focus queue"
+"/" = "focus search"
+"A" = "goto artist"
+"B" = "goto album"
+"Q" = "quit"
+"Z" = "quit"
+"?" = "help"
+
+# Moving
+# ------
+"Esc" = "back"
+"Up" = "move up 1"
+"Down" = "move down 1"
+"Home" = "move top"
+"End" = "move bottom"
+"Right" = "move right 1"
+"Left" = "move left 1"
+"PageUp" = "move up 10"
+"PageDown" = "move down 10"
+"Ctrl+u" = "move up 10"
+"Ctrl+d" = "move down 10"
+"h" = "move left 1"
+"j" = "move down 1"
+"k" = "move up 1"
+"l" = "move right 1"
+"g" = "move bottom"
+"G" = "move top"
+"q" = "back"
