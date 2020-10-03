@@ -135,9 +135,6 @@ Plug 'godlygeek/tabular'
 " Vim plugin for copying to the system clipboard with text-objects and motions
 Plug 'christoomey/vim-system-copy'
 
-" A Material Colorscheme Darker for Vim
-" Plug 'dikiaap/minimalist'
-
 " Syntax highlights
 Plug 'zainin/vim-mikrotik', { 'for': 'rsc' }
 Plug 'vim-scripts/iptables', { 'for': 'iptables' }
@@ -202,6 +199,9 @@ Plug 'cohama/lexima.vim'
 " fzf on Vim
 Plug 'junegunn/fzf.vim'
 
+" automatically adjusts 'shiftwidth' and 'expandtab'
+Plug 'tpope/vim-sleuth'
+
 call plug#end()
 
 " Options {{{1
@@ -239,9 +239,10 @@ set langmap+=фисвуапршолдьтщзйкыегмцчняёхъжэбю;
 set tabstop=4
 set shiftwidth=4
 set smarttab
+set autoindent
 set smartindent
 
-set hlsearch | nohlsearch
+set hlsearch
 set incsearch
 set ignorecase
 set smartcase
@@ -259,9 +260,8 @@ set laststatus=2
 set ruler
 set showcmd
 set noshowmode
-set timeoutlen=1200
 
-set history=512
+set history=1000
 set wildmenu
 set wildignore=.svn,.git,.bzr,.hg
 set wildignore+=*~,*.swp,*.swo
@@ -281,6 +281,7 @@ set splitbelow
 
 " Don't save options to session file - it's possibly buggy
 set sessionoptions-=options
+set viewoptions-=options
 
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
 " confusing.
@@ -497,8 +498,9 @@ augroup vimrc
   " Automatically creates parent directories for the current file if they
   " don't exist yet (auto_mkdir based)
   au BufWritePre,FileWritePre *
-        \ if !isdirectory(expand('%:p:h'))
-        \ |   call mkdir(expand('%:p:h'), 'p')
+        \ let b:dir = expand('<afile>:p:h')
+        \ | if !isdirectory(b:dir) && !(b:dir =~ '://')
+        \ |   call mkdir(iconv(b:dir, &encoding, &termencoding), 'p')
         \ | endif
 
   " Auto change directory
@@ -539,13 +541,13 @@ nmap <Leader>S :%s/<C-R>=expand("<cword>")<CR>/<C-R>=expand("<cword>")<CR>
 vmap <Leader>S y:%s/<C-R>"/<C-R>"
 
 " Open vimrc
-nmap <silent> <Leader>, :tabedit ~/.vimrc<CR>
+nmap <silent> <Leader>, :tabedit $MYVIMRC<CR>
 
 " Delete current buffer
 nmap <silent> <Leader>q :bdelete<CR>
 
-" Bring up urlview for current buffer
-nmap <Leader>u :w<Home>silent <End> !urlview<CR>
+" Bring up urlscan for current buffer
+nmap <Leader>u :w<Home>silent <End> !urlscan<CR>
 
 " New key mapping
 " ---------------
@@ -559,12 +561,24 @@ noremap <Tab><Tab> <C-W>w
 noremap <Tab><S-Tab> <C-W>W
 noremap <S-Tab><S-Tab> <C-W>W
 
-" Next/prev buffer
-" map gb :bnext<CR>
-" map gB :bprevious<CR>
-
 " Make
 map <silent> <F9> :update <bar> silent! make <bar> redraw! <bar> cwindow<CR>
+
+" Multiple cursors for poor man
+" Tip: use . (dot) to apply the changes, n/N - to skip
+" https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db
+vmap gb *cgn
+vmap gB *cgN
+
+" Improve work with brackets
+onoremap ( i(
+onoremap ) a(
+onoremap [ i[
+onoremap ] a[
+onoremap { i{
+onoremap } a{
+onoremap < i<
+onoremap > a<
 
 " Change defaults
 " ---------------
@@ -607,11 +621,6 @@ vnoremap > >gv
 " reselect last paste
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
-" Begin, end and middle of the line instead of the default behavior
-" noremap H ^
-" noremap L $
-" noremap <silent> M :call cursor(0, len(getline('.'))/2)<CR>
-
 " Make <Backspace> act as <Delete> in Visual mode?
 vnoremap <BS> x
 
@@ -635,19 +644,3 @@ map <MiddleMouse> <Nop>
 
 " Remap Ctrl+C on Esc (needed for the correct exit from insert mode)
 imap <C-C> <Esc>
-
-" Multiple cursors for poor man
-" Tip: use . (dot) to apply the changes, n/N - to skip
-" https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db
-vmap gb *cgn
-vmap gB *cgN
-
-" Improve work with brackets
-onoremap ( i(
-onoremap ) a(
-onoremap [ i[
-onoremap ] a[
-onoremap { i{
-onoremap } a{
-onoremap < i<
-onoremap > a<
