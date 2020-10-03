@@ -10,6 +10,7 @@
 .cache/
 .gvfs
 .mail/
+.pipewire-media-session/
 .thumbnails*/
 [Tt]rash*/
 .trash/
@@ -238,3 +239,6 @@ rpmbuild/
 
 # Akonadi
 .local/share/akonadi/
+
+# Cargo
+.cargo/
