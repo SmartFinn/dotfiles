@@ -28,19 +28,19 @@ read -r -d '' ANTIBODY_BUNDLE <<BUNDLE
 kazhala/dotbare
 zdharma/fast-syntax-highlighting
 wfxr/forgit
-# ytet5uy4/fzf-widgets
+#ytet5uy4/fzf-widgets
 subnixr/minimal
-# MichaelAquilina/zsh-you-should-use
-# rupa/z
+#MichaelAquilina/zsh-you-should-use
+#rupa/z
 chrissicool/zsh-256color
 marlonrichert/zsh-hist
 zsh-users/zsh-autosuggestions
 3v1n0/zsh-bash-completions-fallback
 zsh-users/zsh-completions
-# jimeh/zsh-peco-history
+#jimeh/zsh-peco-history
 robbyrussell/oh-my-zsh path:plugins/dotenv
 robbyrussell/oh-my-zsh path:plugins/fancy-ctrl-z
-# robbyrussell/oh-my-zsh path:plugins/command-not-found
+#robbyrussell/oh-my-zsh path:plugins/command-not-found
 BUNDLE
 
 ## ==[Plugins]===(pre-configuration)==================================
