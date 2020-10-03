@@ -51,11 +51,6 @@ PROMPT_DIRTRIM=2
 # save and reload the history after each command finishes
 PROMPT_COMMAND='history -a; history -r'
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-	debian_chroot=$(cat /etc/debian_chroot)
-fi
-
 if command -v tput > /dev/null && [ "$(tput -T "$TERM" colors)" -ge 8 ]; then
 	# Less Colors for Man Pages
 	export LESS_TERMCAP_mb=$'\e[01;35m'
@@ -68,19 +63,22 @@ if command -v tput > /dev/null && [ "$(tput -T "$TERM" colors)" -ge 8 ]; then
 
 	# enable color support of ls and also add handy aliases
 	alias ls='ls --color=auto'
-	# alias dir='dir --color=auto'
-	# alias vdir='vdir --color=auto'
+	alias dir='dir --color=auto'
+	alias vdir='vdir --color=auto'
 
 	alias grep='grep --color=auto'
 	alias fgrep='fgrep --color=auto'
 	alias egrep='egrep --color=auto'
 
+	alias ip='ip --color=auto'
+	alias diff='diff --color=auto'
+
 	# set prompt
-	PS1='${debian_chroot:+($debian_chroot)}\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ '
+	PS1='\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ '
 	PS2='> '
 	PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 else
-	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+	PS1='\u@\h:\w\$ '
 fi
 
 if command -v dircolors > /dev/null; then
