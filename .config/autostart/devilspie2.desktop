@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=devilspie2
-Comment=see .config/devilspie2/
-Exec=devilspie2
-Type=Application
-NoDisplay=true
-X-GNOME-Autostart-enabled=true
-X-GNOME-Autostart-Delay=10
