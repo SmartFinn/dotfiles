@@ -57,8 +57,6 @@ MNML_INFOLN=(mnml_err mnml_jobs _prompt_info_line mnml_files)
 VIRTUAL_ENV_DISABLE_PROMPT=1
 FORGIT_NO_ALIASES=1
 
-ZSH_DOTENV_ALLOWED_LIST="${XDG_CACHE_HOME:-$HOME/.cache}/dotenv-allowed.list"
-
 
 # zsh-abbrev
 typeset -gA ZSH_ABBREVIATIONS

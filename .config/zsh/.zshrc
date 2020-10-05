@@ -10,6 +10,10 @@ HISTFILE="${ZDOTDIR:-$HOME/.zsh}/history"
 DIRSTACKSIZE=50
 TMPPREFIX="${TMPPREFIX:-/tmp/zsh}"  # not a directory
 
+# set cache dir for compatibility with oh-my-zsh plugins
+ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+[[ -d "$ZSH_CACHE_DIR" ]] || mkdir -p "$ZSH_CACHE_DIR"
+
 # enable colors for ls and grep
 export LS_OPTIONS='--color=auto'
 # export GREP_OPTIONS='--color=auto'
