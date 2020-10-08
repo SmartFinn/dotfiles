@@ -1,2 +1,0 @@
-alias edit "eval -f \"get $0 -o /tmp/lftp.edit.$$ && shell \\\"cp -p /tmp/lftp.edit.$$ /tmp/lftp.edit.$$.orig && editor /tmp/lftp.edit.$$ && test /tmp/lftp.edit.$$ -nt /tmp/lftp.edit.$$.orig\\\" && put /tmp/lftp.edit.$$ -o $0; shell rm -f /tmp/lftp.edit.$$*\""
-set ssl:verify-certificate no
