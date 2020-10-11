@@ -24,7 +24,7 @@ cmdline_bg = "black"
 
 # Track manipulation
 # ------------------
-" " = "playpause"
+"Space" = "playpause"
 "Enter" = "play"
 "p" = "playpause"
 "s" = "stop"
@@ -43,6 +43,7 @@ cmdline_bg = "black"
 # -------
 "Ctrl+s" = "save queue"
 "Ctrl+r" = "update"
+"Ctrl+v" = "insert"
 "Del" = "delete"
 "b" = "previous"
 "n" = "next"
