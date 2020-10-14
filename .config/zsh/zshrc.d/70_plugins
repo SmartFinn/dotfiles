@@ -37,7 +37,6 @@ marlonrichert/zsh-hist
 zsh-users/zsh-autosuggestions
 3v1n0/zsh-bash-completions-fallback
 zsh-users/zsh-completions
-#jimeh/zsh-peco-history
 robbyrussell/oh-my-zsh path:plugins/dotenv
 robbyrussell/oh-my-zsh path:plugins/fancy-ctrl-z
 #robbyrussell/oh-my-zsh path:plugins/command-not-found
@@ -52,7 +51,6 @@ MNML_INSERT_CHAR=$(printf '>%.0s' {1..${SHLVL:-1}})
 MNML_PROMPT=(mnml_ssh mnml_pyenv _prompt_ranger mnml_status mnml_keymap)
 MNML_RPROMPT=(mnml_err _prompt_collapsed_cwd_color mnml_git _prompt_git_indicators)
 MNML_INFOLN=(mnml_err mnml_jobs _prompt_info_line mnml_files)
-# MNML_MAGICENTER=(mnml_me_dirs mnml_me_ls mnml_me_git)
 
 VIRTUAL_ENV_DISABLE_PROMPT=1
 FORGIT_NO_ALIASES=1
@@ -100,7 +98,10 @@ zsh_load_plugins "${ZSH_PLUGINS[@]}"
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=expand-or-complete
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=buffer-empty
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=completer
-# ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=magic-space
+
+# zsh-abbr
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=magic-abbrev-expand
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=magic-abbrev-expand-and-accept
 
 
 # vim:ft=zsh
