@@ -1,5 +1,5 @@
 [core]
-	pager = delta --dark --theme="OneHalfDark"
+	pager = delta
 [user]
 	name = Sergei Eremenko
 	email = finalitik@gmail.com
@@ -84,3 +84,10 @@
 	added = yellow
 	changed = green
 	untracked = cyan
+[delta]
+	features = line-numbers decorations
+	dark = true
+	syntax-theme = OneHalfDark
+	zero-style = normal
+[interactive]
+	diffFilter = delta --color-only
