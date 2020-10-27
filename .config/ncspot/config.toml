@@ -3,6 +3,9 @@ use_nerdfont = true
 volnorm = false
 volnorm_pregain = -3
 
+[saved_state]
+volume = 85
+
 [theme]
 primary = "light white"
 secondary = "light black"
@@ -36,8 +39,8 @@ cmdline_bg = "black"
 "<" = "seek -15000"
 ">" = "seek +15000"
 # Volume
-"=" = "volup"
-"-" = "voldown"
+"=" = "volup 5"
+"-" = "voldown 5"
 
 # Control
 # -------
