@@ -85,7 +85,7 @@
 	changed = green
 	untracked = cyan
 [delta]
-	features = line-numbers decorations
+	features = decorations
 	dark = true
 	syntax-theme = OneHalfDark
 	zero-style = normal
