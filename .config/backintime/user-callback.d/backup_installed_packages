@@ -39,6 +39,11 @@ get_user_installed_python3_packages() {
 	python3 -m pip list --user --format=freeze > "$dest_dir/python3-packages.list"
 }
 
+get_pipx_venvs() {
+	command -v pipx >/dev/null || return 0
+	pipx list > "$dest_dir/pipx-venv.list"
+}
+
 get_installed_flatpak_apps() {
 	command -v flatpak >/dev/null || return 0
 	env XDG_DATA_DIRS="$HOME"/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share \
@@ -69,6 +74,7 @@ case "$reason" in
 		get_installed_gems
 		get_user_installed_python2_packages
 		get_user_installed_python3_packages
+		get_pipx_venvs
 		get_installed_flatpak_apps
 		get_installed_npm_packages
 		get_installed_snaps
