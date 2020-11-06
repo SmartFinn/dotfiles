@@ -8,9 +8,14 @@ download-timeout 10
 prepopulate-query-feeds yes
 mark-as-read-on-hover yes
 confirm-exit yes
-suppress-first-reload yes
+suppress-first-reload no
 show-keymap-hint no
-scrolloff 3
+scrolloff 4
+
+urls-source "miniflux"
+miniflux-url "http://miniflux.mkro.tk"
+miniflux-login "admin"
+miniflux-passwordeval "secret-tool lookup miniflux password"
 
 
 # -- display -------------------------------------------------------------------
