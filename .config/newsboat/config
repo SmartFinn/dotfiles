@@ -1,27 +1,35 @@
-# -- feeds ---------------------------------------------------------------------
-
-auto-reload yes
-reload-time 10
-reload-threads 16
-download-retries 4
-download-timeout 10
-prepopulate-query-feeds yes
-mark-as-read-on-hover yes
-confirm-exit yes
-suppress-first-reload no
-show-keymap-hint no
-scrolloff 4
-
 urls-source "miniflux"
 miniflux-url "http://miniflux.mkro.tk"
 miniflux-login "admin"
 miniflux-passwordeval "secret-tool lookup miniflux password"
 
+browser "linkhandler"
+player "mpv"
+download-path "~/Downloads/%n"
+save-path "~/Downloads"
+external-url-viewer "urlscan -dc"
 
-# -- display -------------------------------------------------------------------
 
+# -- options -------------------------------------------------------------------
+
+auto-reload yes
+cleanup-on-quit no
+confirm-exit no
+download-retries 4
+download-timeout 10
+goto-next-feed no
+mark-as-read-on-hover yes
+prepopulate-query-feeds yes
+reload-threads 16
+reload-time 10
+scrolloff 999
+show-keymap-hint no
 show-read-feeds yes
-# feed-sort-order unreadarticlecount-asc
+suppress-first-reload no
+text-width 88
+
+
+# -- formats -------------------------------------------------------------------
 
 # don't ever include "newsboat" or a version number in the title bar and tweak
 # some title formats in other ways.
@@ -36,13 +44,13 @@ urlview-title-format "URLs"
 dialogs-title-format "Dialogs"
 
 
-# formatting and colorization ------------------------------------------
+# -- colors and highlights -----------------------------------------------------
 
 color background         default  default
-color listnormal         color8   default
+color listnormal         color242 default
 color listfocus          color43  default  reverse
 color info               color122 color14
-color article            color8   default
+color article            color246 default
 color listnormal_unread  default  default
 color listfocus_unread   color43  default  reverse bold
 
@@ -50,26 +58,16 @@ highlight article     "^(Feed):.*$"                 color35  default
 highlight article     "^(Title):.*$"                color76  default
 highlight article     "^(Author|Date):.*$"          color136 default
 highlight article     "^(Link):.*$"                 color12  default
-highlight article     "^(Podcast Download URL):.*"  cyan     default
+highlight article     "^(Podcast Download URL):.*"  blue     default
 highlight article     "^(Links):"                   cyan     default  bold
 highlight article     "https?://[^ ]+"              blue     default
-highlight article     "\\[[0-9][0-9]*\\]"           cyan     default  bold
+highlight article     "\\[[0-9][0-9]*\\]"           color170 default  bold
 highlight article     "\\[image\\ [0-9]+\\]"        blue     default  bold
-highlight article     ":.*\\(link\\)$"              cyan     default
+highlight article     ":.*\\(link\\)$"              blue     default
 highlight article     ":.*\\(image\\)$"             blue     default
-
-text-width 88
 
 
 # -- navigation ----------------------------------------------------------------
-
-goto-next-feed no
-
-browser "linkhandler"
-player "mpv"
-download-path "~/Downloads/%n"
-save-path "~/Downloads"
-external-url-viewer "urlscan -dc"
 
 bind-key ] next-feed articlelist
 bind-key [ prev-feed articlelist
@@ -82,14 +80,9 @@ bind-key l open
 bind-key a mark-all-above-as-read articlelist
 bind-key U show-urls
 
-
-# -- misc ----------------------------------------------------------------------
-
 unbind-key C feedlist
 unbind-key ^D delete-all-articles
 unbind-key D delete-article
-confirm-exit no
-cleanup-on-quit no
 
 
 # -- macros --------------------------------------------------------------------
