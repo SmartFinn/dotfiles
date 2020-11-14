@@ -52,6 +52,12 @@ cabbrev h   ViewDocHelp
 cabbrev he  ViewDocHelp
 cabbrev hel ViewDocHelp
 
+" Dark powered asynchronous completion framework for neovim
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  let g:deoplete#enable_at_startup = 1
+endif
+
 " UltiSnips — TextMate-like snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
