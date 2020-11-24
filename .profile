@@ -53,7 +53,6 @@ TINYPNG_API_KEY="$(secret-tool lookup tinypng_api api_key)"; export TINYPNG_API_
 
 export SHELLCHECK_OPTS='--exclude=SC1091 --exclude=SC1117'
 export FZF_DEFAULT_OPTS='--height 80% --layout=reverse --border'
-export TUIR_URLVIEWER='urlscan'
 export DOTBARE_DIR="$HOME/.local/var/dotbare"
 
 # ranger: ignore config file placed in /etc/ranger
