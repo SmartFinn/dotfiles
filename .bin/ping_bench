@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+# Copyright (c) 2020 Sergei Eremenko (https://github.com/SmartFinn)
+#
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+# REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+# AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+# INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+# LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+# OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+
+set -e
+
+command -v parallel >/dev/null || {
+	echo "parallel command not found. Install it first." >&2
+	exit 1
+}
+
+declare -a HOSTS
+
+if [ $# -gt 0 ]; then
+	HOSTS=( "$@" )
+elif [ -t 0 ]; then
+	cat >&2 <<-'USAGE_END'
+	usage:
+	$ ping_bench 192.168.0.{1..255}
+	$ dig -t A +noall +answer {0..3}.pool.ntp.org | awk '{print $(NF)}' | ping_bench
+	USAGE_END
+	exit 1
+else
+	# read from stdin
+	mapfile -t HOSTS
+fi
+
+printf '%-40s %8s %8s %8s\n' HOST MIN AVG MAX >&2
+
+parallel -j252 --bar --tag ping -c 3 {} ::: "${HOSTS[@]}" |
+	awk -F'[ \t/]' '/rtt/{printf "%-40s %8s %8s %8s\n", $1,$8,$9,$10}' |
+	sort -nk2
