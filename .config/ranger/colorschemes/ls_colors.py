@@ -271,5 +271,61 @@ class ls_colors(ColorScheme):
                     fg += style.BRIGHT
             if context.loaded:
                 bg = self.progress_bar_color
+            if context.vcsinfo:
+                fg = style.blue
+                attr &= ~style.bold
+            if context.vcscommit:
+                fg = style.yellow
+                attr &= ~style.bold
+            if context.vcsdate:
+                fg = style.cyan
+                attr &= ~style.bold
+
+        if context.text:
+            if context.highlight:
+                attr |= style.reverse
+
+        if context.in_taskview:
+            if context.title:
+                fg = style.blue
+
+            if context.selected:
+                attr |= style.reverse
+
+            if context.loaded:
+                if context.selected:
+                    fg = self.progress_bar_color
+                else:
+                    bg = self.progress_bar_color
+
+        if context.vcsfile and not context.selected:
+            attr &= ~style.bold
+            if context.vcsconflict:
+                fg = style.magenta
+            elif context.vcsuntracked:
+                fg = style.cyan
+            elif context.vcschanged:
+                fg = style.red
+            elif context.vcsunknown:
+                fg = style.red
+            elif context.vcsstaged:
+                fg = style.green
+            elif context.vcssync:
+                fg = style.green
+            elif context.vcsignored:
+                fg = style.default
+
+        elif context.vcsremote and not context.selected:
+            attr &= ~style.bold
+            if context.vcssync or context.vcsnone:
+                fg = style.green
+            elif context.vcsbehind:
+                fg = style.red
+            elif context.vcsahead:
+                fg = style.blue
+            elif context.vcsdiverged:
+                fg = style.magenta
+            elif context.vcsunknown:
+                fg = style.red
 
         return fg, bg, attr
