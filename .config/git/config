@@ -36,6 +36,7 @@
 	unstage = reset HEAD --
 	revertfile = checkout --
 	untrack = rm --cached --
+	last = log -1 HEAD --stat
 [diff]
 	algorithm = minimal
 	compactionHeuristic = true
