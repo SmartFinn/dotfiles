@@ -256,18 +256,25 @@ pull-repos() {
 }
 
 command -v docker >/dev/null &&
-docker-pull-all-except() {
-	local exclude
+docker-pull-all() {
+	# usage: docker-pull-all [IGNORE_PATTERN_1] [... IGNORE_PATTERN_N]
+	local ignore_pattern
 
-	exclude=${(j:|:)@}
+	ignore_pattern=${(j:|:)@}
 
-	if [ -z "$@" ]; then
-		docker images --format "{{.Repository}}:{{.Tag}}" | \
-			xargs -t -I % docker pull %
-	else
-		docker images --format "{{.Repository}}:{{.Tag}}" | \
-			egrep -v "$exclude" | xargs -t -I % docker pull %
-	fi
+	docker image ls --format "{{.Repository}}:{{.Tag}}" | \
+		egrep -v "${ignore_pattern:- }" | xargs -r -t -I % docker pull %
+}
+
+command -v podman >/dev/null &&
+podman-pull-all() {
+	# usage: podman-pull-all [IGNORE_PATTERN_1] [... IGNORE_PATTERN_N]
+	local ignore_pattern
+
+	ignore_pattern=${(j:|:)@}
+
+	podman image ls --no-trunc --format "{{.Repository}}:{{.Tag}}" | \
+		egrep -v "${ignore_pattern:- }" | xargs -r -t -I % podman pull %
 }
 
 add2path() {
@@ -406,7 +413,6 @@ ghi_close() {
 	integer -i issue_no="$1"
 
 	if (( issue_no )); then
-		ghi label "$issue_no" -a completed
 		ghi close "$issue_no"
 	else
 		ghi list -s open | fzf -m --header-lines=1 | awk '{print $1}' |
@@ -543,9 +549,9 @@ fz-docker-image-rm() {
 
 command -v podman >/dev/null &&
 fz-podman-image-rm() {
-	podman image ls --no-trunc --format "table {{.Repository}} {{.Tag}} {{.Size}} {{.Created}}" \
-		| fzf -m --header-lines=1 \
-		| awk 'BEGIN{OFS=":";} {print $1,$2}' \
+	podman image ls --no-trunc --format "{{.Repository}}:{{.Tag}}	{{.Size}}	{{.Created}}" \
+		| fzf -m \
+		| awk '{print $1}' \
 		| xargs --no-run-if-empty -L1 podman image rm
 }
 
