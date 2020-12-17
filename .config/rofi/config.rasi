@@ -1,5 +1,5 @@
 configuration {
-  modi: "drun,calc,gh-jump:~/.config/rofi/rofi-gh-jump.sh,yt-jump:~/.config/rofi/rofi-yt-jump.sh,run,ssh,window,combi";
+  modi: "drun,calc,gh-jump:~/.config/rofi/rofi-gh-jump.sh,yt-jump:~/.config/rofi/rofi-yt-jump.sh,run,ssh,window,file-browser,combi";
 /*	width: 50;*/
 /*	lines: 15;*/
 /*	columns: 1;*/
@@ -17,15 +17,18 @@ configuration {
 /*	run-command: "{cmd}";*/
 /*	run-list-command: "";*/
 /*	run-shell-command: "{terminal} -e {cmd}";*/
-/*	window-command: "xkill -id {window}";*/
+/*	window-command: "wmctrl -i -R {window}";*/
 /*	window-match-fields: "all";*/
 /*	icon-theme: ;*/
-/*	drun-match-fields: "name,generic,exec,categories";*/
+/*	drun-match-fields: "name,generic,exec,categories,keywords";*/
+/*	drun-categories: ;*/
 /*	drun-show-actions: false;*/
 /*	drun-display-format: "{name} [<span weight='light' size='small'><i>({generic})</i></span>]";*/
+/*	drun-url-launcher: "xdg-open";*/
 /*	disable-history: false;*/
+/*	ignored-prefixes: "";*/
 /*	sort: false;*/
-/*	sorting-method: ;*/
+/*	sorting-method: "normal";*/
 /*	case-sensitive: false;*/
 /*	cycle: true;*/
 /*	sidebar-mode: false;*/
@@ -33,7 +36,7 @@ configuration {
 /*	auto-select: false;*/
 /*	parse-hosts: false;*/
 /*	parse-known-hosts: true;*/
-  combi-modi: "window,drun,ssh,gh-jump";
+  combi-modi: [window,drun,ssh,gh-jump];
 /*	matching: "normal";*/
 /*	tokenize: true;*/
 /*	m: "-5";*/
@@ -49,7 +52,7 @@ configuration {
 /*	scrollbar-width: 8;*/
 /*	scroll-method: 0;*/
 /*	fake-background: "screenshot";*/
-/*	window-format: "{w}    {i}{c}   {t}";*/
+/*	window-format: "{w}    {c}   {t}";*/
 /*	click-to-exit: true;*/
 /*	show-match: true;*/
   theme: "oxide";
@@ -59,7 +62,12 @@ configuration {
 /*	color-window: ;*/
 /*	max-history-size: 25;*/
 /*	combi-hide-mode-prefix: false;*/
-/*	matching-negate-char: '-'; /* unsupported */ */
+/*	matching-negate-char: '-' /* unsupported */;*/
+/*	cache-dir: ;*/
+/*	window-thumbnail: false;*/
+/*	drun-use-desktop-cache: false;*/
+/*	drun-reload-desktop-cache: false;*/
+/*	normalize-match: false;*/
 /*	pid: "/run/user/1000/rofi.pid";*/
 /*	display-window: ;*/
 /*	display-windowcd: ;*/
@@ -68,6 +76,8 @@ configuration {
 /*	display-drun: ;*/
 /*	display-combi: ;*/
 /*	display-keys: ;*/
+/*	display-file-browser: ;*/
+/*	display-calc: ;*/
 /*	kb-primary-paste: "Control+V,Shift+Insert";*/
 /*	kb-secondary-paste: "Control+v,Insert";*/
 /*	kb-clear-line: "Control+w";*/
@@ -100,19 +110,20 @@ configuration {
 /*	kb-row-last: "End,KP_End";*/
 /*	kb-row-select: "Control+space";*/
 /*	kb-screenshot: "Alt+S";*/
+/*	kb-ellipsize: "Alt+period";*/
 /*	kb-toggle-case-sensitivity: "grave,dead_grave";*/
 /*	kb-toggle-sort: "Alt+grave";*/
 /*	kb-cancel: "Escape,Control+g,Control+bracketleft";*/
-/*	kb-custom-1: "Alt+1";*/
-/*	kb-custom-2: "Alt+2";*/
-/*	kb-custom-3: "Alt+3";*/
-/*	kb-custom-4: "Alt+4";*/
-/*	kb-custom-5: "Alt+5";*/
-/*	kb-custom-6: "Alt+6";*/
-/*	kb-custom-7: "Alt+7";*/
-/*	kb-custom-8: "Alt+8";*/
-/*	kb-custom-9: "Alt+9";*/
-/*	kb-custom-10: "Alt+0";*/
+/*	kb-custom-1: "Alt+1"; */
+/*	kb-custom-2: "Alt+2"; */
+/*	kb-custom-3: "Alt+3"; */
+/*	kb-custom-4: "Alt+4"; */
+/*	kb-custom-5: "Alt+5"; */
+/*	kb-custom-6: "Alt+6"; */
+/*	kb-custom-7: "Alt+7"; */
+/*	kb-custom-8: "Alt+8"; */
+/*	kb-custom-9: "Alt+9"; */
+/*	kb-custom-10: "Alt+0"; */
 /*	kb-custom-11: "Alt+exclam";*/
 /*	kb-custom-12: "Alt+at";*/
 /*	kb-custom-13: "Alt+numbersign";*/
