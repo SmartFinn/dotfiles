@@ -1,7 +1,6 @@
 # lf config (ranger-like)
 #
 # Basic Settings
-set color256
 set dircounts
 set icons
 set preview
