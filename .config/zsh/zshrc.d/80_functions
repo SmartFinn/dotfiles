@@ -699,5 +699,11 @@ ping_bench() {
 		sort -nk2
 }
 
+command -v openssl >/dev/null &&
+zlibcat() {
+	# unpack files in .git/objects
+	openssl zlib -d -in "${1:--}"
+}
+
 
 # vim:ft=zsh
