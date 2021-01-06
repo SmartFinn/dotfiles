@@ -4,7 +4,7 @@ alias sudo='sudo'
 # default to human readable figures
 alias df='df --si --print-type'
 alias du='du --si'
-alias ls='ls --si --classify --group-directories-first ${LS_OPTIONS}'
+alias ls='ls --si --classify --group-directories-first --hyperlink=auto ${LS_OPTIONS}'
 alias free='free --human'
 
 # change the behavior of some commands
