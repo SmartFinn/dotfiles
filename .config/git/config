@@ -13,7 +13,7 @@
 	changes = log --all --abbrev-commit --cherry --find-renames --pretty=medium --name-status
 	journal = log --all --pretty=medium
 	lo = log --abbrev-commit --graph --max-count=22
-	lg = log -p
+	lp = log -p
 	ls = ls-files
 	st = status --short --branch
 	history = log --graph --all
@@ -51,13 +51,12 @@
 	ff = only
 [push]
 	default = simple
-[mergetool]
-	prompt = false
 [merge]
 	tool = vimdiff3
 	guitool = meld
 	conflictstyle = diff3
 [mergetool]
+	prompt = false
 	keepBackup = false
 [mergetool "vimdiff3"]
 	cmd = "${EDITOR:-vim}" -R -d "$LOCAL" "$MERGED" "$REMOTE" '+f local' '+winc l' '+set noro' '+%!cat '"$BASE" '+winc l' '+f remote' '+winc h'
