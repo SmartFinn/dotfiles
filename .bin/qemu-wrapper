@@ -5,9 +5,8 @@ qemu-system-x86_64 \
 	-cpu host \
 	-m 2048 \
 	-netdev user,id=network0 -device e1000,netdev=network0 \
-	-show-cursor \
 	-device qemu-xhci,id=xhci \
 	-device usb-tablet,bus=xhci.0 \
-	-display sdl -vga none -device virtio-vga,xres=1200,yres=700 \
-	-soundhw hda \
+	-device intel-hda \
+	-display sdl,show-cursor=on -vga none -device virtio-vga,xres=1200,yres=700 \
 	"$@"
