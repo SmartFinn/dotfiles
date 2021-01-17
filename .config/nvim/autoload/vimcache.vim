@@ -1,10 +1,8 @@
-" finalcache.vim - a single place for auxiliary files
-" Author: SmartFinn
-" Homepage: http://github.com/SmartFinn/finalcache
-" Version: 0.0.0
-" TODO: global variable g:vimcache_dir
+" vimcache.vim - a single place for auxiliary files
+" Author: SmartFinn (https://github.com/SmartFinn)
+" Version: 0.1.0
 
-function! finalcache#init(...) abort
+function! vimcache#init(...) abort
   let source_path = a:0 ? expand(a:1, 1) : expand('$HOME/.cache/vim', 1)
 
   " Create cache directory if it does not exist
@@ -13,7 +11,7 @@ function! finalcache#init(...) abort
   endif
 
   " Set global variable
-  let g:cache_dir = source_path . '/'
+  let g:vimcache_dir = source_path . '/'
 
   let dir_list = {
         \ 'backupdir': 'backup',
@@ -30,9 +28,9 @@ function! finalcache#init(...) abort
 
   " Addition options
   if has('nvim')
-    exec 'set shada+=n' . g:cache_dir . 'shada'
+    exec 'set shada+=n' . g:vimcache_dir . 'shada'
   else
-    exec 'set viminfo+=n' . g:cache_dir . 'viminfo'
+    exec 'set viminfo+=n' . g:vimcache_dir . 'viminfo'
   endif
 
 endfunction

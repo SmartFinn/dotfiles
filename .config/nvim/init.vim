@@ -20,11 +20,11 @@ endif
 syntax off
 filetype off
 
-" Load finalcache
+" Load vimcache
 if (has("nvim"))
-  call finalcache#init($HOME . '/.cache/nvim')
+  call vimcache#init($HOME . '/.cache/nvim')
 else
-  call finalcache#init($HOME . '/.cache/vim')
+  call vimcache#init($HOME . '/.cache/vim')
 endif
 
 " Plugins {{{1
@@ -35,7 +35,7 @@ call plug#begin('~/.config/nvim/bundle')
 " netrw
 " Uncomment the line below to disable netrw plugin
 " let g:loaded_netrwPlug = 1
-let g:netrw_home = g:cache_dir
+let g:netrw_home = g:vimcache_dir
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_winsize = 25
@@ -95,7 +95,7 @@ nmap Z yo
 " Startify — start screen, sessions and bookmarks manager
 Plug 'mhinz/vim-startify'
 let g:startify_bookmarks = [ '~/.config/nvim/init.vim' ]
-let g:startify_session_dir = g:cache_dir . 'session'
+let g:startify_session_dir = g:vimcache_dir . 'session'
 let g:startify_custom_header = []
 
 " Tcomment — An extensible & universal comment vim-plugin that also handles
