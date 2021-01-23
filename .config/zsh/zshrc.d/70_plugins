@@ -2,45 +2,36 @@
 
 ZSH_PLUGINS=(
 	activate-venv
-	auto-hist-fix
 	clip-tools
 	clipcopy
 	copyq
 	custom-completions
 	ding
-	exa
+	dotbare
+	# exa
+	fast-syntax-highlighting
+	files-completer
+	forgit
 	# fzf
 	fzf-widgets
-	files-completer
 	gio-trash
 	git-extras-completion
 	grlm-features
 	insert-datestamp
+	minimal
+	oh-my-zsh/plugins/dotenv
+	oh-my-zsh/plugins/fancy-ctrl-z
 	pet
 	ranger
 	# tmux-pane-words
+	zsh-256color
 	zsh-abbrev
+	zsh-autosuggestions
+	zsh-bash-completions-fallback
+	zsh-completions
+	zsh-hist
+	zsh-hist-auto-fix
 )
-
-# Anibody plugin file
-# https://getantibody.github.io/usage/
-read -r -d '' ANTIBODY_BUNDLE <<BUNDLE
-kazhala/dotbare
-zdharma/fast-syntax-highlighting
-wfxr/forgit
-#ytet5uy4/fzf-widgets
-subnixr/minimal
-#MichaelAquilina/zsh-you-should-use
-#rupa/z
-chrissicool/zsh-256color
-marlonrichert/zsh-hist
-zsh-users/zsh-autosuggestions
-3v1n0/zsh-bash-completions-fallback
-zsh-users/zsh-completions
-robbyrussell/oh-my-zsh path:plugins/dotenv
-robbyrussell/oh-my-zsh path:plugins/fancy-ctrl-z
-#robbyrussell/oh-my-zsh path:plugins/command-not-found
-BUNDLE
 
 ## ==[Plugins]===(pre-configuration)==================================
 
@@ -84,12 +75,7 @@ ZSH_ABBREVIATIONS+=(
 
 ## ==[Plugins]===(initialize)=========================================
 
-# initialize plugins installed with antibody
-if (( $+commands[antibody] )); then
-	source <(antibody bundle <<< $ANTIBODY_BUNDLE)
-fi
-
-# initialize custom plugins (more clean way than with antibody)
+# initialize plugins
 zsh_load_plugins "${ZSH_PLUGINS[@]}"
 
 
