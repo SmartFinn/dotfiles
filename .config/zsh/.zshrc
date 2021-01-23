@@ -136,6 +136,7 @@ function zsh_load_plugins() {
 	# Usage:
 	#
 	# plugins=(
+	# 	oh-my-zsh/plugins/dotenv
 	# 	zsh-autosuggestions
 	# 	zsh-completions
 	# 	zsh-history-substring-search
@@ -144,30 +145,36 @@ function zsh_load_plugins() {
 	#
 	# zsh_load_plugins $plugins
 
-	local plugin
+	local plugin_entry
+	local plugin_dir
+	local plugin_name
 
-	for plugin ($@); do
-		if [ -r "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin/$plugin.plugin.zsh" ]; then
-			source "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin/$plugin.plugin.zsh"
-		elif [ -r "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin/$plugin.zsh" ]; then
-			source "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin/$plugin.zsh"
-		elif [ -r "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin/$plugin.sh" ]; then
-			source "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin/$plugin.sh"
-		elif [ -r "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin/$plugin.zsh-theme" ]; then
-			source "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin/$plugin.zsh-theme"
+	for plugin_entry ($@); do
+		plugin_dir="${plugin_entry%:*}"
+		plugin_name="${plugin_entry##*[/:]}"
+
+		if [ -f "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin_dir/$plugin_name.plugin.zsh" ]; then
+			source "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin_dir/$plugin_name.plugin.zsh"
+		elif [ -f "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin_dir/$plugin_name.zsh" ]; then
+			source "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin_dir/$plugin_name.zsh"
+		elif [ -f "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin_dir/$plugin_name.sh" ]; then
+			source "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin_dir/$plugin_name.sh"
+		elif [ -f "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin_dir/$plugin_name" ]; then
+			source "${ZDOTDIR:-$HOME/.zsh}/plugins/$plugin_dir/$plugin_name"
 		else
-			echo "$funcstack[1]: Unable to load '$plugin'." >&2
+			print "$funcstack[1]: Unable to load '$plugin_entry'." >&2
 		fi
 	done
 }
 
 function zsh_update_plugins() {
-	local plugin
+	local plugin_dir
 
-	for plugin (${ZDOTDIR:-$HOME/.zsh}/plugins/*(N/)); do
-		git -C "$plugin" rev-parse --is-inside-work-tree >/dev/null 2>&1 || continue
-		printf '%s: ' "$plugin:t"
-		git -C "$plugin" pull 2>/dev/null || echo "Unable to upgrade."
+	for plugin_dir (${ZDOTDIR:-$HOME/.zsh}/plugins/*(N/)); do
+		[ -d "$plugin_dir/.git" ] || continue
+		print "$plugin_dir:t:" $(
+			git -C "$plugin_dir" pull --rebase --recurse-submodules -j$(ulimit -n) 2>&1
+		)
 	done
 }
 
