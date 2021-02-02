@@ -44,6 +44,7 @@ up2date() {
 	_run nvim +PlugUpdate +quitall
 	_run zsh_update_plugins
 	_run pipx upgrade-all
+	_run sdd upgrade
 	_run ncu -g
 }
 
