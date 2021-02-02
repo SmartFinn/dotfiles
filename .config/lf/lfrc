@@ -45,9 +45,11 @@ cmd q :quit
 
 cmd bulkrename ${{
     if command -v vimv >/dev/null; then
-        vimv $fs
+        vimv
     elif command -v vidir >/dev/null; then
-        vidir $fs
+        vidir
+    else
+        lf -remote "send $id echoerr vimv/vidir commands not found"
     fi
 }}
 
@@ -483,7 +485,7 @@ map <a-j> jump
 map D !stat "$f"
 map s shell
 map ` mark-load
-map r push $xdg-open<space>$fx<home><a-f><a-f>
+map r push $xdg-open<space>"$f"<home><a-f><a-f>
 map [ push hkl
 map ] push hjl
 
