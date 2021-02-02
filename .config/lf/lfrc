@@ -610,6 +610,7 @@ map gs cd /srv
 map gu cd /usr
 map gv cd /var
 map gi $lf -remote "send $id cd '/run/media/$(id -nu)'"
+map gf $lf -remote "send $id cd '/run/user/$(id -u)/gvfs'"
 
 map gc cd ~/.config
 map gl cd ~/.local/share
