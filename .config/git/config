@@ -1,0 +1,71 @@
+[user]
+	name = Sergei Eremenko
+	email = finalitik@gmail.com
+[github]
+	user = SmartFinn
+[alias]
+	br = branch
+	ch = checkout
+	cl = clone
+	changes = log --all --abbrev-commit --cherry --find-renames --pretty=medium --name-status
+	journal = log --all --pretty=medium
+	lo = log --abbrev-commit --graph --max-count=22
+	lp = log -p
+	ls = ls-files
+	st = status --short --branch
+	history = log --graph --all
+	ls-diff = diff --name-status
+	please = push --force-with-lease
+	amend = commit --amend
+	fixlast = commit --all --amend --no-edit
+	drop = reset --hard HEAD
+	undo = reset HEAD^
+	hardreset = reset --hard @{u}
+	ff = fetch --tags --prune
+	branches = branch -av
+	find = log --all --full-history --
+	log-diff = log HEAD --not
+	mark-unchanged = update-index --assume-unchanged
+	unmark-unchanged = update-index --no-assume-unchanged
+	ls-unchanged = !git ls-files -v | grep '^[a-z]'
+	in = log --graph ..@{u}
+	out = log --graph @{u}..
+	unstage = reset HEAD --
+	revertfile = checkout --
+	untrack = rm --cached --
+	last = log -1 HEAD --stat
+[diff]
+	algorithm = minimal
+	compactionHeuristic = true
+	renames = true
+[pull]
+	ff = only
+[push]
+	default = simple
+[merge]
+	tool = vimdiff3
+	guitool = meld
+	conflictstyle = diff3
+[mergetool]
+	prompt = false
+	keepBackup = false
+[mergetool "vimdiff3"]
+	cmd = "${EDITOR:-vim}" -R -d "$LOCAL" "$MERGED" "$REMOTE" '+f local' '+winc l' '+set noro' '+%!cat '"$BASE" '+winc l' '+f remote' '+winc h'
+[color]
+	ui = auto
+	interactive = auto
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+[format]
+	pretty = %C(blue)%h%C(reset) %s — %C(bold)%an%C(reset) %C(green)(%cr)%C(reset)%C(yellow bold)%d%C(reset)

@@ -1,0 +1,39 @@
+# ignore case when doing completion
+set completion-ignore-case on
+
+# immediately show all possible completions
+set show-all-if-ambiguous on
+
+# displays the common prefix of the list of possible completions
+# before cycling through the list
+set menu-complete-display-prefix on
+
+# the number of possible completions before asking the user whether
+# or not he wishes to view them
+set completion-query-items 250
+
+# show extra file information when completing, like 'ls -F' does
+set visible-stats on
+
+# be more intelligent when autocompleting by also looking at the text
+# after the cursor
+set skip-completed-text on
+
+# Color files by types
+set colored-stats on
+
+# insert each paste into the editing buffer as a single string of characters,
+# instead of treating each character as if it had been read from the keyboard
+set enable-bracketed-paste on
+
+# append a slash when autocompleting symbolic links to directories
+set mark-symlinked-directories on
+
+# Color the common prefix
+set colored-completion-prefix on
+
+# bind Meta-p/Meta-n keys to search history based on current cmdline
+$if mode=emacs
+	"\ep": history-search-backward
+	"\en": history-search-forward
+$endif

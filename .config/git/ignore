@@ -1,0 +1,36 @@
+# Linux
+*~
+
+# OS X
+._*
+.DS_Store
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Vim
+doc/tags
+.*.sw[a-z]
+*.~un
+
+# sass
+.sass-cache
+
+# SublimeText
+/*.sublime-project
+*.sublime-workspace
+
+# Python
+*.py[cod]
+
+# Mercurial
+/.hg/*
+*/.hg/*
+.hdignore
+
+# Dropbox
+.dropbox
