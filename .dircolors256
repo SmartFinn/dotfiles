@@ -31,7 +31,7 @@
 RESET          0          # reset to "normal" color
 NORMAL         0          # no color code at all
 FILE           38;5;252   # regular file
-DIR            38;5;33;1  # directory
+DIR            38;5;75;1  # directory
 SYMLINK        38;5;36;1  # symbolic link [^1]
 ORPHAN         38;5;196;1 # symlink to nonexistent file, or non-stat'able file
 MISSING        38;5;196;3 # non-existent file pointed to by a symbolic link
@@ -39,9 +39,9 @@ MULTIHARDLINK  0          # regular file with more than one link
 FIFO           38;5;227;1 # pipe
 SOCK           38;5;220;1 # socket
 DOOR           38;5;170;1 # door
-BLOCK          38;5;29;1  # block device driver
-CHR            38;5;29;1  # character device driver
-EXEC           38;5;40;1  # file that is executable (+x)
+BLOCK          38;5;60;1  # block device driver
+CHR            38;5;60;1  # character device driver
+EXEC           38;5;47;1  # file that is executable (+x)
 SETUID         48;5;52;38;5;196;1  # file that is setuid (u+s)
 SETGID         48;5;130;38;5;226;1 # file that is setgid (g+s)
 CAPABILITY     48;5;22;38;5;40;1   # file with capability
@@ -131,26 +131,26 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .tzst              38;5;197;1
 
 # Packages {{{1
-.apk               38;5;166;1
-.AppImage          38;5;166;1
-.cab               38;5;166;1
-.CAB               38;5;166;1
-.deb               38;5;166;1
-.exe               38;5;166;1
-.EXE               38;5;166;1
-.flatpak           38;5;166;1
-.gem               38;5;166;1
-.ipk               38;5;166;1
-.jar               38;5;166;1
-.msi               38;5;166;1
-.npk               38;5;166;1
-.rpm               38;5;166;1
-.snap              38;5;166;1
-.spm               38;5;166;1
-.src.rpm           38;5;166;1
-.udeb              38;5;166;1
-.war               38;5;166;1
-.xpi               38;5;166;1
+.apk               38;5;160;1
+.AppImage          38;5;160;1
+.cab               38;5;160;1
+.CAB               38;5;160;1
+.deb               38;5;160;1
+.exe               38;5;160;1
+.EXE               38;5;160;1
+.flatpak           38;5;160;1
+.gem               38;5;160;1
+.ipk               38;5;160;1
+.jar               38;5;160;1
+.msi               38;5;160;1
+.npk               38;5;160;1
+.rpm               38;5;160;1
+.snap              38;5;160;1
+.spm               38;5;160;1
+.src.rpm           38;5;160;1
+.udeb              38;5;160;1
+.war               38;5;160;1
+.xpi               38;5;160;1
 
 # Disk images {{{1
 .bin               38;5;205;1
@@ -169,38 +169,38 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 
 # Media {{{1
 # Video {{{2
-.anx               38;5;129
-.asf               38;5;129
-.avi               38;5;129
-.axv               38;5;129
-.divx              38;5;129
-.fla               38;5;129
-.flc               38;5;129
-.fli               38;5;129
-.flv               38;5;129
-.gl                38;5;129
-.m2v               38;5;129
-.m4v               38;5;129
-.mkv               38;5;129
-.mov               38;5;129
-.MOV               38;5;129
-.mp4               38;5;129
-.mp4v              38;5;129
-.mpe               38;5;129
-.mpeg              38;5;129
-.mpg               38;5;129
-.nuv               38;5;129
-.ogm               38;5;129
-.ogv               38;5;129
-.ogx               38;5;129
-.qt                38;5;129
-.rm                38;5;129
-.rmvb              38;5;129
-.swf               38;5;129
-.vob               38;5;129
-.VOB               38;5;129
-.webm              38;5;129
-.wmv               38;5;129
+.anx               38;5;135
+.asf               38;5;135
+.avi               38;5;135
+.axv               38;5;135
+.divx              38;5;135
+.fla               38;5;135
+.flc               38;5;135
+.fli               38;5;135
+.flv               38;5;135
+.gl                38;5;135
+.m2v               38;5;135
+.m4v               38;5;135
+.mkv               38;5;135
+.mov               38;5;135
+.MOV               38;5;135
+.mp4               38;5;135
+.mp4v              38;5;135
+.mpe               38;5;135
+.mpeg              38;5;135
+.mpg               38;5;135
+.nuv               38;5;135
+.ogm               38;5;135
+.ogv               38;5;135
+.ogx               38;5;135
+.qt                38;5;135
+.rm                38;5;135
+.rmvb              38;5;135
+.swf               38;5;135
+.vob               38;5;135
+.VOB               38;5;135
+.webm              38;5;135
+.wmv               38;5;135
 
 # Audio {{{2
 # audio (lossy)
@@ -346,30 +346,30 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .tex               38;5;144
 .textile           38;5;144
 # -- Web
-.htm               38;5;75
-.html              38;5;75
-.shtml             38;5;75
-.xhtml             38;5;75
+.htm               38;5;81
+.html              38;5;81
+.shtml             38;5;81
+.xhtml             38;5;81
 
 # Configs {{{2
-*cfg               38;5;67
-*conf              38;5;67
-*config            38;5;67
-*rc                38;5;67
-.cfg               38;5;67
-.conf              38;5;67
-.config            38;5;67
-.desktop           38;5;67
-.ini               38;5;67
-.json              38;5;67
-.ovpn              38;5;67
-.plist             38;5;67
-.properties        38;5;67
-.reg               38;5;67
-.tml               38;5;67
-.toml              38;5;67
-.yaml              38;5;67
-.yml               38;5;67
+*cfg               38;5;105
+*conf              38;5;105
+*config            38;5;105
+*rc                38;5;105
+.cfg               38;5;105
+.conf              38;5;105
+.config            38;5;105
+.desktop           38;5;105
+.ini               38;5;105
+.json              38;5;105
+.ovpn              38;5;105
+.plist             38;5;105
+.properties        38;5;105
+.reg               38;5;105
+.tml               38;5;105
+.toml              38;5;105
+.yaml              38;5;105
+.yml               38;5;105
 
 # Data {{{2
 .bib               38;5;143
@@ -484,54 +484,54 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .sbt               38;5;110
 
 # Source code (interpreted) {{{2
-.awk               38;5;74  # AWK
-.lua               38;5;74  # LUA
-.php               38;5;74  # PHP
-.r                 38;5;74  # R language
-.tcl               38;5;74  # Tool Command Language
-.vim               38;5;74  # Vim language
+.awk               38;5;80  # AWK
+.lua               38;5;80  # LUA
+.php               38;5;80  # PHP
+.r                 38;5;80  # R language
+.tcl               38;5;80  # Tool Command Language
+.vim               38;5;80  # Vim language
 # -- JavaScript
-.js                38;5;74
-.htc               38;5;74
+.js                38;5;80
+.htc               38;5;80
 # -- Perl
-.pl                38;5;74
-.PL                38;5;74
-.t                 38;5;74
+.pl                38;5;80
+.PL                38;5;80
+.t                 38;5;80
 # -- Powershell
-.ps1               38;5;74
-.psm1              38;5;74
-.psd1              38;5;74
+.ps1               38;5;80
+.psm1              38;5;80
+.psd1              38;5;80
 # -- Python
-.py                38;5;74
-.ipynb             38;5;74
+.py                38;5;80
+.ipynb             38;5;80
 # -- Ruby
-.rb                38;5;74
-.gemspec           38;5;74
+.rb                38;5;80
+.gemspec           38;5;80
 # -- Typescript
-.ts                38;5;74
-.tsx               38;5;74
+.ts                38;5;80
+.tsx               38;5;80
 
 # WebDev {{{2
-.css               38;5;75
-.less              38;5;75
-.sass              38;5;75
-.scss              38;5;75
+.css               38;5;81
+.less              38;5;81
+.sass              38;5;81
+.scss              38;5;81
 
 # Scripts {{{2
-.ahk               38;5;77
-.bash              38;5;77
-.bat               38;5;77
-.BAT               38;5;77
-.cmd               38;5;77
-.CMD               38;5;77
-.csh               38;5;77
-.fish              38;5;77
-.rsc               38;5;77
-.sed               38;5;77
-.sh                38;5;77
+.ahk               38;5;83
+.bash              38;5;83
+.bat               38;5;83
+.BAT               38;5;83
+.cmd               38;5;83
+.CMD               38;5;83
+.csh               38;5;83
+.fish              38;5;83
+.rsc               38;5;83
+.sed               38;5;83
+.sh                38;5;83
 # -- ZSH
-.zsh               38;5;77
-.zsh-theme         38;5;77
+.zsh               38;5;83
+.zsh-theme         38;5;83
 
 # SQL {{{2
 .msql              38;5;66
@@ -655,14 +655,14 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .save              38;5;59
 
 # Junk {{{2
-*~                 38;5;236
-.cache             38;5;236
-.DS_Store          38;5;236
-.swap              38;5;236
-.swo               38;5;236
-.swp               38;5;236
-.temp              38;5;236
-.tmp               38;5;236
+*~                 38;5;245
+.cache             38;5;245
+.DS_Store          38;5;245
+.swap              38;5;245
+.swo               38;5;245
+.swp               38;5;245
+.temp              38;5;245
+.tmp               38;5;245
 
 
 # Terminals {{{1
