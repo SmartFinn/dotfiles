@@ -1,5 +1,17 @@
+global !p
+# Import package
+import datetime
+
+def dyear():
+	""" Returns the current Year in YYYY format
+	"""
+	now = datetime.datetime.now()
+	rv=now.year
+	return rv
+endglobal
+
 snippet license "ISC (license)"
-# Copyright (c) 2020 Sergei Eremenko (https://github.com/SmartFinn)
+# Copyright (c) `!p snip.rv = dyear()` Sergei Eremenko (https://github.com/SmartFinn)
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted.
@@ -14,7 +26,7 @@ snippet license "ISC (license)"
 endsnippet
 
 snippet license "MIT (license)"
-# Copyright (c) 2020 Sergei Eremenko (https://github.com/SmartFinn)
+# Copyright (c) `!p snip.rv = dyear()` Sergei Eremenko (https://github.com/SmartFinn)
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
