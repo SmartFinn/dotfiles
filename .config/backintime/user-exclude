@@ -245,3 +245,6 @@ rpmbuild/
 
 # gThumb
 .comments/
+
+# Joplin
+.config/@joplin
