@@ -131,26 +131,26 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .tzst              38;5;197;1
 
 # Packages {{{1
-.apk               38;5;160;1
-.AppImage          38;5;160;1
-.cab               38;5;160;1
-.CAB               38;5;160;1
-.deb               38;5;160;1
-.exe               38;5;160;1
-.EXE               38;5;160;1
-.flatpak           38;5;160;1
-.gem               38;5;160;1
-.ipk               38;5;160;1
-.jar               38;5;160;1
-.msi               38;5;160;1
-.npk               38;5;160;1
-.rpm               38;5;160;1
-.snap              38;5;160;1
-.spm               38;5;160;1
-.src.rpm           38;5;160;1
-.udeb              38;5;160;1
-.war               38;5;160;1
-.xpi               38;5;160;1
+.apk               38;5;196;1
+.AppImage          38;5;196;1
+.cab               38;5;196;1
+.CAB               38;5;196;1
+.deb               38;5;196;1
+.exe               38;5;196;1
+.EXE               38;5;196;1
+.flatpak           38;5;196;1
+.gem               38;5;196;1
+.ipk               38;5;196;1
+.jar               38;5;196;1
+.msi               38;5;196;1
+.npk               38;5;196;1
+.rpm               38;5;196;1
+.snap              38;5;196;1
+.spm               38;5;196;1
+.src.rpm           38;5;196;1
+.udeb              38;5;196;1
+.war               38;5;196;1
+.xpi               38;5;196;1
 
 # Disk images {{{1
 .bin               38;5;205;1
@@ -484,32 +484,32 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .sbt               38;5;110
 
 # Source code (interpreted) {{{2
-.awk               38;5;80  # AWK
-.lua               38;5;80  # LUA
-.php               38;5;80  # PHP
-.r                 38;5;80  # R language
-.tcl               38;5;80  # Tool Command Language
-.vim               38;5;80  # Vim language
+.awk               38;5;39  # AWK
+.lua               38;5;39  # LUA
+.php               38;5;39  # PHP
+.r                 38;5;39  # R language
+.tcl               38;5;39  # Tool Command Language
+.vim               38;5;39  # Vim language
 # -- JavaScript
-.js                38;5;80
-.htc               38;5;80
+.js                38;5;39
+.htc               38;5;39
 # -- Perl
-.pl                38;5;80
-.PL                38;5;80
-.t                 38;5;80
+.pl                38;5;39
+.PL                38;5;39
+.t                 38;5;39
 # -- Powershell
-.ps1               38;5;80
-.psm1              38;5;80
-.psd1              38;5;80
+.ps1               38;5;39
+.psm1              38;5;39
+.psd1              38;5;39
 # -- Python
-.py                38;5;80
-.ipynb             38;5;80
+.py                38;5;39
+.ipynb             38;5;39
 # -- Ruby
-.rb                38;5;80
-.gemspec           38;5;80
+.rb                38;5;39
+.gemspec           38;5;39
 # -- Typescript
-.ts                38;5;80
-.tsx               38;5;80
+.ts                38;5;39
+.tsx               38;5;39
 
 # WebDev {{{2
 .css               38;5;81
