@@ -25,7 +25,6 @@ if [ -f "$HOME/.config/profile.d/init.sh" ]; then
 fi
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
-export TDESKTOP_DISABLE_TRAY_COUNTER=1
 
 export EDITOR="nvim"
 export SUDO_EDITOR="vim"
