@@ -37,4 +37,32 @@ if command -v pet >/dev/null; then
 	bind -x '"\C-s": pet-select'
 fi
 
+__run_if_exists() {
+	# run command if it exists
+	local -a saved_cmd=("$@")
+
+	case "$1" in
+		sudo) shift 1 ;;
+	esac
+
+	if command -v "$1" >/dev/null; then
+		echo -e "\e[1;32m =>\e[0m" "${saved_cmd[@]}" >&2
+		"${saved_cmd[@]}"
+	fi
+}
+
+up2date() {
+	__run_if_exists sudo apt update
+	__run_if_exists sudo apt dist-upgrade -Vy
+	__run_if_exists sudo pacman -Syu --noconfirm
+	__run_if_exists sudo dnf --refresh update -y
+	__run_if_exists sudo snap refresh
+	__run_if_exists flatpak update -y
+	__run_if_exists pipx upgrade-all
+	__run_if_exists sdd upgrade
+	__run_if_exists ncu -g
+}
+
+
+
 # vim:ft=sh:ts=4:sw=4
