@@ -328,6 +328,7 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 .pfa               2;33
 .pfb               2;33
 .pfm               2;33
+.ttc               2;33
 .ttf               2;33
 .woff              2;33
 .woff2             2;33
