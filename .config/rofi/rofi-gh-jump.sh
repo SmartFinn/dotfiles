@@ -4,8 +4,7 @@
 # Inspired by https://github.com/AlbertExtensions/Github-Jump
 
 # Requires:
-#  - gh v0.10.1+ (https://github.com/cli/cli)
-#  - jq (https://github.com/stedolan/jq)
+#  - gh v1.7.0+ (https://github.com/cli/cli)
 
 # Copyright (c) 2020 Sergei Eremenko (https://github.com/SmartFinn)
 #
@@ -35,10 +34,10 @@ open_in_browser() {
 
 get_gh_repos() {
 	(
-		command gh api --paginate user/repos &
-		command gh api --paginate user/starred &
-		command gh api --paginate user/subscriptions
-	) | jq -r '.[] | .full_name' | awk '!seen[$0]++'
+		command gh api --paginate --jq '.[] | .full_name' user/repos &
+		command gh api --paginate --jq '.[] | .full_name' user/starred &
+		command gh api --paginate --jq '.[] | .full_name' user/subscriptions &
+	) | awk '!seen[$0]++'
 }
 
 set_mesg() {
