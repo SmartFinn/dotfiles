@@ -40,7 +40,7 @@
 [diff]
 	algorithm = minimal
 	compactionHeuristic = true
-	renames = true
+	renames = copies
 [format]
 	pretty = %C(blue)%h%C(reset) %s — %C(bold)%an%C(reset) %C(green)(%cr)%C(reset)%C(yellow bold)%d%C(reset)
 [commit]
