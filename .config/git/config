@@ -68,6 +68,14 @@
 	insteadof = lp:
 [url "git+ssh://smartfinn@git.launchpad.net/~smartfinn/+git/"]
 	insteadof = ppa:
+[url "ssh://git@gitea.mkro.tk:2222/"]
+	insteadof = git@gitea.mkro.tk:
+[url "ssh://git@gitea.mkro.tk:2222/"]
+	pushInsteadOf = https://gitea.mkro.tk/
+[url "git@github.com:"]
+	pushInsteadOf = https://github.com/
+[url "git@gitlab.com:"]
+	pushInsteadOf = https://gitlab.com/
 [color]
 	ui = auto
 	interactive = auto
