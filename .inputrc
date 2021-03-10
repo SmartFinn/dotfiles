@@ -32,6 +32,10 @@ set mark-symlinked-directories on
 # Color the common prefix
 set colored-completion-prefix on
 
+# bind PgUp/PgDown keys to search history based on current cmdline
+"\e[5~": history-search-backward
+"\e[6~": history-search-forward
+
 # bind Meta-p/Meta-n keys to search history based on current cmdline
 $if mode=emacs
 	"\ep": history-search-backward
