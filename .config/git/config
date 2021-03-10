@@ -51,6 +51,10 @@
 	keepBackup = false
 [mergetool "vimdiff3"]
 	cmd = "${EDITOR:-vim}" -R -d "$LOCAL" "$MERGED" "$REMOTE" '+f local' '+winc l' '+set noro' '+%!cat '"$BASE" '+winc l' '+f remote' '+winc h'
+[url "ssh://git@gitea.mkro.tk:2222/"]
+	insteadof = git@gitea.mkro.tk:
+[url "ssh://git@gitea.mkro.tk:2222/"]
+	pushInsteadOf = https://gitea.mkro.tk/
 [color]
 	ui = auto
 	interactive = auto
