@@ -37,6 +37,7 @@ up2date() {
 
 	_run sudo snap refresh
 
+	_run flatpak update --appstream
 	_run flatpak update -y
 
 	_run apm update --confirm=false
