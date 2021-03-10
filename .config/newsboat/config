@@ -1,5 +1,5 @@
 urls-source "miniflux"
-miniflux-url "http://miniflux.mkro.tk"
+miniflux-url "https://miniflux.mkro.tk"
 miniflux-login "admin"
 miniflux-passwordeval "secret-tool lookup miniflux password"
 
