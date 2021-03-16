@@ -233,7 +233,7 @@ cmd jump ${{
     trap 'rm "$jump_file"' INT QUIT TERM EXIT
 
     # List directories in the current working directory
-    { shopt -s dotglob; command ls -1d */; } > "$jump_file"
+    find . -maxdepth 1 ! -path . -type d -printf '%f\n' > "$jump_file"
 
     if [ -r "$bookmarks" ]; then
         cat "$bookmarks" >> "$jump_file"
