@@ -149,6 +149,7 @@ Steam/
 .vscode/
 .config/Code/CachedExtensionVSIXs/
 .config/Code/CachedExtensions/
+.sonarlint/
 
 ## TeamViewer
 .local/share/teamviewer*/
