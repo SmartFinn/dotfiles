@@ -24,6 +24,7 @@ ZSH_PLUGINS=(
 	pet
 	ranger
 	# tmux-pane-words
+	zoxide
 	zsh-256color
 	zsh-abbrev
 	zsh-autosuggestions
