@@ -1,15 +1,20 @@
+.PHONY: install
+install:
+	rm -f autoload/plug.vim doc/plug.txt
+	$(MAKE) autoload/plug.vim doc/plug.txt
+	vim +PlugInstall +quitall
+
 autoload/plug.vim:
 	curl --create-dirs -fLo $@ \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-.PHONY: vim-plug-update
-vim-plug-update:
-	rm -f autoload/plug.vim
-	$(MAKE) autoload/plug.vim
+doc/plug.txt:
+	curl --create-dirs -fLo $@ \
+		https://raw.githubusercontent.com/junegunn/vim-plug/master/doc/plug.txt
 
 .PHONY: update
 update:
-	nvim +PlugUpdate +quitall
+	vim +PlugUpdate +quitall
 
 .PHONY: clean
 clean:
