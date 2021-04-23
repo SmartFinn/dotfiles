@@ -37,6 +37,31 @@ if command -v pet >/dev/null; then
 	bind -x '"\C-s": pet-select'
 fi
 
+if command -v ranger >/dev/null; then
+	_ranger_cd() {
+		tempfile="$(mktemp -u --tmpdir ranger_lastdir.XXXXXX)"
+		ranger --choosedir="$tempfile" "${@:-$PWD}"
+
+		if [ -f "$tempfile" ]; then
+			builtin cd -- "$(<"$tempfile")"
+			command rm -f -- "$tempfile"
+		fi
+	}
+
+	# Ctrl-] - change current directory with ranger
+	bind '"\C-]": "_ranger_cd\C-m"'
+
+	# ranger - Smart alias
+	ranger() {
+		[ -z "$RANGER_LEVEL" ] || exit
+		command ranger "$@"
+	}
+
+	# Alt+j / Esc j - run ranger
+	bind -x '"\ej": ranger'
+
+fi
+
 __run_if_exists() {
 	# run command if it exists
 	local -a saved_cmd=("$@")
