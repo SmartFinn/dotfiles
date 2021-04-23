@@ -72,7 +72,7 @@ class icd(Command):
     def execute(self):
         import subprocess
         import os.path
-        command="find . -maxdepth 4 -type d -printf '%P\n' 2>/dev/null | peco"
+        command="find . -maxdepth 4 -type d -printf '%P\n' 2>/dev/null | fzf"
         res = self.fm.execute_command(command, universal_newlines=True, stdout=subprocess.PIPE)
         stdout, stderr = res.communicate()
         if res.returncode == 0:
