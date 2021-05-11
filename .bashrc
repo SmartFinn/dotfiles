@@ -49,7 +49,10 @@ HISTTIMEFORMAT='%F %T '
 PROMPT_DIRTRIM=2
 
 # save and reload the history after each command finishes
-PROMPT_COMMAND='history -a; history -r'
+PROMPT_COMMAND="history -a; history -r;$PROMPT_COMMAND"
+
+# Zsh-like trick for highlighting missing linefeeds
+PROMPT_COMMAND="printf \"%%%\$((COLUMNS-1))s\\r\";$PROMPT_COMMAND"
 
 if command -v tput > /dev/null && [ "$(tput -T "$TERM" colors)" -ge 8 ]; then
 	# Less Colors for Man Pages
