@@ -53,7 +53,10 @@ HISTTIMEFORMAT='%F %T '
 PROMPT_DIRTRIM=2
 
 # save and reload the history after each command finishes
-PROMPT_COMMAND='last_exit_code; history -a; history -r'
+PROMPT_COMMAND="history -a; history -r;$PROMPT_COMMAND"
+
+# Zsh-like trick for highlighting missing linefeeds
+PROMPT_COMMAND="printf \"%%%\$((COLUMNS-1))s\\r\";$PROMPT_COMMAND"
 
 # show subshell level in the promt
 for (( i = 0; i < $SHLVL; i++ )); do
