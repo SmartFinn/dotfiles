@@ -208,41 +208,6 @@ Plug 'junegunn/fzf.vim'
 " automatically adjusts 'shiftwidth' and 'expandtab'
 Plug 'tpope/vim-sleuth'
 
-if executable("nnn")
-    " File manager for vim/neovim powered by n³
-    Plug 'mcchrish/nnn.vim'
-endif
-
-if executable("ranger")
-  if has("nvim")
-    " Make Ranger running in a floating window to communicate with Neovim via RPC
-    Plug 'kevinhwang91/rnvimr'
-
-    " Make Ranger replace Netrw and be the file explorer
-    let g:rnvimr_enable_ex = 1
-
-    " Make Ranger to be hidden after picking a file
-    let g:rnvimr_enable_picker = 1
-
-    " Hide the files included in gitignore
-    let g:rnvimr_hide_gitignore = 1
-
-    nnoremap <silent> <M-o> :RnvimrToggle<CR>
-    tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
-  else
-    Plug 'francoiscabrol/ranger.vim'
-
-    " Make Ranger replace Netrw and be the file explorer
-    let g:ranger_replace_netrw = 1
-
-    " Disable the default key mapping
-    " let g:ranger_map_keys = 0
-
-    nnoremap <silent> <M-o> :Ranger<CR>
-    tnoremap <silent> <M-o> <C-\><C-n>:Ranger<CR>
-  endif
-endif
-
 call plug#end()
 
 " Options {{{1
