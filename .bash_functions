@@ -62,6 +62,8 @@ if command -v ranger >/dev/null; then
 
 fi
 
+command -v zoxide >/dev/null && eval "$(zoxide init bash)"
+
 __run_if_exists() {
 	# run command if it exists
 	local -a saved_cmd=("$@")
