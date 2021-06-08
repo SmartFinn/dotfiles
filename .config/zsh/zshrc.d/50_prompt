@@ -30,12 +30,6 @@ function _prompt_info_line() {
 	print "%F{244}%n%f@%F{244}%m%f"
 }
 
-function _prompt_ranger() {
-	if [ -n "$RANGER_LEVEL" ]; then
-		print "%F{32}(ranger)%f"
-	fi
-}
-
 function _prompt_git_indicators() {
 	if [ -n "${vcs_info_msg_1_}" ]; then
 		print -n "${vcs_info_msg_1_}"
@@ -43,7 +37,6 @@ function _prompt_git_indicators() {
 }
 
 function __prompt() {
-	print -n "$(_prompt_ranger)"
 	print -n "%(?.%F{green}.%F{red})%(!.#.$)%f %(2L.>>.>) "
 }
 

@@ -40,7 +40,7 @@ ZSH_PLUGINS=(
 MNML_USER_CHAR='$'
 MNML_NOMRAL_CHAR='-'
 MNML_INSERT_CHAR=$(printf '>%.0s' {1..${SHLVL:-1}})
-MNML_PROMPT=(mnml_ssh mnml_pyenv _prompt_ranger mnml_status mnml_keymap)
+MNML_PROMPT=(mnml_ssh mnml_pyenv mnml_status mnml_keymap)
 MNML_RPROMPT=(mnml_err _prompt_collapsed_cwd_color mnml_git _prompt_git_indicators)
 MNML_INFOLN=(mnml_err mnml_jobs _prompt_info_line mnml_files)
 
