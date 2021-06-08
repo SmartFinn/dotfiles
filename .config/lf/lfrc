@@ -1,6 +1,7 @@
 # lf config (ranger-like)
 #
 # Basic Settings
+set autoquit
 set dircounts
 set icons
 set preview
