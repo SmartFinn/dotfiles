@@ -1,3 +1,5 @@
+screen_x, screen_y = get_screen_geometry();
+
 scripts_window_open = {
 	"on_window_open.lua"
 }

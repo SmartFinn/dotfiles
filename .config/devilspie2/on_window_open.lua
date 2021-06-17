@@ -1,5 +1,4 @@
-x, y, width, height = get_window_geometry();
-screen_width, screen_height = get_screen_geometry();
+local x, y, w, h = get_window_geometry();
 local app_name = get_application_name();
 local wm_role = get_window_role();
 local wm_class = get_window_class();
@@ -16,22 +15,23 @@ if (wm_class == 'kitty')
 or (wm_class == 'Alacritty')
 -- or (wm_class == 'Gnome-terminal')
 then
-	set_window_position(0, screen_height);
+	set_window_position(0, screen_y);
 end
 
-if (wm_class == 'Google-chrome' and wm_role == 'browser')
+if (wm_role == 'browser')
+or (wm_role == 'browser-window')
 or (wm_class == 'Spotify')
 then
-	-- undecorate_window();
+	undecorate_window();
 	maximize();
 end
 
 if (wm_class == 'TelegramDesktop') then
-	set_window_position(screen_width, screen_height);
+	set_window_position(screen_x, screen_y);
 end
 
 if (app_name == 'Picture in picture' or wm_role == 'PictureInPicture') then
-	set_window_geometry(screen_width, screen_height, 520, 286);
+	set_window_geometry(screen_x, screen_y, 520, 286);
 	stick_window();
 	set_skip_tasklist(true);
 	set_skip_pager(true);
