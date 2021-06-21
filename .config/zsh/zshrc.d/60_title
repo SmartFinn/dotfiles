@@ -1,5 +1,5 @@
 # Change title to command name
-function set-title {
+function _set_title {
 	[[ -n "$RANGER_LEVEL" ]] && return 0
 	[[ -n "$LF_LEVEL" ]] && return 0
 	set -- "${(@s/ /)1}"  # converts first arg to an array
@@ -15,8 +15,21 @@ function set-title {
 	esac
 }
 
-autoload -Uz add-zsh-hook
-add-zsh-hook precmd set-title
-add-zsh-hook preexec set-title
+precmd_functions+=(_set_title)
+preexec_functions+=(_set_title)
+
+# Show bell for inactive tabs if command execution exceeds 5 sec
+function _start_timer {
+	_timer="$SECONDS"
+}
+
+function _show_bell {
+	if [ "$((SECONDS - _timer))" -gt 5 ]; then
+		print -n "\a"
+	fi
+}
+
+preexec_functions+=(_start_timer)
+precmd_functions+=(_show_bell)
 
 # vim:ft=zsh
