@@ -55,6 +55,9 @@ PROMPT_DIRTRIM=2
 # save and reload the history after each command finishes
 PROMPT_COMMAND="history -a; history -r;$PROMPT_COMMAND"
 
+# alert after command execution ends
+PROMPT_COMMAND="printf \"\\a\";$PROMPT_COMMAND"
+
 # Zsh-like trick for highlighting missing linefeeds
 PROMPT_COMMAND="printf \"%%%\$((COLUMNS-1))s\\r\";$PROMPT_COMMAND"
 
