@@ -15,6 +15,10 @@ scaling_mode = shrink
 [binds]
 # Define some key bindings
 q = quit
+x = close
+f = fullscreen
+d = overlay
+<Escape> = reset
 
 # Image navigation
 <Left> = prev
@@ -31,27 +35,23 @@ j = pan 0 -50
 k = pan 0 50
 h = pan 50 0
 l = pan -50 0
+c = center
 
 # Zooming
 <Up> = zoom 1
-<Shift+plus> = zoom 1
-i = zoom 1
 <Down> = zoom -1
+<Shift+plus> = zoom 1
 <minus> = zoom -1
-o = zoom -1
 <equal> = zoom actual
-
-# Other commands
-x = close
-f = fullscreen
-d = overlay
-c = center
+i = zoom 1
+o = zoom -1
+a = zoom actual
 s = scaling next
 <Shift+S> = upscaling next
-a = zoom actual
-r = reset
-e = exec echo $imv_current_file
-<Delete> = exec gio trash $imv_current_file; close
+
+# Rotating
+r = rotate by 90
+<Shift+R> = rotate by -90
 
 # Gif playback
 <period> = next_frame
@@ -61,6 +61,10 @@ e = exec echo $imv_current_file
 t = slideshow +1
 <Shift+T> = slideshow -1
 
+# Other commands
+e = exec echo $imv_current_file
+<Delete> = exec gio trash $imv_current_file; close
+
 # Rotate the currently open image (prefer lossless rotation for JPEG)
-<Shift+R> = exec jpegtran -perfect -rotate 90 -outfile "$imv_current_file" "$imv_current_file" || mogrify -rotate 90 "$imv_current_file"
+<Ctrl+r> = exec jpegtran -perfect -rotate 90 -outfile "$imv_current_file" "$imv_current_file" || mogrify -rotate 90 "$imv_current_file"
 <Ctrl+Shift+R> = exec jpegtran -perfect -rotate 270 -outfile "$imv_current_file" "$imv_current_file" || mogrify -rotate -90 "$imv_current_file"
