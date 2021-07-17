@@ -168,26 +168,26 @@ class compress(Command):
     def execute(self):
         import shlex
 
-        if self.rest(1):
-            cmd_args = shlex.split(self.rest(1))
-            archive_path = cmd_args[0]
-            # files = cmd_args[1:]
-        else:
-            self.fm.notify("Syntax: compess <archive>", bad=True)
+        selected_files = self.fm.thisdir.get_selection()
+
+        if not selected_files:
+            self.fm.notify("Error: no files selected!", bad=True)
             return
 
-        if not files:
-            self.fm.notify("Error: no files selected!", bad=True)
+        if self.rest(1):
+            cmd_args = shlex.split(self.rest(1))
+        else:
+            self.fm.notify("Syntax: compess <archive>", bad=True)
             return
 
         def refresh(_):
             self.fm.reload_cwd()
 
         cmd = ['patool', 'create']
-        cmd.append(archive_path)
-        cmd.extend([f.relative_path for f in files])
+        cmd.extend(cmd_args)
+        cmd.extend([f.relative_path for f in selected_files])
 
-        descr = "Compressing %s" % archive_path
+        descr = "Compressing %s" % cmd_args[0]
 
         obj = CommandLoader(args=cmd, descr=descr, read=True)
         obj.signal_bind('after', refresh)
@@ -196,7 +196,7 @@ class compress(Command):
     def tab(self, tabnum):
         """ Complete with current folder name """
 
-        extensions = ['.tar.gz', '.tar.xz', '.tar.bz2', '.zip', '.rar', '.7z']
+        extensions = ['.tar.gz', '.tar.xz', '.tar.bz2', '.zip', '.7z']
         return (self.start(1) + self.fm.thisdir.basename + e for e in
                 extensions)
 
