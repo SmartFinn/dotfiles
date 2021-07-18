@@ -1,8 +1,3 @@
-alias run_alpine="docker run --rm -it --name alpine.latest alpine:latest sh"
-alias run_alpine_edge="docker run --rm -it --name alpine.edge alpine:edge sh"
-alias run_ubuntu_bionic="docker run --rm -it --name ubuntu.bionic ubuntu:bionic bash"
-alias run_debian="docker run --rm -it --name debian.latest debian:latest bash"
-
 if [[ $TERM == xterm-kitty ]]; then
 	alias icat='kitty +kitten icat'
 	# alias ssh='env TERM=xterm ssh'
@@ -15,7 +10,7 @@ if [[ $TERM == xterm-kitty ]]; then
 	alias up='env TERM=xterm up'
 fi
 
-_run() {
+_try() {
 	# run command if it exists
 	local -a saved_cmd=("$@")
 
@@ -30,23 +25,23 @@ _run() {
 }
 
 up2date() {
-	_run sudo apt update
-	_run sudo apt dist-upgrade -Vy
+	_try sudo apt update
+	_try sudo apt dist-upgrade -Vy
 
-	_run sudo dnf --refresh update -y
+	_try sudo dnf --refresh upgrade -y
 
-	_run sudo snap refresh
+	_try sudo snap refresh
 
-	_run flatpak update --appstream
-	_run flatpak update -y
+	_try flatpak update --appstream
+	_try flatpak update -y
 
-	_run apm update --confirm=false
+	_try apm update --confirm=false
 
-	_run nvim +PlugUpdate +quitall
-	_run zsh_update_plugins
-	_run pipx upgrade-all
-	_run sdd upgrade
-	_run ncu -g
+	_try nvim +PlugUpdate +quitall
+	_try zsh_update_plugins
+	_try pipx upgrade-all
+	_try sdd upgrade
+	_try ncu -g
 }
 
 # vim:ft=zsh
