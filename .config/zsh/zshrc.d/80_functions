@@ -705,5 +705,25 @@ zlibcat() {
 	openssl zlib -d -in "${1:--}"
 }
 
+convertsecs() {
+	# Convert seconds to years, days, hours, minutes, seconds
+	local secs="$1"
+
+	printf '%dy, %dd %dh:%dm:%ds\n' $((secs/31557600)) \
+		$((secs%31557600/86400)) $((secs%86400/3600)) \
+		$((secs%3600/60)) $((secs%60))
+}
+
+ddiff() {
+	# Show diff between two dates
+	# Usage:
+	#  ddiff "July 20, 1947" now
+	#  ddiff @-708577200 now
+	local start_date="$(date -d "$1" +%s)"
+	local end_date="$(date -d "$2" +%s)"
+	local secs_diff=$((end_date - start_date))
+
+	convertsecs "$secs_diff"
+}
 
 # vim:ft=zsh
