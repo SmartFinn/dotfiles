@@ -291,11 +291,6 @@ list_installed_packages() {
 		<(gzip -dc /var/log/installer/initial-status.gz | awk '/Package/ {print $2}' | sort -u)
 }
 
-command -v peco >/dev/null &&
-icd() {
-	cd "$(find . -maxdepth 4 -type d -printf '%P\n' 2>/dev/null | peco --layout bottom-up)"
-}
-
 command -v mkvmerge >/dev/null &&
 mkvmerge_all() {
 	# Adds related audio/sub to a MKV container
