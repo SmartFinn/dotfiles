@@ -391,38 +391,6 @@ doh_bench() {
 		column -t
 }
 
-command -v ghi >/dev/null &&
-ghi_complete() {
-	integer -i issue_no="$1"
-
-	if (( issue_no )); then
-		ghi label "$issue_no" -a completed
-		ghi close "$issue_no"
-	else
-		ghi list -s open | fzf -m --header-lines=1 | awk '{print $1}' |
-			while read -r issue_no; do
-				[ -n "$issue_no" ] || continue
-				ghi label "$issue_no" -a completed
-				ghi close "$issue_no"
-			done
-	fi
-}
-
-command -v ghi >/dev/null &&
-ghi_close() {
-	integer -i issue_no="$1"
-
-	if (( issue_no )); then
-		ghi close "$issue_no"
-	else
-		ghi list -s open | fzf -m --header-lines=1 | awk '{print $1}' |
-			while read -r issue_no; do
-				[ -n "$issue_no" ] || continue
-				ghi close "$issue_no"
-			done
-	fi
-}
-
 command -v curl >/dev/null &&
 cheat.sh() {
 	# see curl cheat.sh/:help
@@ -522,37 +490,6 @@ snap-cleanup() {
 
 	# remove cache files without hardlinks
 	sudo find /var/lib/snapd/cache -type f -links 1 -delete
-}
-
-command -v flatpak >/dev/null &&
-fz-flatpak-uninstall() {
-	flatpak list --columns=app,arch,branch \
-		| fzf -m \
-		| awk 'BEGIN{OFS="/";} {print $1,$2,$3;}' \
-		| xargs -r -L1 flatpak uninstall -y --noninteractive --delete-data
-}
-
-command -v dnf >/dev/null &&
-fz-dnf-remove() {
-	rpm -qa \
-		| fzf -m \
-		| xargs --no-run-if-empty -L1 sudo dnf remove -y
-}
-
-command -v docker >/dev/null &&
-fz-docker-image-rm() {
-	docker image ls --no-trunc --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}\t{{.CreatedSince}}" \
-		| fzf -m --header-lines=1 \
-		| awk 'BEGIN{OFS=":";} {print $1,$2}' \
-		| xargs --no-run-if-empty -L1 docker image rm
-}
-
-command -v podman >/dev/null &&
-fz-podman-image-rm() {
-	podman image ls --no-trunc --format "{{.Repository}}:{{.Tag}}	{{.Size}}	{{.Created}}" \
-		| fzf -m \
-		| awk '{print $1}' \
-		| xargs --no-run-if-empty -L1 podman image rm
 }
 
 command -v fzf >/dev/null &&
