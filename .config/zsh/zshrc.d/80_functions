@@ -214,15 +214,6 @@ scratch() {
 }
 alias gg='scratch'
 
-command -v vimdiff >/dev/null &&
-vimdiffdir() {
-	vimdiff <(\ls -1F "$1") <(\ls -1F "${2:-.}")
-}
-
-diffdir() {
-	diff --width="$(tput cols)" -y <(\ls -1F "$1") <(\ls -1F "${2:-.}") | sed -n '/[<|>]/p'
-}
-
 ssh-copy-pub() {
 	local PS3="(select key)> "
 	local COLUMNS=69
