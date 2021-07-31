@@ -8,9 +8,12 @@ mapfile -t -d $'\n' upgradable_packages < <(
 if [ "${#upgradable_packages[@]}" -gt 0 ]; then
 	echo "| iconName=software-update-available-symbolic"
 	echo "---"
+	echo "Refresh | refresh=true"
+	echo "---"
+	echo "${#upgradable_packages[@]} updates available"
 	for i in "${upgradable_packages[@]}"; do
 		IFS=',' read -r app_name version _ <<< "$i"
-		echo "$app_name ($version) | iconName=package-x-generic-symbolic"
+		echo "-- $app_name ($version) | iconName=package-x-generic-symbolic"
 	done
 else
 	echo "---"
