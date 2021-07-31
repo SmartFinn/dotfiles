@@ -1,5 +1,5 @@
 configuration {
-  modi: "drun,calc,gh-jump:~/.config/rofi/rofi-gh-jump.sh,yt-jump:~/.config/rofi/rofi-yt-jump.sh,run,ssh,window,file-browser,combi";
+  modi: "drun,gh-jump:~/.config/rofi/rofi-gh-jump.sh,yt-jump:~/.config/rofi/rofi-yt-jump.sh,run,ssh,window,file-browser,combi";
 /*	width: 50;*/
 /*	lines: 15;*/
 /*	columns: 1;*/
