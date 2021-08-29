@@ -84,6 +84,7 @@ up2date() {
 	__run_if_exists sudo pacman -Syu --noconfirm
 	__run_if_exists sudo dnf --refresh update -y
 	__run_if_exists sudo snap refresh
+    __run_if_exists flatpak update --appstream
 	__run_if_exists flatpak update -y
 	__run_if_exists pipx upgrade-all
 	__run_if_exists sdd upgrade
