@@ -11,10 +11,6 @@ declare -a CMD=(
 	"$@"
 )
 
-if command -v tsp >/dev/null; then
-	tsp "${CMD[@]}"
-else
-	exec "${CMD[@]}" >/dev/null 2>&1
-fi
+exec "${CMD[@]}" >/dev/null 2>&1
 
 exit 0
