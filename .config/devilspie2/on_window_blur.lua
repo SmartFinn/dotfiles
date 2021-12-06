@@ -11,4 +11,7 @@ then
 	os.execute(string.format(
 		"wmctrl -r \"Picture in picture\" -e 0,%.0f,%.0f,520,286", screen_x, screen_y
 	));
+	os.execute(string.format(
+		"wmctrl -r \"Picture-in-picture\" -e 0,%.0f,%.0f,520,286", screen_x, screen_y
+	));
 end

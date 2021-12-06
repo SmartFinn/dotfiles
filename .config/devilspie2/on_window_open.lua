@@ -11,6 +11,10 @@ debug_print("Window role: "      .. wm_role);
 
 -- set_window_strut(50, 0, 26, 0)
 
+if (inst_name == 'org.gnome.Nautilus') then
+	set_window_position(0, 0);
+end
+
 if (wm_class == 'kitty')
 or (wm_class == 'Alacritty')
 -- or (wm_class == 'Gnome-terminal')
@@ -33,12 +37,12 @@ end
 if (app_name == 'Picture in picture' or wm_role == 'PictureInPicture') then
 	set_window_geometry(screen_x, screen_y, 520, 286);
 	stick_window();
-	set_skip_tasklist(true);
+	-- set_skip_tasklist(true);
 	set_skip_pager(true);
 end
 
-if (inst_name == 'mpv-pip') then
-	stick_window();
-	set_skip_tasklist(true);
-	set_skip_pager(true);
-end
+-- if (inst_name == 'mpv-pip') then
+-- 	stick_window();
+-- 	set_skip_tasklist(true);
+-- 	set_skip_pager(true);
+-- end

@@ -5,4 +5,7 @@ then
 	os.execute(string.format(
 		"wmctrl -r \"Picture in picture\" -e 0,%.0f,0,420,256", screen_x
 	));
+	os.execute(string.format(
+		"wmctrl -r \"Picture-in-picture\" -e 0,%.0f,0,420,256", screen_x
+	));
 end
