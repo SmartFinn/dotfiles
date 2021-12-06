@@ -1,19 +1,14 @@
 configuration {
-  modi: "drun,gh-jump:~/.config/rofi/rofi-gh-jump.sh,yt-jump:~/.config/rofi/rofi-yt-jump.sh,run,ssh,window,file-browser,combi";
-/*	width: 50;*/
-/*	lines: 15;*/
-/*	columns: 1;*/
-  font: "Fira Code 12";
-/*	bw: 1;*/
+	modi: "drun,gh-jump:~/.config/rofi/rofi-gh-jump.sh,yt-jump:~/.config/rofi/rofi-yt-jump.sh,run,ssh,window,filebrowser,combi";
+	font: "Fira Code 12";
 /*	location: 0;*/
-/*	padding: 5;*/
 /*	yoffset: 0;*/
 /*	xoffset: 0;*/
 /*	fixed-num-lines: true;*/
 /*	show-icons: false;*/
-  terminal: "kitty";
+/*	terminal: "rofi-sensible-terminal";*/
 /*	ssh-client: "ssh";*/
-  ssh-command: "{terminal} {ssh-client} {host}";
+/*	ssh-command: "{terminal} -e {ssh-client} {host} [-p {port}]";*/
 /*	run-command: "{cmd}";*/
 /*	run-list-command: "";*/
 /*	run-shell-command: "{terminal} -e {cmd}";*/
@@ -32,34 +27,22 @@ configuration {
 /*	case-sensitive: false;*/
 /*	cycle: true;*/
 /*	sidebar-mode: false;*/
+/*	hover-select: false;*/
 /*	eh: 1;*/
 /*	auto-select: false;*/
 /*	parse-hosts: false;*/
-/*	parse-known-hosts: true;*/
-  combi-modi: [window,drun,ssh,gh-jump];
+	parse-known-hosts: false;
+	combi-modi: [window,drun,ssh,gh-jump];
 /*	matching: "normal";*/
 /*	tokenize: true;*/
 /*	m: "-5";*/
-/*	line-margin: 2;*/
-/*	line-padding: 1;*/
 /*	filter: ;*/
-/*	separator-style: "dash";*/
-/*	hide-scrollbar: false;*/
-/*	fullscreen: false;*/
-/*	fake-transparency: false;*/
 /*	dpi: -1;*/
 /*	threads: 0;*/
-/*	scrollbar-width: 8;*/
 /*	scroll-method: 0;*/
-/*	fake-background: "screenshot";*/
 /*	window-format: "{w}    {c}   {t}";*/
 /*	click-to-exit: true;*/
-/*	show-match: true;*/
-  theme: "oxide";
-/*	color-normal: ;*/
-/*	color-urgent: ;*/
-/*	color-active: ;*/
-/*	color-window: ;*/
+	theme: "Arc-Dark";
 /*	max-history-size: 25;*/
 /*	combi-hide-mode-prefix: false;*/
 /*	matching-negate-char: '-' /* unsupported */;*/
@@ -68,6 +51,8 @@ configuration {
 /*	drun-use-desktop-cache: false;*/
 /*	drun-reload-desktop-cache: false;*/
 /*	normalize-match: false;*/
+/*	steal-focus: false;*/
+/*	application-fallback-icon: ;*/
 /*	pid: "/run/user/1000/rofi.pid";*/
 /*	display-window: ;*/
 /*	display-windowcd: ;*/
@@ -76,8 +61,7 @@ configuration {
 /*	display-drun: ;*/
 /*	display-combi: ;*/
 /*	display-keys: ;*/
-/*	display-file-browser: ;*/
-/*	display-calc: ;*/
+/*	display-filebrowser: ;*/
 /*	kb-primary-paste: "Control+V,Shift+Insert";*/
 /*	kb-secondary-paste: "Control+v,Insert";*/
 /*	kb-clear-line: "Control+w";*/
@@ -95,10 +79,12 @@ configuration {
 /*	kb-remove-to-sol: "Control+u";*/
 /*	kb-accept-entry: "Control+j,Control+m,Return,KP_Enter";*/
 /*	kb-accept-custom: "Control+Return";*/
+/*	kb-accept-custom-alt: "Control+Shift+Return";*/
 /*	kb-accept-alt: "Shift+Return";*/
 /*	kb-delete-entry: "Shift+Delete";*/
 /*	kb-mode-next: "Shift+Right,Control+Tab";*/
 /*	kb-mode-previous: "Shift+Left,Control+ISO_Left_Tab";*/
+/*	kb-mode-complete: "Control+l";*/
 /*	kb-row-left: "Control+Page_Up";*/
 /*	kb-row-right: "Control+Page_Down";*/
 /*	kb-row-up: "Up,Control+p,ISO_Left_Tab";*/
@@ -114,16 +100,16 @@ configuration {
 /*	kb-toggle-case-sensitivity: "grave,dead_grave";*/
 /*	kb-toggle-sort: "Alt+grave";*/
 /*	kb-cancel: "Escape,Control+g,Control+bracketleft";*/
-/*	kb-custom-1: "Alt+1"; */
-/*	kb-custom-2: "Alt+2"; */
-/*	kb-custom-3: "Alt+3"; */
-/*	kb-custom-4: "Alt+4"; */
-/*	kb-custom-5: "Alt+5"; */
-/*	kb-custom-6: "Alt+6"; */
-/*	kb-custom-7: "Alt+7"; */
-/*	kb-custom-8: "Alt+8"; */
-/*	kb-custom-9: "Alt+9"; */
-/*	kb-custom-10: "Alt+0"; */
+/*	kb-custom-1: "Alt+1";*/
+/*	kb-custom-2: "Alt+2";*/
+/*	kb-custom-3: "Alt+3";*/
+/*	kb-custom-4: "Alt+4";*/
+/*	kb-custom-5: "Alt+5";*/
+/*	kb-custom-6: "Alt+6";*/
+/*	kb-custom-7: "Alt+7";*/
+/*	kb-custom-8: "Alt+8";*/
+/*	kb-custom-9: "Alt+9";*/
+/*	kb-custom-10: "Alt+0";*/
 /*	kb-custom-11: "Alt+exclam";*/
 /*	kb-custom-12: "Alt+at";*/
 /*	kb-custom-13: "Alt+numbersign";*/
@@ -150,5 +136,13 @@ configuration {
 /*	me-select-entry: "MousePrimary";*/
 /*	me-accept-entry: "MouseDPrimary";*/
 /*	me-accept-custom: "Control+MouseDPrimary";*/
+  timeout {
+      action: "kb-cancel";
+      delay:  0;
+  }
+  filebrowser {
+      directories-first: true;
+      sorting-method:    "name";
+  }
 }
 /* vim:ft=css
