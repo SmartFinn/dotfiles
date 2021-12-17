@@ -31,11 +31,13 @@ get_installed_gems() {
 
 get_user_installed_python2_packages() {
 	command -v python2 >/dev/null || return 0
+	python2 -m pip -V >/dev/null || return 0
 	python2 -m pip list --user --format=freeze > "$dest_dir/python2-packages.list"
 }
 
 get_user_installed_python3_packages() {
 	command -v python3 >/dev/null || return 0
+	python3 -m pip -V >/dev/null || return 0
 	python3 -m pip list --user --format=freeze > "$dest_dir/python3-packages.list"
 }
 
