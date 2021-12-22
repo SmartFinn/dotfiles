@@ -34,6 +34,7 @@ up2date() {
 
 	_try flatpak update --appstream
 	_try flatpak update -y
+	_try flatpak uninstall --unused -y
 
 	_try apm update --confirm=false
 
