@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -o noclobber -o noglob -o nounset -o pipefail
+set -o noclobber -o noglob -o nounset
 IFS=$'\n'
 
 ## If the option `use_preview_script` is set to `true`,
@@ -28,29 +28,37 @@ IFS=$'\n'
 ## 7    | image      | Display the file directly as an image
 
 ## Script arguments
-FILE_PATH="${1}"          # Full path of the highlighted file
-PV_WIDTH="${2-}"          # Width of the preview pane (number of fitting characters)
-# shellcheck disable=SC2034 # PV_HEIGHT is provided for convenience and unused
-PV_HEIGHT="${3-}"         # Height of the preview pane (number of fitting characters)
-IMAGE_CACHE_PATH="${4-}"  # Full path that should be used to cache image preview
-PV_IMAGE_ENABLED="${5-}"  # 'True' if image previews are enabled, 'False' otherwise.
+FILE_PATH="${1}"              # Full path of the highlighted file
+PV_WIDTH="${2-${COLUMNS-80}}" # Width of the preview pane (number of fitting characters)
+# shellcheck disable=SC2034   # PV_HEIGHT is provided for convenience and unused
+PV_HEIGHT="${3-${ROWS-24}}"   # Height of the preview pane (number of fitting characters)
+IMAGE_CACHE_PATH="${4-}"      # Full path that should be used to cache image preview
+PV_IMAGE_ENABLED="${5-}"      # 'True' if image previews are enabled, 'False' otherwise.
 
 FILE_EXTENSION="${FILE_PATH##*.}"
 FILE_SIZE="$(stat --printf='%s' -- "$FILE_PATH")"
 
 ## Settings
-HIGHLIGHT_SIZE_MAX=262143  # 256KiB
 HIGHLIGHT_TABWIDTH=4
 HIGHLIGHT_STYLE='molokai'
+MAX_FILE_SIZE=262143  # 256KiB
 
-ARCHIVE_SIZE_MAX=67108864 # 64MiB
+## Presetting timeout command
+timeout() {
+	command timeout -k 4s 2s "$@"
+}
+
+## Trim file to MAX_FILE_SIZE size.
+trim() {
+	head -c "$MAX_FILE_SIZE"
+}
 
 do_hightlight() {
 	## Syntax highlight
 	local highlight_format='ansi'
 
 	## Fallback to plain text if the file is large
-	(( FILE_SIZE < HIGHLIGHT_SIZE_MAX )) || return 1
+	(( FILE_SIZE < MAX_FILE_SIZE )) || return 1
 
 	if [[ "$(tput colors)" -ge 256 ]]; then
 		highlight_format='xterm256'
@@ -67,7 +75,7 @@ do_bat() {
 	## Syntax highlight with bat
 
 	## Fallback to plain text if the file is large
-	(( FILE_SIZE < HIGHLIGHT_SIZE_MAX )) || return 1
+	(( FILE_SIZE < MAX_FILE_SIZE )) || return 1
 
 	env COLORTERM=8bit bat \
 		--color=always \
@@ -80,143 +88,141 @@ do_bat() {
 }
 
 handle_archive() {
-	(( FILE_SIZE < ARCHIVE_SIZE_MAX )) || return 0
-
 	case "$FILE_PATH" in
 		## Tarballs
 		*.tar|*.gtar|*.gem)
 			## Tar archive
-			tar --list --file "$FILE_PATH" && exit 5
+			timeout tar --list --file "$FILE_PATH" && exit 5
 			;;
 		*.tar.bz|*.tbz| \
 		*.tar.bz2|*.tbz2|*.tb2|*.tz2)
 			## Tar archive (bzip-compressed)
-			tar -j --list --file "$FILE_PATH" && exit 5
+			timeout tar -j --list --file "$FILE_PATH" && exit 5
 			;;
 		*.tar.gz|*.tgz)
 			## Tar archive (gzip-compressed)
-			tar -z --list --file "$FILE_PATH" && exit 5
+			timeout tar -z --list --file "$FILE_PATH" && exit 5
 			;;
 		*.tar.lz)
 			## Tar archive (lzip-compressed)
-			tar --lzop --list --file "$FILE_PATH" && exit 5
+			timeout tar --lzop --list --file "$FILE_PATH" && exit 5
 			;;
 		*.tar.lzma|*.tlz|*.tlzma)
 			## Tar archive (LZMA-compressed)
-			tar --lzma --list --file "$FILE_PATH" && exit 5
+			timeout tar --lzma --list --file "$FILE_PATH" && exit 5
 			;;
 		*.tar.lzo|*.tzo)
 			## Tar archive (LZO-compressed)
-			tar --lzop --list --file "$FILE_PATH" && exit 5
+			timeout tar --lzop --list --file "$FILE_PATH" && exit 5
 			;;
 		*.tar.xz|*.txz)
 			## Tar archive (XZ-compressed)
-			tar -J --list --file "$FILE_PATH" && exit 5
+			timeout tar -J --list --file "$FILE_PATH" && exit 5
 			;;
 		*.tar.[zZ]|*.t[zZ]|*.ta[zZ])
 			## Tar archive (compressed)
-			tar -Z --list --file "$FILE_PATH" && exit 5
+			timeout tar -Z --list --file "$FILE_PATH" && exit 5
 			;;
 		*.tar.zst|*.tzst)
 			## Tar archive (Zstandard-compressed)
-			tar --zstd --list --file "$FILE_PATH" && exit 5
+			timeout tar --zstd --list --file "$FILE_PATH" && exit 5
 			;;
 		## Archives
 		*.7[zZ]|*.7za|*.tar.7z|*.t7z)
 			## 7-zip archive
 			## Avoid password prompt by providing empty password
-			7z  l -y -p -- "$FILE_PATH" && exit 5
-			7za l -y -p -- "$FILE_PATH" && exit 5
+			timeout 7z  l -y -p -- "$FILE_PATH" && exit 5
+			timeout 7za l -y -p -- "$FILE_PATH" && exit 5
 			;;
 		*.a|*.ar)
 			## AR archive
-			ar t -- "$FILE_PATH" && exit 5
+			timeout ar t -- "$FILE_PATH" && exit 5
 			;;
 		*.ace)
 			## ACE archive
-			unace l -- "$FILE_PATH" && exit 5
+			timeout unace l -- "$FILE_PATH" && exit 5
 			;;
 		*.alz)
 			## Alzip archive
-			unalz -l -- "$FILE_PATH" && exit 5
+			timeout unalz -l -- "$FILE_PATH" && exit 5
 			;;
 		*.arc|*.ark|*.ARC|*.ARK)
 			## ARC archive
-			nomarch -l -- "$FILE_PATH" && exit 5
+			timeout nomarch -l -- "$FILE_PATH" && exit 5
 			;;
 		*.arj|*.ARJ)
 			## ARJ archive
-			arj l -y -r "$FILE_PATH" && exit 5
+			timeout arj l -y -r "$FILE_PATH" && exit 5
 			;;
 		*.bz|*.bz2)
 			## Bzip archive
-			bzcat "$FILE_PATH" && exit 5
+			timeout bzcat "$FILE_PATH" | trim && exit 5
 			;;
 		*.cab|*.CAB)
 			## Microsoft Cabinet archive
-			cabextract -l "$FILE_PATH" && exit 5
+			timeout cabextract -l "$FILE_PATH" && exit 5
 			;;
 		*.cpio)
 			## CPIO archive
-			cpio -i -t -F "$FILE_PATH" && exit 5
+			timeout cpio -i -t -F "$FILE_PATH" | trim && exit 5
 			;;
 		*.deb|*.udeb)
 			## Debian package
-			dpkg --contents -- "$FILE_PATH" && exit 5
+			timeout dpkg --contents -- "$FILE_PATH" && exit 5
 			;;
 		*.gz)
 			## Gzip archive
-			zcat  "$FILE_PATH" && exit 5
+			timeout zcat "$FILE_PATH" | trim && exit 5
 			;;
 		*.lha|*.lzh)
 			## LHA archive
-			lha l "$FILE_PATH" && exit 5
+			timeout lha l "$FILE_PATH" && exit 5
 			;;
 		*.lrz|*.lrzip|*.rz)
 			## Lrzip archive
-			lrzcat "$FILE_PATH" && exit 5
+			timeout lrzcat "$FILE_PATH" | trim && exit 5
 			;;
 		*.lz)
 			## Lzip archive
-			lzip --decompress --stdout -- "$FILE_PATH" && exit 5
+			timeout lzip --decompress --stdout -- "$FILE_PATH" | trim && exit 5
 			;;
 		*.lz4)
 			## LZ4 archive
-			lz4cat -- "$FILE_PATH" && exit 5
+			timeout lz4cat -- "$FILE_PATH" | trim && exit 5
 			;;
 		*.lzma)
 			## LZMA archive
-			lzcat -- "$FILE_PATH" && exit 5
-			xzcat --format=lzma -- "$FILE_PATH" && exit 5
+			timeout lzcat -- "$FILE_PATH" | trim && exit 5
+			timeout xzcat --format=lzma -- "$FILE_PATH" | trim && exit 5
 			;;
 		*.lzo)
 			## LZO archive
-			lzop --list "$FILE_PATH" && exit 5
+			timeout lzop --list "$FILE_PATH" && exit 5
 			;;
 		*.rar|*.RAR)
 			## RAR archive
 			## Avoid password prompt by providing empty password
-			unrar l -p- -- "$FILE_PATH" && exit 5
+			timeout unrar l -p- -- "$FILE_PATH" && exit 5
 			;;
 		*.src.rpm|*.rpm|*.spm)
 			## RPM package
-			rpm -qlp -- "$FILE_PATH" && exit 5
+			timeout rpm -qlp -- "$FILE_PATH" && exit 5
 			;;
 		*.xz)
 			## XZ archive
-			xzcat -- "$FILE_PATH" && exit 5
+			timeout xzcat -- "$FILE_PATH" | trim && exit 5
 			;;
 		*.[zZ])
 			## UNIX-compressed file
-			zcat  "$FILE_PATH" && exit 5
+			timeout zcat "$FILE_PATH" | trim && exit 5
 			;;
 		*.zip|*.ZIP)
 			## Zip archive
-			unzip -l -- "$FILE_PATH" && exit 5
+			timeout unzip -l -- "$FILE_PATH" && exit 5
 			;;
 		*.zst)
 			## Zstandard archive
-			zstdcat "$FILE_PATH" && exit 5
+			timeout zstdcat "$FILE_PATH" | trim && exit 5
 			;;
 	esac
 }
@@ -243,36 +249,41 @@ handle_extension() {
 			;;
 		pdf)
 			## Preview as text conversion
-			pdftotext -l 10 -nopgbrk -q -- "$FILE_PATH" - | \
+			timeout pdftotext -l 10 -nopgbrk -q -- "$FILE_PATH" - | \
 				fmt -w "$PV_WIDTH" && exit 5
-			mutool draw -F txt -i -- "$FILE_PATH" 1-10 | \
+			timeout mutool draw -F txt -i -- "$FILE_PATH" 1-10 | \
 				fmt -w "$PV_WIDTH" && exit 5
-			exiftool "$FILE_PATH" && exit 5
+			timeout exiftool "$FILE_PATH" && exit 5
 			;;
 		torrent)
-			transmission-show -- "$FILE_PATH" && exit 5
+			timeout transmission-show -- "$FILE_PATH" && exit 5
 			;;
 		odt|ods|odp|sxw)
 			## Preview OpenDocument as text conversion
-			odt2txt "$FILE_PATH" && exit 5
-			pandoc -s -t markdown -- "$FILE_PATH" && exit 5
+			timeout odt2txt "$FILE_PATH" && exit 5
+			timeout pandoc -s -t markdown -- "$FILE_PATH" && exit 5
 			;;
 		htm|html|xhtml)
 			## Preview HTML as text conversion
 			w3m -dump "$FILE_PATH" && exit 5
 			lynx -dump -- "$FILE_PATH" && exit 5
 			elinks -dump "$FILE_PATH" && exit 5
-			pandoc -s -t markdown -- "$FILE_PATH" && exit 5
+			timeout pandoc -s -t markdown -- "$FILE_PATH" && exit 5
 			;;
 		json)
-			jq --color-output . "$FILE_PATH" && exit 5
-			python -m json.tool -- "$FILE_PATH" && exit 5
+			timeout jq --color-output . "$FILE_PATH" && exit 5
+			timeout python -m json.tool -- "$FILE_PATH" && exit 5
+			;;
+		csv)
+			head -c "$MAX_FILE_SIZE" "$FILE_PATH" |
+				python3 -c "import csv, sys; csv.writer(sys.stdout, 'excel-tab').writerows(csv.reader(sys.stdin))" |
+				column -t -s$'\t' && exit 5
 			;;
 		dff|dsf|wv|wvc)
 			## Direct Stream Digital/Transfer (DSDIFF) and wavpack aren't detected
 			## by file(1).
-			mediainfo "$FILE_PATH" && exit 5
-			exiftool "$FILE_PATH" && exit 5
+			timeout mediainfo "$FILE_PATH" && exit 5
+			timeout exiftool "$FILE_PATH" && exit 5
 			;; # Continue with next handler on failure
 	esac
 }
@@ -282,7 +293,7 @@ handle_image() {
 
 	case "$mimetype" in
 		image/svg+xml)
-			convert "$FILE_PATH" "$IMAGE_CACHE_PATH" && exit 6
+			timeout convert "$FILE_PATH" "$IMAGE_CACHE_PATH" && exit 6
 			;;
 		image/*)
 			local orientation
@@ -291,7 +302,7 @@ handle_image() {
 			## needs rotating ("1" means no rotation)...
 			if [[ -n "$orientation" && "$orientation" != 1 ]]; then
 				## ...auto-rotate the image according to the EXIF data.
-				convert -- "$FILE_PATH" -auto-orient "$IMAGE_CACHE_PATH" && exit 6
+				timeout convert -- "$FILE_PATH" -auto-orient "$IMAGE_CACHE_PATH" && exit 6
 			fi
 
 			## `w3mimgdisplay` will be called for all images (unless overriden as above),
@@ -300,15 +311,15 @@ handle_image() {
 			;;
 		video/*)
 			## Thumbnail
-			ffmpegthumbnailer -i "$FILE_PATH" -o "$IMAGE_CACHE_PATH" -s 0 && exit 6
-			ffmpeg -an -i "$FILE_PATH" -vframes 1 -ss 10 "$IMAGE_CACHE_PATH" && exit 6
+			timeout ffmpegthumbnailer -i "$FILE_PATH" -o "$IMAGE_CACHE_PATH" -s 0 && exit 6
+			timeout ffmpeg -an -i "$FILE_PATH" -vframes 1 -ss 10 "$IMAGE_CACHE_PATH" && exit 6
 			;;
 		audio/*)
 			## Album cover
-			ffmpeg -i "$FILE_PATH" "$IMAGE_CACHE_PATH" -y && exit 6
+			timeout ffmpeg -i "$FILE_PATH" "$IMAGE_CACHE_PATH" -y && exit 6
 			;;
 		application/pdf)
-			pdftoppm -f 1 -l 1 \
+			timeout pdftoppm -f 1 -l 1 \
 				-scale-to-x 1920 \
 				-scale-to-y -1 \
 				-singlefile \
@@ -318,7 +329,7 @@ handle_image() {
 			;;
 		application/font*|application/*opentype|font/*)
 			## Font
-			convert -size 380x400 xc:"#cecece" \
+			timeout convert -size 380x400 xc:"#cecece" \
 				-gravity center \
 				-pointsize 36 \
 				-font "${FILE_PATH}" \
@@ -336,7 +347,7 @@ handle_image() {
 				--text "  The quick brown fox jumps over the lazy dog.  " \
 				"${FILE_PATH}";
 			then
-				convert -- "${preview_png}" "${IMAGE_CACHE_PATH}" \
+				timeout convert -- "${preview_png}" "${IMAGE_CACHE_PATH}" \
 					&& rm "${preview_png}" \
 					&& exit 6
 			else
@@ -351,28 +362,28 @@ handle_mime() {
 
 	case "$mimetype" in
 		application/x-iso9660-image)
-			isoinfo -lR -i "$FILE_PATH" && exit 5
+			timeout isoinfo -lR -i "$FILE_PATH" && exit 5
 			;;
 		text/rtf|*msword)
 			## Preview as text conversion
 			## note: catdoc does not always work for .doc files
 			## catdoc: http://www.wagner.pp.ru/~vitus/software/catdoc/
-			catdoc -- "$FILE_PATH" && exit 5
-			unrtf --text "$FILE_PATH" && exit 5
+			timeout catdoc -- "$FILE_PATH" && exit 5
+			timeout unrtf --text "$FILE_PATH" && exit 5
 			return 0
 			;;
 		*ms-excel)
 			## Preview as csv conversion
 			## xls2csv comes with catdoc:
 			##   http://www.wagner.pp.ru/~vitus/software/catdoc/
-			xls2csv -- "$FILE_PATH" && exit 5
+			timeout xls2csv -- "$FILE_PATH" && exit 5
 			return 0
 			;;
 		*wordprocessingml.document|*/epub+zip|*/x-fictionbook+xml)
 			## DOCX, ePub, FB2 (using markdown)
 			## You might want to remove "|epub" and/or "|fb2" below if you have
 			## uncommented other methods to preview those formats
-			pandoc -s -t markdown -- "$FILE_PATH" && exit 5
+			timeout pandoc -s -t markdown -- "$FILE_PATH" && exit 5
 			return 0
 			;;
 		text/* | */xml | *\+xml | */json)
@@ -382,19 +393,19 @@ handle_mime() {
 			;;
 		image/vnd.djvu)
 			## Preview DjVu as text conversion (requires djvulibre)
-			djvutxt "$FILE_PATH" | fmt -w "$PV_WIDTH" && exit 5
-			exiftool "$FILE_PATH" && exit 5
+			timeout djvutxt "$FILE_PATH" | fmt -w "$PV_WIDTH" && exit 5
+			timeout exiftool "$FILE_PATH" && exit 5
 			return 0
 			;;
 		image/*)
 			## Preview as text conversion
-			img2txt --gamma=0.6 --width="$PV_WIDTH" -- "$FILE_PATH" && exit 4
-			exiftool "$FILE_PATH" && exit 5
-			mediainfo "$FILE_PATH" && exit 5
+			timeout img2txt --gamma=0.6 --width="$PV_WIDTH" -- "$FILE_PATH" && exit 4
+			timeout exiftool "$FILE_PATH" && exit 5
+			timeout mediainfo "$FILE_PATH" && exit 5
 			;;
 		video/* | audio/*)
-			mediainfo "$FILE_PATH" && exit 5
-			exiftool "$FILE_PATH" && exit 5
+			timeout mediainfo "$FILE_PATH" && exit 5
+			timeout exiftool "$FILE_PATH" && exit 5
 			;;
 	esac
 }
