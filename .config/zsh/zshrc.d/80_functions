@@ -659,4 +659,35 @@ ddiff() {
 	convertsecs "$secs_diff"
 }
 
+command -v fzf >/dev/null &&
+fzf-preview() {
+	local previewer
+
+	# -- Set previewer if available
+	for previewer in \
+		"${XDG_CONFIG_HOME:-$HOME/.config}/ranger/scope.sh" \
+		"${XDG_CONFIG_HOME:-$HOME/.config}/lf/previewer.sh"
+	do
+		if [ -x "$previewer" ]; then
+			break
+		fi
+		unset previewer
+	done
+
+	if [ -z "$previewer" ]; then
+		previewer="env COLORTERM=8bit bat \
+			--color=always \
+			--style=plain \
+			--map-syntax=conf:ini \
+			--map-syntax=rsc:ini \
+			--map-syntax=theme:ini \
+			--tabs 4 \
+			--pager=never --"
+	fi
+
+	fzf --preview="$previewer {}" \
+		--header="[Ctrl-O] open selected file" \
+		--bind "ctrl-o:execute(xdg-open {-1} &>/dev/null)"
+}
+
 # vim:ft=zsh

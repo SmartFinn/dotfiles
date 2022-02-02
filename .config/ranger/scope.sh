@@ -422,6 +422,12 @@ handle_fallback() {
 
 MIMETYPE="$(file --dereference --brief --mime-type -- "$FILE_PATH")"
 
+## Preview for directories (useful when uses the file as previewer for fzf)
+if [ -d "$FILE_PATH" ]; then
+	exa -1F --icons --group-directories-first --color=auto "$FILE_PATH" && exit 5
+	ls -1F --group-directories-first --color=auto "$FILE_PATH" && exit 5
+fi
+
 if [[ "$PV_IMAGE_ENABLED" == 'True' ]]; then
 	handle_image "$MIMETYPE"
 fi
