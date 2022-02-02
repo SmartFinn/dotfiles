@@ -45,6 +45,8 @@ MAX_FILE_SIZE=262143  # 256KiB
 
 ## Presetting timeout command
 timeout() {
+	# usage: timeout command [args]
+	command -v -- "$1" >/dev/null || return 1
 	command timeout -k 4s 2s "$@"
 }
 
