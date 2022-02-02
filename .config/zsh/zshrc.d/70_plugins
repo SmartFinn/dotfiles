@@ -12,7 +12,7 @@ ZSH_PLUGINS=(
 	fast-syntax-highlighting
 	files-completer
 	forgit
-	# fzf
+	fzf
 	fzf-widgets
 	gio-trash
 	git-extras-completion
