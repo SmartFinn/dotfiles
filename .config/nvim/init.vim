@@ -208,6 +208,9 @@ Plug 'junegunn/fzf.vim'
 " automatically adjusts 'shiftwidth' and 'expandtab'
 Plug 'tpope/vim-sleuth'
 
+" Multiple cursors plugin for vim/neovim
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
 call plug#end()
 
 " Options {{{1
