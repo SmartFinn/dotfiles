@@ -1,331 +1,393 @@
-from ranger.gui.colorscheme import ColorScheme
-import ranger.gui.color as style
-import ranger.gui.context
+# -*- coding: utf-8 -*-
+# pylint: disable=consider-using-f-string,invalid-name,line-too-long,super-with-arguments
+
+'''
+Ranger color-scheme using `$LS_COLORS` / `dircolors`.
+
+Originally based on: https://github.com/ranger/colorschemes/raw/a250fe866200940eb06d877a274333a2a54c34f3/ls_colors.py
+
+Usage: copy this file to `~/.config/ranger/colorschemes'. The base color-scheme
+used for non file system entries / the unfocused pane is `default`. To change it,
+rename this file to `ls_colors_BASE_SCHEME_NAME.py` (e.g. change it to
+`ls_colors_snow.py` to use the `snow` color-scheme as base).
+'''
+
+import curses
+import fnmatch
+import importlib
+import inspect
+import os
+import re
+import shlex
+import subprocess
+import sys
+
+import ranger.gui.color as STYLE
 import ranger.gui.widgets.browsercolumn
-from os import getenv
-from subprocess import check_output, CalledProcessError
+from ranger.gui.colorscheme import ColorScheme, ColorSchemeError
+from ranger.gui.context import CONTEXT_KEYS, Context
 
 
-class ls_colors(ColorScheme):
-    def __init__(self):
-        super(ColorScheme, self).__init__()
+PY2 = sys.version_info[0] == 2
+
+SPECIAL_PATTERNS = {
+    'bd': 'device'    , # block device
+    'ca': ''          , # cap
+    'cd': 'device'    , # char device
+    'cl': ''          , # clear end of line
+    'di': 'directory' , # directory
+    'do': ''          , # Solaris door
+    'ec': ''          , # end color, unused
+    'ex': 'executable', # executable
+    'fi': 'file'      , # file
+    'fl': ''          , # file, default
+    'lc': ''          , # left, unused
+    'ln': 'link'      , # symlink
+    'mh': ''          , # multi hardlink
+    'mi': ''          , # missing file
+    'no': ''          , # normal
+    'or': 'orphan'    , # orphaned symlink
+    'ow': ''          , # other-writable
+    'pi': 'fifo'      , # pipe
+    'rc': ''          , # right, unused
+    'rs': ''          , # reset
+    'sg': ''          , # setgid
+    'so': 'socket'    , # socket
+    'st': ''          , # sticky
+    'su': ''          , # setuid
+    'tw': ''          , # ow with sticky
+}
+
+STYLE_ATTRIBUTES = {
+    1: STYLE.bold,
+    2: STYLE.dim,
+    # Italic, not always supported, and
+    # not exported by `ranger.gui.color`.
+    3: getattr(curses, 'A_ITALIC', 0),
+    4: STYLE.underline,
+    5: STYLE.blink,
+    # Rapid blink.
+    6: STYLE.blink,
+    7: STYLE.reverse,
+    8: STYLE.invisible,
+}
+
+def parse_terminal_attributes(attribute_list):
+    '''
+    Parse a list of ECMA-48 SGR sequence
+    parameters to sets display attributes.
+    '''
+    fg, bg, return_attr = STYLE.default_colors
+    attribute_iter = iter(attribute_list)
+    for attr in attribute_iter:
+        if attr == 0:
+            # Reset to default.
+            fg, bg, return_attr = STYLE.default_colors
+        elif attr in STYLE_ATTRIBUTES:
+            return_attr |= STYLE_ATTRIBUTES[attr]
+        # Foreground: basic colours.
+        elif 30 <= attr <= 37:
+            fg = attr - 30
+        # Foreground: 256 colors.
+        elif attr == 38:
+            attr = next(attribute_iter)
+            assert attr == 5
+            fg = next(attribute_iter)
+        # Background: Basic colours.
+        elif 40 <= attr <= 47:
+            bg = attr - 40
+        # Background: 256 colors.
+        elif attr == 48:
+            attr = next(attribute_iter)
+            assert attr == 5
+            bg = next(attribute_iter)
+        # Foreground: bright version of basic colours.
+        elif 90 <= attr <= 97:
+            fg = attr - 90 + STYLE.BRIGHT
+        # Background: bright version of basic colours.
+        elif 100 <= attr <= 107:
+            bg = attr - 100 + STYLE.BRIGHT
+        else:
+            raise ValueError('invalid/unsupported terminal attribute: {}'.format(attr))
+    return fg, bg, return_attr
+
+def get_ls_colors():
+    '''
+    Return `$LS_COLORS` or call `dircolors`
+    to get the list colors to used.
+    '''
+    spec = os.getenv('LS_COLORS')
+    if spec is None:
         try:
-            self.ls_colors = getenv('LS_COLORS',
-                                    self.get_default_lscolors()).split(':')
-        except (CalledProcessError, FileNotFoundError):
-            self.ls_colors = []
+            spec = subprocess.check_output(('dircolors', '--csh'))
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            pass
+        else:
+            spec = shlex.split(spec.decode())
+            assert len(spec) == 3 and spec[0:2] == ['setenv', 'LS_COLORS'], spec
+            spec = spec[-1]
+    if spec is None:
+        spec = ''
+    return spec
 
-        # Gets all the keys corresponding to extensions
-        self.ls_colors_extensions = [
-            k.split('=')[0] for k in self.ls_colors if k != ''
-        ]
-        self.ls_colors_extensions = [
-            '.' + k.split('*.')[1] for k in self.ls_colors_extensions
-            if '*.' in k
-        ]
+def parse_ls_colors(spec):
+    '''
+    Parse a `$LS_COLORS` spec.
+    '''
+    ls_colors = []
+    for entry in spec.strip(':').split(':'):
+        if not entry:
+            continue
+        pattern, t_attributes = entry.split('=', 1)
+        if pattern != 'ln' or t_attributes != 'target':
+            t_attributes = list(map(int, t_attributes.split(';')))
+            t_attributes = parse_terminal_attributes(t_attributes)
+        ls_colors.append((pattern, t_attributes))
+    return ls_colors
 
-        # Add the key names to ranger context keys
-        for key in self.ls_colors_extensions:
-            ranger.gui.context.CONTEXT_KEYS.append(key)
-            setattr(ranger.gui.context.Context, key, False)
+def get_base_colorscheme_name():
+    '''
+    Find out the name of the base color-scheme to use.
+    '''
+    basename = __name__.rsplit('.', 1)[-1]
+    if basename.startswith('ls_colors_'):
+        return basename[10:]
+    return 'default'
 
-        self.OLD_HOOK_BEFORE_DRAWING = ranger.gui.widgets.browsercolumn.hook_before_drawing
+def get_colorscheme_class(name):
+    '''
+    Return a color-scheme class by (module)
+    name, checking for a relative one first.
+    '''
+    for module_name in (
+        (__package__ + '.' if __package__ else '') + name,
+        'ranger.colorschemes.' + name
+    ):
+        try:
+            scheme_module = importlib.import_module(module_name)
+        except ImportError:
+            continue
+        for var in scheme_module.__dict__.values():
+            if var != ColorScheme and \
+               inspect.isclass(var) and \
+               issubclass(var, ColorScheme):
+                return var
+        break
+    raise ColorSchemeError("Cannot locate colorscheme `{}'".format(name))
 
+
+class LsColors(get_colorscheme_class(get_base_colorscheme_name())):
+
+    __doc__ = __doc__
+
+    def __init__(self):
+        super(LsColors, self).__init__()
+        rx_parts = []
+        self.ls_colors = []
+        self.pattern_ls_color = []
+        self.special_ls_color = {}
+        for n, (pattern, t_attributes) in enumerate(parse_ls_colors(get_ls_colors())):
+            self.ls_colors.append(t_attributes)
+            target = SPECIAL_PATTERNS.get(pattern)
+            if target is not None:
+                # Special directives.
+                self.special_ls_color[target] = n
+                continue
+            # Other pattern.
+            pattern = fnmatch.translate(pattern)
+            if PY2:
+                assert pattern.endswith(r'\Z(?ms)')
+                pattern = pattern[:-7]
+            else:
+                assert pattern.startswith('(?s:') and pattern.endswith(r')\Z')
+                pattern = pattern[4:-3]
+            rx_parts.append('(' + pattern + ')')
+            self.pattern_ls_color.append(n)
+        if PY2:
+            # “sorry, but this version only supports 100 named groups”…
+            rx_batch_size = 99
+        else:
+            rx_batch_size = None
+        self.pattern_rx_list = []
+        ls_color_offset = -1
+        while rx_parts:
+            rx_batch = rx_parts[:rx_batch_size]
+            rx_parts = rx_parts[len(rx_batch):]
+            pattern_rx = re.compile('^(?:' + '|'.join(rx_batch) + ')$',
+                                    re.DOTALL | re.IGNORECASE)
+            self.pattern_rx_list.append((pattern_rx, ls_color_offset))
+            ls_color_offset += len(rx_batch)
+        self.old_hook_before_drawing = ranger.gui.widgets.browsercolumn.hook_before_drawing
         ranger.gui.widgets.browsercolumn.hook_before_drawing = self.new_hook_before_drawing
 
-        self.ls_colors_keys = [k.split('=') for k in self.ls_colors if k != '']
-        self.tup_ls_colors = []
-
-        # Not considering file extensions
-        # The order of these two block matters, as extensions colouring should
-        # take precedence over the 'file' type
-        for key in [k for k in self.ls_colors_keys if '.*' not in k]:
-            if key[0] == 'fi':
-                self.tup_ls_colors += [('file', key[1])]
-
-        # Considering files extensions
-        self.tup_ls_colors += [('.' + k[0].split('*.')[1], k[1])
-                               for k in self.ls_colors_keys if '*.' in k[0]]
-
-        # This is added last because their color should take precedence over
-        # what's been set before for a 'file' that would have the same
-        # extension
-        for key in [k for k in self.ls_colors_keys if '.*' not in k]:
-            if key[0] == 'ex':
-                self.tup_ls_colors += [('executable', key[1])]
-            elif key[0] == 'pi':
-                self.tup_ls_colors += [('fifo', key[1])]
-            elif key[0] == 'ln':
-                self.tup_ls_colors += [('link', key[1])]
-            elif key[0] == 'bd' or key[0] == 'cd':
-                self.tup_ls_colors += [('device', key[1])]
-            elif key[0] == 'so':
-                self.tup_ls_colors += [('socket', key[1])]
-            elif key[0] == 'di':
-                self.tup_ls_colors += [('directory', key[1])]
-
-        # Those special context shouldn't get attributes destined to
-        # files, based on extension
-        self.__special_context = [
-            "directory",
-            "fifo",
-            "link",
-            "device",
-            "socket"
-        ]
-
-        self.progress_bar_color = style.green
-
     def new_hook_before_drawing(self, fsobject, color_list):
-        for key in self.ls_colors_extensions:
-            if fsobject.basename.endswith(key):
-                color_list.append(key)
-
-        return self.OLD_HOOK_BEFORE_DRAWING(fsobject, color_list)
-
-    def get_default_lscolors(self):
-        """Returns the default value for LS_COLORS
-        as parsed from the `dircolors` command
-        """
-        ls_colors = check_output('dircolors')
-        ls_colors = ls_colors.splitlines()[0].decode('UTF-8').split("'")[1]
-        return ls_colors
-
-    def get_attr_from_lscolors(self, attribute_list):
-        return_attr = 0
-        to_delete = []
-
-        for i, attr in enumerate(attribute_list):
-            if attr == 1:
-                return_attr |= style.bold
-            elif attr == 4:
-                return_attr |= style.underline
-            elif attr == 7:
-                return_attr |= style.reverse
-            elif attr == 8:
-                return_attr |= style.invisible
-            to_delete.append(i)
-
-        # remove style attrattributes  from the array
-        attribute_list[:] = [val for i, val in enumerate(attribute_list) if i in to_delete]
-
-        return return_attr
-
-    def make_colour_bright(self, colour_value):
-        """Only applicable to not already bright 8 bit colours.
-        256 colour will be returned "as-is"
-        """
-
-        if colour_value < 8 and colour_value >= 0:
-            colour_value += style.BRIGHT
-        return colour_value
-
-    # Values from
-    # https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
-    def get_colour_from_attributes(self, attribute_list):
-        """Get the colour from the different attributes passed
-        """
-        fg_colour = None
-        bg_colour = None
-        looking_at_256_ttl = 0
-        for i, current_attr in enumerate(attribute_list):
-            #################
-            #  256 colours  #
-            #################
-
-            if looking_at_256_ttl > 0:
-                looking_at_256_ttl -= 1
+        '''
+        Add an `ls_colorN` tag to `color_list`
+        if there's an applicable LS colors entry.
+        '''
+        color_set = frozenset(color_list)
+        ls_color = None
+        for kind in (
+            # Check for symlinks first.
+            'link',
+            # Then special files.
+            'device',
+            'fifo',
+            'socket',
+            # Directories before executables (execute bit).
+            'directory',
+            'executable',
+            # And finally standard files.
+            'file',
+        ):
+            if kind not in color_set:
                 continue
-            # If colour256, we need to get to the third field (after 48 and 5)
-            # to get the colour
-            try:
-                if current_attr == 48 and attribute_list[i + 1] == 5:
-                    bg_colour = attribute_list[i + 2]
-                    looking_at_256_ttl = 2
-                elif current_attr == 38 and attribute_list[i + 1] == 5:
-                    fg_colour = attribute_list[i + 2]
-                    looking_at_256_ttl = 2
-            except IndexError:
-                print('Bad attribute value for LS_COLORS: {}'.format(attribute_list))
-                exit(1)
+            ls_color = self.special_ls_color.get(kind)
+            if kind == 'link':
+                # Orphaned link?
+                if 'bad' in color_set:
+                    ls_color = self.special_ls_color.get('orphan', ls_color)
+                # Should we look at the link target instead?
+                if ls_color is not None and self.ls_colors[ls_color] == 'target':
+                    ls_color = None
+            elif kind == 'file':
+                # Check for a matching pattern.
+                for pattern_rx, ls_color_offset in self.pattern_rx_list:
+                    m = pattern_rx.match(fsobject.basename)
+                    if m is not None:
+                        ls_color = self.pattern_ls_color[m.lastindex + ls_color_offset]
+                        break
+            if ls_color is not None:
+                color_list.append('ls_color' + str(ls_color))
+                break
+        return self.old_hook_before_drawing(fsobject, color_list)
 
-            ######################
-            #  Standard colours  #
-            ######################
+    BASE_IGNORED_TAGS = frozenset((
+        'audio',
+        'container',
+        'document',
+        'image',
+        'media',
+        'video',
+    ))
 
-            # Standard colours
-            if (current_attr >= 30 and current_attr <= 37):
-                fg_colour = current_attr - 30
-            # Bright
-            elif (current_attr >= 90 and current_attr <= 97):
-                fg_colour = current_attr - 82
-
-            # Standard colours
-            elif (current_attr >= 40 and current_attr <= 47):
-                bg_colour = current_attr - 40
-            # Bright
-            elif (current_attr >= 100 and current_attr <= 107):
-                bg_colour = current_attr - 92
-
-        return fg_colour, bg_colour
-
-    def is_special_file_context(self, context):
-        """Return True if we are in a special file context
-        """
-
-        for special_key in self.__special_context:
-            if getattr(context, special_key):
-                return True
-        return False
+    BASE_DECORATION_TAGS = frozenset((
+        'copied',
+        'cut',
+        'line_number',
+        'marked',
+        'tag_marker',
+    ) + tuple(k for k in CONTEXT_KEYS if k.startswith('vcs')))
 
     def use(self, context):
-        fg, bg, attr = style.default_colors
-
-        for key, t_attributes in self.tup_ls_colors:
-            if getattr(context, key):
-                # This means we're most likely applying extension colouring to
-                # a special file (e.g. directory, link, etc.)
-                if self.is_special_file_context(context) and key not in self.__special_context:
-                    continue
-
-                t_attributes = t_attributes.split(';')
-                try:
-                    t_attributes[:] = [int(attrib) for attrib in t_attributes]
-                except ValueError:
-                    print("Bad attribute value for LS_COLORS: {}".format(attr))
-                    exit(1)
-
-                new_attr = self.get_attr_from_lscolors(t_attributes)
-                if new_attr is not None:
-                    attr |= new_attr
-                fg_colour, bg_colour = self.get_colour_from_attributes(t_attributes)
-
-                if fg_colour is not None:
-                    fg = fg_colour
-                if bg_colour is not None:
-                    bg = bg_colour
-
-        if context.reset:
-            return style.default_colors
-        elif context.in_browser:
-            if context.selected:
-                attr |= style.reverse
-            if context.empty or context.error:
-                bg = style.red
-            if context.tag_marker and not context.selected:
-                attr |= style.bold
-                if fg in (style.red, style.magenta):
-                    fg = style.white
-                else:
-                    fg = style.red
-                fg = self.make_colour_bright(fg)
-            if not context.selected and (context.cut or context.copied):
-                attr |= style.bold
-                fg = style.black
-                fg = self.make_colour_bright(fg)
-                # If the terminal doesn't support bright colors, use
-                # dim white instead of black.
-                if style.BRIGHT == 0:
-                    attr |= style.dim
-                    fg = style.white
-            if context.main_column:
-                # Doubling up with BRIGHT here causes issues because
-                # it's additive not idempotent.
-                if context.selected:
-                    attr |= style.bold
-                if context.marked:
-                    attr |= style.bold
-                    fg = style.yellow
-                    fg += style.BRIGHT
-            if context.inactive_pane:
-                fg = style.black
-        elif context.in_titlebar:
-            attr |= style.bold
-            if context.hostname:
-                fg = style.red if context.bad else style.green
-            elif context.directory:
-                fg = style.blue
-            elif context.tab:
-                if context.good:
-                    bg = self.progress_bar_color
-            elif context.link:
-                fg = style.cyan
-        elif context.in_statusbar:
-            if context.permissions:
-                if context.good:
-                    fg = style.cyan
-                elif context.bad:
-                    fg = style.magenta
-            if context.marked:
-                attr |= style.bold | style.reverse
-                fg = style.yellow
-                bg += style.BRIGHT
-            if context.frozen:
-                attr |= style.bold | style.reverse
-                fg = style.cyan
-                fg += style.BRIGHT
-            if context.message:
-                if context.bad:
-                    attr |= style.bold
-                    fg = style.red
-                    fg += style.BRIGHT
-            if context.loaded:
-                bg = self.progress_bar_color
-            if context.vcsinfo:
-                fg = style.blue
-                attr &= ~style.bold
-            if context.vcscommit:
-                fg = style.yellow
-                attr &= ~style.bold
-            if context.vcsdate:
-                fg = style.cyan
-                attr &= ~style.bold
-
-        if context.text:
-            if context.highlight:
-                attr |= style.reverse
-
-        if context.in_taskview:
-            if context.title:
-                fg = style.blue
-
-            if context.selected:
-                attr |= style.reverse
-
-            if context.loaded:
-                if context.selected:
-                    fg = self.progress_bar_color
-                else:
-                    bg = self.progress_bar_color
-
-        if context.vcsfile and not context.selected:
-            attr &= ~style.bold
-            if context.vcsconflict:
-                fg = style.magenta
-            elif context.vcsuntracked:
-                fg = style.cyan
-            elif context.vcschanged:
-                fg = style.red
-            elif context.vcsunknown:
-                fg = style.red
-            elif context.vcsstaged:
-                fg = style.green
-            elif context.vcssync:
-                fg = style.green
-            elif context.vcsignored:
-                fg = style.default
-
-        elif context.vcsremote and not context.selected:
-            attr &= ~style.bold
-            if context.vcssync or context.vcsnone:
-                fg = style.green
-            elif context.vcsbehind:
-                fg = style.red
-            elif context.vcsahead:
-                fg = style.blue
-            elif context.vcsdiverged:
-                fg = style.magenta
-            elif context.vcsunknown:
-                fg = style.red
-
+        '''
+        Return a `(fg, bg, attr)` tuple for colorizing according
+        to `context`: if there's an `ls_colorN` attribute, use that,
+        otherwise, use the base color-scheme.
+        '''
+        tags = set()
+        style = None
+        for k, v in context.__dict__.items():
+            if k.startswith('ls_color'):
+                style = self.ls_colors[int(k[8:])]
+            elif v and k not in self.BASE_IGNORED_TAGS:
+                tags.add(k)
+        if style is None:
+            # No LS color, use base scheme.
+            return super(LsColors, self).use(context)
+        if not context.in_browser or context.inactive_pane or \
+           not context.selected and tags & self.BASE_DECORATION_TAGS:
+            # Inactive, or (unselected) decorations, use simplified base scheme.
+            tags -= self.BASE_IGNORED_TAGS
+            return super(LsColors, self).use(Context(tags))
+        # LS color style, unselected.
+        if 'selected' not in tags:
+            return style
+        # LS color style, selected.
+        fg, bg, attr = style
+        if attr & STYLE.reverse:
+            attr &= ~STYLE.reverse
+        else:
+            attr |= STYLE.reverse
+        if 'main_column' in tags:
+            attr |= STYLE.bold
         return fg, bg, attr
+
+
+def test():
+    '''
+    Test the color-scheme: create a temporary directory
+    with a bunch of entries matching the LS colors spec
+    and open ranger on it.
+    '''
+    # pylint: disable=import-outside-toplevel,too-many-locals
+    import random
+    import shutil
+    import socket
+    import stat
+    import tempfile
+    # Randomize a string case.
+    def randcase(s):
+        nchars = len(s)
+        randbits = random.getrandbits(nchars)
+        return ''.join(
+            c.upper() if b == '1' else c.lower()
+            for c, b in zip(s, format(randbits, '0{}b'.format(nchars)))
+        )
+    def mknod(path, kind):
+        os.mknod(path, kind | 0o500)
+    def touch(path, mode=0o644):
+        os.close(os.open(path, os.O_CREAT, mode))
+    def mklink(path, target):
+        os.symlink(target, path)
+    def mksocket(path):
+        so = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+        try:
+            so.bind(path)
+        finally:
+            so.close()
+    tmpdir = tempfile.mkdtemp()
+    try:
+        entry_list = [
+            (os.mkdir, 'directory'),
+            (os.mkdir, '.hidden_directory'),
+            (os.mkdir, '.git'),
+            (os.mkdir, 'ceci.n\'est.pas.un.jpeg'),
+            (os.mkfifo, 'fifo'),
+            (mksocket, 'socket'),
+            (mklink, 'symlink_to_dir', 'directory'),
+            (mklink, 'symlink_to_executable', 'executable'),
+            (mklink, 'symlink_to_file', 'file'),
+            (mklink, 'symlink_to_missing', 'missing'),
+            (touch, 'executable', 0o755),
+            (touch, 'python_script.py', 0o755),
+            (touch, 'shell_script.sh', 0o755),
+            (touch, '.hidden_file'),
+            (touch, '.hidden.jpeg'),
+            (touch, 'file'),
+        ]
+        if os.getuid() == 0:
+            entry_list.extend((
+                (mknod, 'block_device', stat.S_IFBLK),
+                (mknod, 'char_device', stat.S_IFCHR),
+            ))
+        for entry in filter(None, get_ls_colors().split(':')):
+            pattern = entry.split('=', 1)[0]
+            if pattern not in SPECIAL_PATTERNS:
+                entry_list.append((touch, pattern))
+        for args in entry_list:
+            fn, name = args[0:2]
+            args = args[2:]
+            fn(os.path.join(tmpdir, name), *args)
+            for unused_retry in range(3):
+                alt_name = randcase(name)
+                if alt_name != name:
+                    fn(os.path.join(tmpdir, alt_name), *args)
+                    break
+        subprocess.call((sys.executable, '-c', '__import__("ranger").main()', tmpdir))
+    finally:
+        shutil.rmtree(tmpdir)
+
+
+if __name__ == '__main__':
+    test()
