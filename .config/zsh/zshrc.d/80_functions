@@ -638,6 +638,13 @@ zlibcat() {
 	openssl zlib -d -in "${1:--}"
 }
 
+time2sec() {
+	# Convert HH:MM:SS to seconds
+	local secs="$1"
+
+	echo "$secs" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }'
+}
+
 convertsecs() {
 	# Convert seconds to years, days, hours, minutes, seconds
 	local secs="$1"
