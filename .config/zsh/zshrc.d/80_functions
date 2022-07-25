@@ -667,6 +667,26 @@ ddiff() {
 }
 
 command -v fzf >/dev/null &&
+command -v yt-dlp >/dev/null &&
+fzf-ytdl() {
+	if [ -z "$*" ]; then
+		echo "Need a URL for download!";
+		return 1;
+	fi
+
+	local url="$1"
+	local formats
+
+	formats=$(
+		yt-dlp -F "$url" | sed -e '5d' -e '4,$!d' | fzf -m --header-lines 1 | awk '{print $1}'
+	)
+
+	if [ -n "$formats" ]; then
+		yt-dlp -f "${formats/$'\n'/+}" "$url"
+	fi
+}
+
+command -v fzf >/dev/null &&
 fzf-preview() {
 	local previewer
 
