@@ -42,6 +42,7 @@ up2date() {
 	_try zsh_update_plugins
 	_try pipx upgrade-all
 	_try sdd upgrade
+	_try tldr --update
 	_try ncu -g
 }
 
