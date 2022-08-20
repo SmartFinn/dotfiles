@@ -104,7 +104,10 @@ if __name__ == "__main__":
         avail_currencies = hitbtc.own_currencies
 
         for currency in hide_currencies:
-            avail_currencies.remove(currency)
+            try:
+                avail_currencies.remove(currency)
+            except ValueError as e:
+                pass
 
         symbols = [currency + "USD" for currency in avail_currencies]
 
