@@ -9,12 +9,6 @@ tls_trust_file /etc/ssl/certs/ca-bundle.crt
 
 auth on
 
-account yandex
-host smtp.yandex.ru
-port 587
-from null@mkro.tk
-user null@mkro.tk
-
 account outlook
 host smtp.office365.com
 port 587
@@ -26,5 +20,11 @@ host smtp.gmail.com
 port 587
 from finalitik@gmail.com
 user finalitik@gmail.com
+
+account mkro.tk
+host smtp.gmail.com
+port 587
+from null@mkro.tk
+user null@smartfinn.com
 
 account default : gmail
