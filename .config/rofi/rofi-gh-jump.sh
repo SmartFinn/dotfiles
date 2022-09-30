@@ -27,35 +27,33 @@ set -e
 : "${GH_JUMP_CACHE="$XDG_CACHE_HOME/rofi-gh-jump.cache"}"
 
 open_in_browser() {
-	coproc xdg-open "https://github.com/$1" 2>&1
+	[ -n "$ROFI_INFO" ] || return 1
+
+	coproc xdg-open "$ROFI_INFO" 2>&1
 	exec 1>&-
 	exit 0
 }
 
 get_gh_repos() {
+	local jq_query=".[] | [.full_name, .html_url, .description] | @tsv"
 	(
-		command gh api --paginate --jq '.[] | .full_name' user/repos &
-		command gh api --paginate --jq '.[] | .full_name' user/starred &
-		command gh api --paginate --jq '.[] | .full_name' user/subscriptions &
-	) | awk '!seen[$0]++'
+		command gh api --paginate --jq "$jq_query" user/repos &
+		command gh api --paginate --jq "$jq_query" user/starred &
+		command gh api --paginate --jq "$jq_query" user/subscriptions &
+	) | awk -F$'\t' '!seen[$1]++'
 }
 
 set_mesg() {
-	printf '\0message\x1f<span size="small">%s</span>\n' "$1"
+	printf '\0message\x1f<span weight="light" size="small">%s</span>\n' "$1"
 }
 
 add_entry() {
-	printf '%s\n' "$1"
+	printf '%s <span weight="light" size="small"><i>(%s)</i></span>\0info\x1f%s\n' "$1" "$2" "$3"
 }
 
-add_detail_entry() {
+add_custom_entry() {
 	printf '\0markup-rows\x1ftrue\n'
-	printf '%s\t<span size="smaller" style="italic">%s</span>\n' "$1" "$2"
-}
-
-add_warning_msg() {
-	printf '\0markup-rows\x1ftrue\n'
-	printf '<span bgcolor="#EEEE0055">%s</span>\n' "$1"
+	printf '%s <span weight="light" size="small"><i>%s</i></span>\n' "$1" "$2"
 }
 
 # Handle argument.
@@ -68,15 +66,16 @@ if [ -n "$1" ]; then
 	esac
 fi
 
-add_detail_entry "!update" "update list of GitHub repositories (takes a long time)"
+add_custom_entry "!update" "update list of GitHub repositories (takes a long time)"
 
-if [ "$UPDATE_CACHE" -eq 1 ]; then
+if [ "$UPDATE_CACHE" -eq 1 ] || [ ! -s "$GH_JUMP_CACHE" ]; then
 	rm -f "$GH_JUMP_CACHE"
-	get_gh_repos | tee "$GH_JUMP_CACHE"
+	get_gh_repos | tee "$GH_JUMP_CACHE" > /dev/null
 	set_mesg "the list of the GitHub repositories is updated."
-	exit 0
 fi
 
 if [ -e "$GH_JUMP_CACHE" ]; then
-	cat "$GH_JUMP_CACHE"
+	while IFS=$'\t' read -r full_name html_url desc; do
+		add_entry "$full_name" "$desc" "$html_url"
+	done < "$GH_JUMP_CACHE"
 fi
