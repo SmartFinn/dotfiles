@@ -55,11 +55,6 @@ add_custom_entry() {
 	printf '%s <span weight="light" size="small"><i>%s</i></span>\n' "$1" "$2"
 }
 
-add_warning_msg() {
-	printf '\0markup-rows\x1ftrue\n'
-	printf '<span bgcolor="#EEEE0055">%s</span>\n' "$1"
-}
-
 # Handle argument.
 if [ -n "$1" ]; then
 	case "$1" in
