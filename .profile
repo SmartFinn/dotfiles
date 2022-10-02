@@ -52,6 +52,9 @@ HITBTC_SECRET_KEY="$(secret-tool lookup hitbtc_api secret_key)"; export HITBTC_S
 
 TINYPNG_API_KEY="$(secret-tool lookup tinypng_api api_key)"; export TINYPNG_API_KEY
 
+YOUTUBE_API_KEY="$(secret-tool lookup youtube_api api_key)"; export YOUTUBE_API_KEY
+YOUTUBE_CHANNEL_ID="$(secret-tool lookup youtube_api channel_id)"; export YOUTUBE_CHANNEL_ID
+
 export SHELLCHECK_OPTS='--exclude=SC1091 --exclude=SC1117'
 export FZF_DEFAULT_OPTS='--height 80% --layout=reverse --border'
 export DOTBARE_DIR="$HOME/.local/var/dotbare"

@@ -1,5 +1,5 @@
 configuration {
-	modi: "drun,gh-jump:~/.config/rofi/rofi-gh-jump.sh,gist-jump:~/.config/rofi/rofi-gist-jump.sh,yt-jump:~/.config/rofi/rofi-yt-jump.sh,run,ssh,window,filebrowser,combi";
+	modi: "drun,gh-jump:~/.config/rofi/rofi-gh-jump.sh,gist-jump:~/.config/rofi/rofi-gist-jump.sh,yt-jump:~/.config/rofi/rofi-yt-jump.py,run,ssh,window,filebrowser,combi";
 	font: "Fira Code 12";
 /*	location: 0;*/
 /*	yoffset: 0;*/
