@@ -597,7 +597,7 @@ geoiplookup() {
 	local ip="${1-}"
 	curl --silent \
 		--request GET \
-		--url "https://freegeoip.app/json/$ip" \
+		--url "http://ip-api.com/json/$ip" \
 		--header 'accept: application/json' \
 		--header 'content-type: application/json' | \
 		jq -r 'to_entries[] | "\(.key),\(.value)"' | \
