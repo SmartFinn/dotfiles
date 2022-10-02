@@ -27,9 +27,7 @@ set -e
 : "${GH_JUMP_CACHE="$XDG_CACHE_HOME/rofi-gh-jump.cache"}"
 
 open_in_browser() {
-	[ -n "$ROFI_INFO" ] || return 1
-
-	coproc xdg-open "$ROFI_INFO" 2>&1
+	coproc xdg-open "$1" 2>&1
 	exec 1>&-
 	exit 0
 }
@@ -44,35 +42,35 @@ get_gh_repos() {
 }
 
 set_mesg() {
-	printf '\0message\x1f<span weight="light" size="small">%s</span>\n' "$1"
+	printf '\0message\x1f<span fgcolor="#3ddd3d" size="small">%s</span>\n' "$1"
 }
 
 add_entry() {
 	printf '%s <span weight="light" size="small"><i>(%s)</i></span>\0info\x1f%s\n' "$1" "$2" "$3"
 }
 
-add_custom_entry() {
-	printf '\0markup-rows\x1ftrue\n'
-	printf '%s <span weight="light" size="small"><i>%s</i></span>\n' "$1" "$2"
-}
-
-# Handle argument.
-if [ -n "$1" ]; then
-	case "$1" in
-		!update*)
+# Handle action
+if [ -n "$ROFI_INFO" ]; then
+	case "$ROFI_INFO" in
+		update)
 			UPDATE_CACHE=1
 			;;
-		*) open_in_browser "$1"
+		http*)
+			open_in_browser "$ROFI_INFO"
+			;;
 	esac
 fi
-
-add_custom_entry "!update" "update list of GitHub repositories (takes a long time)"
 
 if [ "$UPDATE_CACHE" -eq 1 ] || [ ! -s "$GH_JUMP_CACHE" ]; then
 	rm -f "$GH_JUMP_CACHE"
 	get_gh_repos | tee "$GH_JUMP_CACHE" > /dev/null
 	set_mesg "the list of the GitHub repositories is updated."
 fi
+
+# Enable Pango markup
+printf '\0markup-rows\x1ftrue\n'
+
+add_entry "!update" "update list of GitHub repositories (takes a long time)" "update"
 
 if [ -e "$GH_JUMP_CACHE" ]; then
 	while IFS=$'\t' read -r full_name html_url desc; do
