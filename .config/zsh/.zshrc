@@ -182,8 +182,8 @@ function zsh_update_plugins() {
 # --------
 #
 # Used to defer compinit/compdef
-typeset -a __compdefs
-compdef() { __compdefs=($__compdefs "$*") }
+typeset -a __deferred_compdefs
+compdef() { __deferred_compdefs=($__deferred_compdefs "$*") }
 
 # import configuration from ~/.zsh directory
 for rcfile (${ZDOTDIR:-$HOME/.zsh}/zshrc.d/??_*(N^/)); do
@@ -197,10 +197,21 @@ unset rcfile
 #
 # Load the compinit module. This will readefine the `compdef` function to
 # the one that actually initializes completions.
-# https://github.com/zsh-users/antigen
+
 autoload -Uz compinit
 
-if [[ -n "${TMPPREFIX}_zcompdump-${HOST:-localhost}-${ZSH_VERSION}"(N.mh+24) ]]; then
+# On slow systems, checking the cached zcompdump file to see if it must be
+# regenerated adds a noticable delay to zsh startup. This little hack restricts
+# it to once a day. It should be pasted into your own completion file.
+#
+# The globbing is a little complicated here:
+# - '#q' is an explicit glob qualifier that makes globbing work within zsh's [[ ]] construct.
+# - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than
+#       throw a globbing error)
+# - '.' matches "regular files"
+# - 'mh+24' matches files (or directories or whatever) that are older than 24 hours.
+
+if [[ -n "${TMPPREFIX}_zcompdump-${HOST:-localhost}-${ZSH_VERSION}"(#qN.mh+24) ]]; then
 	compinit -d "${TMPPREFIX}_zcompdump-${HOST:-localhost}-${ZSH_VERSION}"
 	{ zcompile "${TMPPREFIX}_zcompdump-${HOST:-localhost}-${ZSH_VERSION}" } &!
 else
@@ -208,8 +219,8 @@ else
 fi
 
 # Apply all `compinit`s that have been deferred.
-for cdef in "${__compdefs[@]}"; do
+for cdef in "${__deferred_compdefs[@]}"; do
 	compdef "${(fs/ /)cdef}"
 done
 
-unset cdef __compdefs
+unset cdef __deferred_compdefs
