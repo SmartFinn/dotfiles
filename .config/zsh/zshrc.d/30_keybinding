@@ -9,7 +9,7 @@ key[Space]=' '
 key[Alt]=${key[Esc]}
 key[Enter]=${terminfo[cr]}
 key[Tab]=${terminfo[ht]}
-key[BTab]=${terminfo[cbt]}
+key[Shift-Tab]=${terminfo[cbt]}
 key[F1]=${terminfo[kf1]}
 key[F2]=${terminfo[kf2]}
 key[F3]=${terminfo[kf3]}
@@ -33,16 +33,35 @@ key[Up]=${terminfo[kcuu1]}
 key[Left]=${terminfo[kcub1]}
 key[Down]=${terminfo[kcud1]}
 key[Right]=${terminfo[kcuf1]}
-key[ModUp]='\e[1;nA'
-key[ModLeft]='\e[1;nD'
-key[ModDown]='\e[1;nB'
-key[ModRight]='\e[1;nC'
-key[ModPgUp]='\e[6;n~'
-key[ModPgDown]='\e[5;n~'
-key[ModIns]='\e[2;n~'
-key[ModDel]='\e[3;n~'
-key[ModHome]='\e[1;nH'
-key[ModEnd]='\e[1;nF'
+# key[Shift-Up]=${terminfo[kUP]}
+# key[Shift-Left]=${terminfo[kLFT]}
+# key[Shift-Down]=${terminfo[kDN]}
+# key[Shift-Right]=${terminfo[kRIT]}
+# key[Shift-PgUp]=${terminfo[kPRV]}
+# key[Shift-PgDown]=${terminfo[kNXT]}
+# key[Shift-Ins]=${terminfo[kIC]}
+# key[Shift-Del]=${terminfo[kDC]}
+# key[Shift-Home]=${terminfo[kHOM]}
+# key[Shift-End]=${terminfo[kEND]}
+
+
+typeset -gA key_modifiers
+
+key_modifiers[Shift]=2
+key_modifiers[Alt]=3
+key_modifiers[Shift-Alt]=4
+key_modifiers[Ctrl]=5
+key_modifiers[Ctrl-Shift]=6
+key_modifiers[Ctrl-Alt]=7
+key_modifiers[Ctrl-Alt-Shift]=8
+key_modifiers[Meta]=9
+key_modifiers[Meta-Shift]=10
+key_modifiers[Meta-Alt]=11
+key_modifiers[Meta-Alt-Shift]=12
+key_modifiers[Meta-Ctrl]=13
+key_modifiers[Meta-Ctrl-Shift]=14
+key_modifiers[Meta-Ctrl-Alt]=15
+key_modifiers[Meta-Ctrl-Alt-Shift]=16
 
 # being quiet (commented out sections of below for debug)
 function bindkey {
@@ -52,22 +71,31 @@ function bindkey {
 # emacs key bindings
 bindkey -e
 
-# don't type in a terminal when pressing keys with modifiers
-for mod in 2 3 4 5 6 7; do
-	# 2: Shift, 3: Alt, 4: Shift+Alt, 5: Ctrl, 6: Ctrl+Shift,
-	# 7: Ctrl+Alt
-	bindkey -s "${key[ModRight]//n/$mod}" ''
-	bindkey -s "${key[ModLeft]//n/$mod}" ''
-	bindkey -s "${key[ModUp]//n/$mod}" ''
-	bindkey -s "${key[ModDown]//n/$mod}" ''
-	bindkey -s "${key[ModPgUp]//n/$mod}" ''
-	bindkey -s "${key[ModPgDown]//n/$mod}" ''
-	bindkey -s "${key[ModIns]//n/$mod}" ''
-	bindkey -s "${key[ModDel]//n/$mod}" ''
-	bindkey -s "${key[ModHome]//n/$mod}" ''
-	bindkey -s "${key[ModEnd]//n/$mod}" ''
+for mod_name mod_value in ${(kv)key_modifiers}; do
+	key[$mod_name-Up]="\e[1;${mod_value}A"
+	key[$mod_name-Left]="\e[1;${mod_value}D"
+	key[$mod_name-Down]="\e[1;${mod_value}B"
+	key[$mod_name-Right]="\e[1;${mod_value}C"
+	key[$mod_name-PgUp]="\e[6;${mod_value}~"
+	key[$mod_name-PgDown]="\e[5;${mod_value}~"
+	key[$mod_name-Ins]="\e[2;${mod_value}~"
+	key[$mod_name-Del]="\e[3;${mod_value}~"
+	key[$mod_name-Home]="\e[1;${mod_value}H"
+	key[$mod_name-End]="\e[1;${mod_value}F"
+
+	# don't spam in a terminal when pressing keys with modifiers
+	bindkey -s "${key[$mod_name-Right]}" ''
+	bindkey -s "${key[$mod_name-Left]}" ''
+	bindkey -s "${key[$mod_name-Up]}" ''
+	bindkey -s "${key[$mod_name-Down]}" ''
+	bindkey -s "${key[$mod_name-PgUp]}" ''
+	bindkey -s "${key[$mod_name-PgDown]}" ''
+	bindkey -s "${key[$mod_name-Ins]}" ''
+	bindkey -s "${key[$mod_name-Del]}" ''
+	bindkey -s "${key[$mod_name-Home]}" ''
+	bindkey -s "${key[$mod_name-End]}" ''
 done
-unset mod
+unset mod_name mod_value key_modifiers
 
 bindkey "${key[Home]}"   beginning-of-line
 bindkey "${key[End]}"    end-of-line
@@ -79,8 +107,8 @@ bindkey "${key[Left]}"   backward-char
 bindkey "${key[Right]}"  forward-char
 
 # Ctrl + Right/Left
-bindkey "${key[ModRight]//n/5}" forward-word
-bindkey "${key[ModLeft]//n/5}" backward-word
+bindkey "${key[Ctrl-Right]}" forward-word
+bindkey "${key[Ctrl-Left]}" backward-word
 
 # F1: Get the man 1 page for the command on the line.
 bindkey "${key[F1]}"     run-help
@@ -115,7 +143,7 @@ bindkey "${key[Alt]}#" pound-insert
 zmodload -i zsh/complist
 
 # menu selection (needed zsh/complist module)
-bindkey -M menuselect "${key[BTab]}"  reverse-menu-complete
+bindkey -M menuselect "${key[Shift-Tab]}"  reverse-menu-complete
 bindkey -M menuselect "${key[Esc]}"   send-break
 bindkey -M menuselect "${key[Ctrl]}w" undo
 bindkey -M menuselect "${key[Enter]}" .accept-line
