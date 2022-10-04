@@ -99,7 +99,9 @@ def get_youtube_subscriptions():
     for item in items:
         snippets.append(item['snippet'])
 
-    return snippets
+    sorted_snippets = sorted(snippets, key=lambda k: k['title'])
+
+    return sorted_snippets
 
 
 def cache_save(obj):
