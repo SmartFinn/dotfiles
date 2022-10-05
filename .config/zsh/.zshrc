@@ -21,13 +21,13 @@ export GREP_COLOR='7;49;33'
 
 # support colors in less and man pages
 export LESS='-iSRX --tabs=4'
-export LESS_TERMCAP_mb=$'\e[01;35m'
-export LESS_TERMCAP_md=$'\e[01;32m'
-export LESS_TERMCAP_me=$'\e[0m'
-export LESS_TERMCAP_us=$'\e[33m'
-export LESS_TERMCAP_ue=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[47;30m'
-export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_mb=$'\e[01;35m'  # start blink
+export LESS_TERMCAP_md=$'\e[01;32m'  # start bold
+export LESS_TERMCAP_me=$'\e[0m'      # turn off bold, blink and underline
+export LESS_TERMCAP_us=$'\e[33m'     # start underline
+export LESS_TERMCAP_ue=$'\e[0m'      # stop underline
+export LESS_TERMCAP_so=$'\e[47;30m'  # start standout (reverse)
+export LESS_TERMCAP_se=$'\e[0m'      # stop standout
 
 # load zsh/nearcolor if 24-bit colors aren't supported
 if [[ "$COLORTERM" != (24bit|truecolor) && "${terminfo[colors]}" -ne 16777216 ]]; then
