@@ -35,21 +35,34 @@ function clipcopy() {
 			fi
 			;;
 		linux*)
-			if (( $+commands[xsel] )); then
-				if [[ -z $file ]]; then
-					xsel --clipboard --input
+			if [ -n "${WAYLAND_DISPLAY:-}" ]; then
+				if (( ${+commands[wl-copy]} )); then
+					if [[ -z $file ]]; then
+						wl-copy
+					else
+						cat "$file" | wl-copy
+					fi
 				else
-					cat "$file" | xsel --clipboard --input
-				fi
-			elif (( $+commands[xclip] )); then
-				if [[ -z $file ]]; then
-					xclip -in -selection clipboard
-				else
-					xclip -in -selection clipboard "$file"
+					print "clipcopy: wl-copy not installed" >&2
+					return 1
 				fi
 			else
-				print "clipcopy: xclip/xsel not installed" >&2
-				return 1
+				if (( $+commands[xsel] )); then
+					if [[ -z $file ]]; then
+						xsel --clipboard --input
+					else
+						cat "$file" | xsel --clipboard --input
+					fi
+				elif (( $+commands[xclip] )); then
+					if [[ -z $file ]]; then
+						xclip -in -selection clipboard
+					else
+						xclip -in -selection clipboard "$file"
+					fi
+				else
+					print "clipcopy: xclip/xsel not installed" >&2
+					return 1
+				fi
 			fi
 			;;
 		*)
@@ -86,13 +99,22 @@ function clippaste() {
 			cat /dev/clipboard
 			;;
 		linux*)
-			if (( $+commands[xsel] )); then
-				xsel --clipboard --output
-			elif (( $+commands[xclip] )); then
-				xclip -out -selection clipboard
+			if [ -n "${WAYLAND_DISPLAY:-}" ]; then
+				if (( ${+commands[wl-paste]} )); then
+					wl-paste
+				else
+					print "clipcopy: wl-paste not installed" >&2
+					return 1
+				fi
 			else
-				print "clipcopy: xclip/xsel not installed" >&2
-				return 1
+				if (( $+commands[xsel] )); then
+					xsel --clipboard --output
+				elif (( $+commands[xclip] )); then
+					xclip -out -selection clipboard
+				else
+					print "clipcopy: xclip/xsel not installed" >&2
+					return 1
+				fi
 			fi
 			;;
 		*)
