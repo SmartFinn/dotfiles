@@ -37,6 +37,7 @@
 	revertfile = checkout --
 	untrack = rm --cached --
 	last = log -1 HEAD --stat
+	remotes = remote -v
 [diff]
 	algorithm = minimal
 	compactionHeuristic = true
