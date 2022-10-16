@@ -160,6 +160,13 @@ def exists_and_not_empty(file):
     return True
 
 
+def open_webbrowser(url):
+    # FIXME: a hack to suppress output of browsers when using
+    # webbrowser.open_new_tab(action)
+    subprocess.Popen(['python', '-m', 'webbrowser', '-t', url],
+                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
 if __name__ == '__main__':
     channels = []
 
@@ -176,14 +183,15 @@ if __name__ == '__main__':
     action = os.getenv('ROFI_INFO', None)
 
     if action is not None and action.startswith('http'):
-        # FIXME: a hack to suppress output of browsers when using
-        # webbrowser.open_new_tab(action)
-        subprocess.Popen(['python', '-m', 'webbrowser', '-t', action],
-                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        open_webbrowser(action)
         sys.exit(0)
-    elif action == "update":
+    elif action == 'update':
         channels = cache_update()
         print(SUCCESS_TEMPLATE.format("Successfully updated."))
+
+    if action is None and len(sys.argv) > 1:
+        open_webbrowser("https://www.youtube.com/results?search_query=" + sys.argv[1])
+        sys.exit(0)
 
     print(ENTRY_TEMPLATE.format(
         title="!update",
