@@ -99,7 +99,7 @@ def get_youtube_subscriptions():
     for item in items:
         snippets.append(item['snippet'])
 
-    sorted_snippets = sorted(snippets, key=lambda k: k['title'])
+    sorted_snippets = sorted(snippets, key=lambda k: k['title'].lower())
 
     return sorted_snippets
 
