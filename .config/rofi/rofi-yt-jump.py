@@ -31,10 +31,30 @@ MAX_RESULTS = 50
 XDG_CACHE_HOME = os.getenv("XDG_CACHE_HOME", os.path.expanduser("~/.cache"))
 CACHE_FILE = os.path.join(XDG_CACHE_HOME, 'rofi-yt-jump.json')
 
+SYMBOL_MAP = {'А': 'A', 'а': 'a', 'Б': 'B', 'б': 'b',
+              'В': 'V', 'в': 'v', 'Г': 'G', 'г': 'g',
+              'Д': 'D', 'д': 'd', 'Е': 'E', 'е': 'e',
+              'Є': 'Ie', 'є': 'ie', 'Ё': 'E', 'ё': 'e',
+              'Ж': 'Zh', 'ж': 'zh', 'З': 'Z', 'з': 'z',
+              'И': 'I', 'и': 'i', 'І': 'I', 'і': 'i',
+              'Ї': 'I', 'ї': 'i', 'Й': 'I', 'й': 'i',
+              'К': 'K', 'к': 'k', 'Л': 'L', 'л': 'l',
+              'М': 'M', 'м': 'm', 'Н': 'N', 'н': 'n',
+              'О': 'O', 'о': 'o', 'П': 'P', 'п': 'p',
+              'Р': 'R', 'р': 'r', 'С': 'S', 'с': 's',
+              'Т': 'T', 'т': 't', 'У': 'U', 'у': 'u',
+              'Ф': 'F', 'ф': 'f', 'Х': 'Kh', 'х': 'kh',
+              'Ц': 'Ts', 'ц': 'ts', 'Ч': 'Ch', 'ч': 'ch',
+              'Ш': 'Sh', 'ш': 'sh', 'Щ': 'Shch', 'щ': 'shch',
+              'Ь': "'", 'ь': "'", 'Ы': 'Y', 'ы': 'y',
+              'Ъ': "'", 'Ъ': "'", 'Э': 'E', 'э': 'e',
+              'Ю': 'Yu', 'ю': 'yu', 'Я': 'Ya', 'я': 'ya'}
+
 ENTRY_TEMPLATE = (
     '{title}'
     ' <span weight="light" size="small"><i>({description})</i></span>'
-    '\0info\x1f{action}'
+    '\0meta\x1f{alt_title}'
+    '\x1finfo\x1f{action}'
 )
 
 MESSAGE_TEMPLATE = '\0message\x1f<span weight="light" size="small">{}</span>'
@@ -46,6 +66,7 @@ class Channel:
     def __init__(self, snippet: dict):
         self.published_at = snippet['publishedAt']
         self.title = snippet['title']
+        self.alt_title = self._translit(self.title)
         self.description = snippet['description'].split('\n')[0].strip()
         self.channel_id = snippet['resourceId']['channelId']
         self.url = CHANNEL_URL_PREFIX + self.channel_id
@@ -62,6 +83,9 @@ class Channel:
 
     def __str__(self):
         return ENTRY_TEMPLATE.format(**self.__dict__)
+
+    def _translit(self, text):
+        return text.translate(text.maketrans(SYMBOL_MAP))
 
     def update(self, **kwargs):
         return self.__dict__.update(**kwargs)
@@ -164,7 +188,8 @@ if __name__ == '__main__':
     print(ENTRY_TEMPLATE.format(
         title="!update",
         description="update list of YouTube subscription",
-        action="update"
+        alt_title="refresh",
+        action="update",
     ))
 
     if len(channels) == 0:
