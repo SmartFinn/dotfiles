@@ -60,6 +60,11 @@ if [ -n "$ROFI_INFO" ]; then
 	esac
 fi
 
+# Hadle argument
+if [ -z "$ROFI_INFO" ] && [ -n "$1" ]; then
+	open_in_browser "https://gist.github.com/search?q=${1}&ref=opensearch"
+fi
+
 if [ "$UPDATE_CACHE" -eq 1 ] || [ ! -s "$GIST_JUMP_CACHE" ]; then
 	rm -f "$GIST_JUMP_CACHE"
 	get_gists | tee "$GIST_JUMP_CACHE" > /dev/null
