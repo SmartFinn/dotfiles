@@ -1,0 +1,19 @@
+[Unit]
+Description=Start Backintime job when the backup disk is mounted
+ConditionPathExists=/usr/bin/backintime
+Requires=run-media-sergei-ambry.mount
+After=run-media-sergei-ambry.mount
+
+[Service]
+Type=simple
+Nice=19
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+# Skip if the service is already started today (resets after reboot)
+ExecCondition=/bin/sh -c 'test ! -e "%t/%N-$(date +%%F)"'
+ExecStart=/usr/bin/backintime backup
+ExecStartPost=/bin/sh -c 'touch "%t/%N-$(date +%%F)"'
+TimeoutStopSec=infinity
+
+[Install]
+WantedBy=run-media-sergei-ambry.mount
