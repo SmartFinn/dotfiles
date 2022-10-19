@@ -1,0 +1,11 @@
+[Unit]
+Description=newsboat: update feeds
+ConditionPathExists=/usr/bin/newsboat
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# Skip if newsboat instance is running
+ExecCondition=/bin/sh -c '! pgrep -x newsboat'
+ExecStart=/usr/bin/newsboat -x reload

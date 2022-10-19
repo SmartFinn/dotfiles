@@ -1,7 +1,7 @@
-urls-source "miniflux"
-miniflux-url "https://miniflux.mkro.tk"
-miniflux-login "admin"
-miniflux-passwordeval "secret-tool lookup miniflux password"
+# urls-source "miniflux"
+# miniflux-url "https://miniflux.mkro.tk"
+# miniflux-login "admin"
+# miniflux-passwordeval "secret-tool lookup miniflux password"
 
 browser "linkhandler"
 player "mpv"
@@ -21,7 +21,7 @@ goto-next-feed no
 mark-as-read-on-hover yes
 prepopulate-query-feeds yes
 reload-threads 16
-reload-time 10
+reload-time 5
 scrolloff 999
 show-keymap-hint no
 show-read-feeds yes
