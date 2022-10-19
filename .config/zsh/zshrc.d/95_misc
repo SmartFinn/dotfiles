@@ -2,6 +2,7 @@ if [[ $TERM == xterm-kitty ]]; then
 	alias icat='kitty +kitten icat'
 	# alias ssh='env TERM=xterm ssh'
 	alias kitty-diff="kitty +kitten diff"
+	alias grep='kitty +kitten hyperlinked_grep'
 
 	command -v toolbox >/dev/null &&
 	alias toolbox='env TERM=xterm toolbox'
