@@ -1,0 +1,8 @@
+[Unit]
+Description=Upload Spotify local history file with rclone
+ConditionPathExists=/usr/bin/rclone
+ConditionPathExists=%h/.var/app/com.spotify.Client/cache/spotify/Users/sergei-x-user/context_player_state_restore
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/rclone copyto %h/.var/app/com.spotify.Client/cache/spotify/Users/sergei-x-user/context_player_state_restore drive:"Goofy Data/SpotifyDesktopAppHistory"

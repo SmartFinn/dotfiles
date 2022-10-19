@@ -1,0 +1,8 @@
+[Unit]
+Description=Upload Spotify local history file every day
+
+[Timer]
+OnCalendar=daily
+
+[Install]
+WantedBy=timers.target
