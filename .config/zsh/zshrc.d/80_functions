@@ -378,39 +378,79 @@ doh_bench() {
 }
 
 command -v curl >/dev/null &&
-cheat.sh() {
+alias cheat.sh=_cheatsh &&
+_cheatsh() {
 	# see curl cheat.sh/:help
-	local topic="${1:=:help}"
-	local opts="${2:=q&style=friendly}"
+	local topic="${1:-}"
+	local opts="${2:-q\&style=native}"
 
-	curl cheat.sh/${topic}\?${opts} 2>/dev/null | less -Re
+	case "$topic" in
+		-h|--help|help)
+			topic=":help"
+			;;
+		-l|--list|list)
+			topic=":list"
+			;;
+		-r|--random|random)
+			topic=":random"
+			;;
+		--learn|learn)
+			topic=":learn"
+			;;
+		--*)
+			topic=":${topic#--}"
+			;;
+	esac
+
+	curl -sS cheat.sh/${topic}${opts:+\?}${opts} | less -Re
 }
 
 command -v curl >/dev/null &&
 wttr() {
 	# see curl wttr.in/:help
-	local loc="${1:=}"
-	local opts="${2:=2}"
+	local loc="${1:-}"
+	local opts="${2:-2}"
 
-	curl wttr.in/${loc}\?${opts} 2>/dev/null | less -Re
+	case "$loc" in
+		-h|--help|help)
+			loc=":help"
+			;;
+	esac
+
+	curl -sS wttr.in/${loc// /%20}${opts:+\?}${opts} | less -Re
 }
 
 command -v curl >/dev/null &&
 wttrv2() {
 	# see curl wttr.in/:help
-	local loc="${1:=}"
-	local opts="${2:=}"
+	local loc="${1:-}"
+	local opts="${2:-}"
 
-	curl v2.wttr.in/${loc}\?${opts} 2>/dev/null | less -Re
+	case "$loc" in
+		-h|--help|help)
+			loc=":help"
+			;;
+	esac
+
+	curl -sS v2.wttr.in/${loc// /%20}${opts:+\?}${opts} | less -Re
 }
 
 command -v curl >/dev/null &&
 rate.sx() {
 	# see curl rate.sx/:help
-	local cmd="${1:=}"
-	local opts="${2:=qF\&n=15}"
+	local cmd="${1:-}"
+	local opts="${2:-qF\&n=15}"
 
-	curl rate.sx/${cmd}\?${opts} 2>/dev/null | less -Re
+	case "$cmd" in
+		-h|--help|help)
+			cmd=":help"
+			;;
+		--*)
+			cmd=":${cmd#--}"
+			;;
+	esac
+
+	curl -sS rate.sx/${cmd}${opts:+\?}${opts} | less -Re
 }
 
 killall-zombies() {
