@@ -100,6 +100,12 @@ virtualenv/
 .config/draw.io/
 .config/Gisto
 .config/google-chrome/
+.config/google-chrome-beta/
+.config/google-chrome-unstable/
+.config/microsoft-edge/
+.config/microsoft-edge-beta/
+.config/microsoft-edge-dev/
+.config/BraveSoftware/
 .config/Min/
 .config/Notable/
 .config/odrive/
@@ -170,11 +176,15 @@ Documents/ViberDownloads/
 ## Electron-based apps
 Application Cache/
 blob_storage/
+BrowserMetrics/
 Cache/
 CachedData/
 Code Cache/
 Crash Reports/
+CrashpadMetrics*.pma
 GPUCache/
+GrShaderCache/
+Guest Profile/
 IndexedDB/
 Local Storage/
 Service Worker/
