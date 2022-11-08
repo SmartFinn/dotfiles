@@ -64,7 +64,7 @@ t = slideshow +1
 
 # Other commands
 e = exec echo $imv_current_file
-<Delete> = exec gio trash $imv_current_file; close
+<Delete> = exec gio trash "$imv_current_file"; close
 
 # Rotate the currently open image (prefer lossless rotation for JPEG)
 <Ctrl+r> = exec jpegtran -perfect -rotate 90 -outfile "$imv_current_file" "$imv_current_file" || mogrify -rotate 90 "$imv_current_file"
