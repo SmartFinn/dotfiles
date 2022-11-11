@@ -38,11 +38,6 @@ if &tabpagemax < 50
   set tabpagemax=50
 endif
 
-" Allow color schemes to do bright colors without forcing bold.
-if &t_Co == 8 && $TERM !~# '^Eterm'
-  set t_Co=16
-endif
-
 set noswapfile
 set undofile
 
@@ -75,6 +70,9 @@ set ignorecase
 set smartcase
 set magic
 
+" Don't try to highlight lines longer than 250 characters.
+set synmaxcol=250
+
 set showmatch
 set matchtime=2
 set matchpairs+=<:>
@@ -82,7 +80,7 @@ set matchpairs+=<:>
 set nojoinspaces
 
 set display+=lastline
-set listchars=tab:\¦\ ,trail:·,nbsp:·,precedes:<,extends:>
+set listchars=tab:\|\ ,trail:.,extends:>,precedes:<,nbsp:.
 
 set statusline=%(%m\ %)%<%F\ (  " modified flag and full path
 set statusline+=%(%{strlen(&ft)?&ft:'none'},\ %) " file type
@@ -138,6 +136,18 @@ set viminfo=h,'500,<10000,s1000,/1000,:1000,n~/.cache/vim/viminfo
 
 " Search down into subfolders
 set path+=**
+
+" Allow color schemes to do bright colors without forcing bold.
+if &t_Co == 8 && $TERM !~# '^Eterm'
+  set t_Co=16
+endif
+
+if &term =~ '256color' || &term =~ 'kitty' || &term =~ 'alacritty'
+  " Disable Background Color Erase (BCE) so that color schemes
+  " work properly when Vim is used inside tmux and GNU screen.
+  " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
+  set t_ut=
+endif
 
 colorscheme desert
 
