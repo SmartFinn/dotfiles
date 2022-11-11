@@ -1,15 +1,20 @@
 command -v dtach >/dev/null &&
+test -n "$XDG_RUNTIME_DIR" &&
 dtach() {
-	local id="${1:-0}"
-	local command="${SHELL:-/bin/bash}"
-	local socket="/tmp/dtach${id}.socket"
+	local socket="$XDG_RUNTIME_DIR/dtach.socket"
 
 	printf 'Trying to attach to `%s`' "$socket"
 
-	command dtach -A "$socket" -r winch "$command"
+	command dtach -A "$socket" -r winch "${SHELL:-/bin/bash}"
+}
+
+command -v dpkg >/dev/null &&
+dpkg-purge-rc() {
+	dpkg -l | awk '/^rc/ {print $2}' | xargs -r sudo dpkg --purge
 }
 
 command -v apt-mark >/dev/null &&
+test -f /var/log/installer/initial-status.gz &&
 list_installed_packages() {
 	# returns list of packages installed by user
 	# https://askubuntu.com/a/492343/565749
@@ -17,6 +22,52 @@ list_installed_packages() {
 		<(apt-mark showmanual | sort -u) \
 		<(gzip -dc /var/log/installer/initial-status.gz | awk '/Package/ {print $2}' | sort -u)
 }
+
+test -s /var/log/dpkg.log &&
+apt-history() {
+	# Parses dpkg log files to get package installation, removal, and rollback
+	# information.
+	#
+	# Based on https://github.com/blyork/apt-history
+	_logcat() {
+		for file in /var/log/dpkg.log*; do
+			[ -f "$file" ] || return 1
+			case "$file" in
+				*.log|*.log.1)
+					cat "$file"
+					;;
+				*.gz)
+					zcat "$file"
+					;;
+				*)
+					printf '*** Invalid file: "%s" ***\n' "$file" >&2
+					return 1
+			esac
+		done
+	}
+
+	logcat() {
+		_logcat | sort -g
+	}
+
+	case "$1" in
+		install|upgrade|remove)
+			logcat | grep " $1 "
+			;;
+		rollback)
+			logcat \
+				| grep upgrade \
+				| grep "$2" -A10000000 \
+				| grep "$3" -B10000000 \
+				| awk '{print $4"="$5}'
+			;;
+		*)
+			logcat
+	esac
+}
+
+# create a new directory and enter it
+mkcd() { mkdir -p "$1" && cd "$1"; }
 
 command -v docker >/dev/null &&
 docker-ips() {
@@ -43,7 +94,7 @@ if command -v ranger >/dev/null; then
 		ranger --choosedir="$tempfile" "${@:-$PWD}"
 
 		if [ -f "$tempfile" ]; then
-			builtin cd -- "$(<"$tempfile")"
+			builtin cd -- "$(<"$tempfile")" || return
 			command rm -f -- "$tempfile"
 		fi
 	}
@@ -84,7 +135,7 @@ up2date() {
 	__run_if_exists sudo pacman -Syu --noconfirm
 	__run_if_exists sudo dnf --refresh update -y
 	__run_if_exists sudo snap refresh
-    __run_if_exists flatpak update --appstream
+	__run_if_exists flatpak update --appstream
 	__run_if_exists flatpak update -y
 	__run_if_exists pipx upgrade-all
 	__run_if_exists sdd upgrade

@@ -34,10 +34,13 @@
 	revertfile = checkout --
 	untrack = rm --cached --
 	last = log -1 HEAD --stat
+	remotes = remote -v
 [diff]
 	algorithm = minimal
 	compactionHeuristic = true
-	renames = true
+	renames = copies
+[format]
+	pretty = %C(blue)%h%C(reset) %s — %C(bold)%an%C(reset) %C(green)(%cr)%C(reset)%C(yellow bold)%d%C(reset)
 [pull]
 	ff = only
 [push]
@@ -51,6 +54,8 @@
 	keepBackup = false
 [mergetool "vimdiff3"]
 	cmd = "${EDITOR:-vim}" -R -d "$LOCAL" "$MERGED" "$REMOTE" '+f local' '+winc l' '+set noro' '+%!cat '"$BASE" '+winc l' '+f remote' '+winc h'
+[help]
+	autocorrect = 15
 [url "ssh://git@gitea.mkro.tk:2222/"]
 	insteadof = git@gitea.mkro.tk:
 [url "ssh://git@gitea.mkro.tk:2222/"]
@@ -71,5 +76,3 @@
 	added = yellow
 	changed = green
 	untracked = cyan
-[format]
-	pretty = %C(blue)%h%C(reset) %s — %C(bold)%an%C(reset) %C(green)(%cr)%C(reset)%C(yellow bold)%d%C(reset)
