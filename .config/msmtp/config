@@ -4,7 +4,7 @@ aliases /etc/aliases
 syslog LOG_MAIL
 
 tls on
-tls_trust_file /etc/ssl/certs/ca-bundle.crt
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
 #tls_certcheck off
 
 auth on
