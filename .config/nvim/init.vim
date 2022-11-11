@@ -215,9 +215,6 @@ Plug 'tpope/vim-sleuth'
 " Multiple cursors plugin for vim/neovim
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
-" syntax highlighting Ansible's common filetypes
-Plug 'pearofducks/ansible-vim'
-
 call plug#end()
 
 " Options {{{1
