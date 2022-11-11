@@ -148,7 +148,6 @@ Plug 'christoomey/vim-system-copy'
 " Syntax highlights
 Plug 'zainin/vim-mikrotik', { 'for': 'rsc' }
 Plug 'vim-scripts/iptables', { 'for': 'iptables' }
-Plug 'nfnty/vim-nftables', { 'for': 'nftables' }
 
 " A collection of language packs for Vim
 Plug 'sheerun/vim-polyglot'
