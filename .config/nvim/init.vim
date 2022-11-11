@@ -324,6 +324,11 @@ endif
 " Search down into subfolders
 set path+=**
 
+" Copy/paste to/from primary clipboard if available
+if (has("clipboard"))
+  set clipboard^=unnamed
+endif
+
 "Syntax highlighting in Markdown
 au BufNewFile,BufReadPost *.md set filetype=markdown
 let g:markdown_fenced_languages = ['bash=sh', 'css', 'django', 'javascript', 'js=javascript', 'json=javascript', 'perl', 'php', 'python', 'ruby', 'sass', 'xml', 'html', 'vim']
