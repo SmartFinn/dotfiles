@@ -203,10 +203,7 @@ function! BufcloseCloseIt()
 endfunction
 
 " If you need to save file with root permission, just type :SudoWrite to save
-command! -bar SudoWrite :
-  \ setlocal nomodified |
-  \ silent exe 'write !sudo tee "%:p" >/dev/null' |
-  \ let &modified = v:shell_error
+command! -bar SudoWrite : setlocal nomodified | silent exe 'write !sudo tee "%:p" >/dev/null' | let &modified = v:shell_error
 cabbrev sw SudoWrite
 cabbrev ws SudoWrite
 
@@ -235,18 +232,11 @@ augroup vimrc
   au BufWritePost $MYVIMRC source $MYVIMRC
 
   " Restore cursor to file position in previous editing session
-  au BufReadPost *
-        \ if line("'\"") > 1 && line("'\"") <= line("$")
-        \ |   exec "normal! g'\""
-        \ | endif
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exec "normal! g'\"" | endif
 
   " Automatically creates parent directories for the current file if they
   " don't exist yet (auto_mkdir based)
-  au BufWritePre,FileWritePre *
-        \ let b:dir = expand('<afile>:p:h')
-        \ | if !isdirectory(b:dir) && !(b:dir =~ '://')
-        \ |   call mkdir(iconv(b:dir, &encoding, &termencoding), 'p')
-        \ | endif
+  au BufWritePre,FileWritePre * let b:dir = expand('<afile>:p:h') | if !isdirectory(b:dir) && !(b:dir =~ '://') | call mkdir(iconv(b:dir, &encoding, &termencoding), 'p') | endif
 
   " Auto change directory
   au BufEnter * silent! lcd %:p:h:gs/ /\ /
