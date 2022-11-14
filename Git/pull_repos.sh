@@ -22,6 +22,8 @@ IFS=$'\n\t'
 readonly THIS_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
 readonly SCRIPT_DIR="$(dirname "$THIS_SCRIPT")"
 
+: "${MAX_PROC:=$(nproc)}"
+
 do_pull() {
 	local repo_dir="$1"
 
@@ -81,11 +83,11 @@ command -v git >/dev/null || {
 
 if command -v parallel >/dev/null; then
 	find "$SCRIPT_DIR" -maxdepth 3 -type d -name '.git' -printf '%h\0' |
-		parallel -0 -P 0 do_pull
+		parallel -0 -P "$MAX_PROC" do_pull
 else
 	# fallback to xargs
 	find "$SCRIPT_DIR" -maxdepth 3 -type d -name '.git' -printf '%h\0' |
-		xargs -0 -I {} -P 0 bash -c 'do_pull "$@"' _ {}
+		xargs -0 -I {} -P "$MAX_PROC" bash -c 'do_pull "$@"' _ {}
 fi
 
 exit 0
