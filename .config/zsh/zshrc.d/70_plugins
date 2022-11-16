@@ -74,6 +74,9 @@ ZSH_ABBREVIATIONS+=(
 	"sdo"	"sudo"
 )
 
+# zsh-hist
+# Disable uniform code formatting
+zstyle ':hist:*' auto-format no
 
 ## ==[Plugins]===(initialize)=========================================
 
