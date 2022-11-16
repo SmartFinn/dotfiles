@@ -17,7 +17,9 @@ _auto_hist_fix() {
 	print -P "%F{blue}auto-hist-fix%f\n" \
 		"Press %F{green}Ctrl-Q%f to save the command in history" \
 		"without execution or %F{red}Ctrl-C%f to clear"
-	hist -s f -1
+
+	# Fix last entry (cut from history; paste into command line)
+	hist -q fix -1
 }
 
 bindkey '^Q' push-line-or-edit
