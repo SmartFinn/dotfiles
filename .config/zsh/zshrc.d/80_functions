@@ -667,7 +667,7 @@ ping_bench() {
 	fi
 
 	printf '%-40s %8s %8s %8s\n' HOST MIN AVG MAX
-	parallel -j252 --bar --tag ping -c 3 {} ::: "${hosts[@]}" |
+	parallel -j252 --bar --tag ping -c "${REQUEST_COUNT:-5}" {} ::: "${hosts[@]}" |
 		awk -F'[ \t/]' '/rtt/{printf "%-40s %8s %8s %8s\n", $1,$8,$9,$10}' |
 		sort -nk2
 }
