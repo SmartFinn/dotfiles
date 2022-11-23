@@ -56,7 +56,6 @@ YOUTUBE_API_KEY="$(secret-tool lookup youtube_api api_key)"; export YOUTUBE_API_
 YOUTUBE_CHANNEL_ID="$(secret-tool lookup youtube_api channel_id)"; export YOUTUBE_CHANNEL_ID
 
 export SHELLCHECK_OPTS='--exclude=SC1091 --exclude=SC1117'
-export FZF_DEFAULT_OPTS='--height 80% --layout=reverse --border'
 export DOTBARE_DIR="$HOME/.local/var/dotbare"
 
 # ranger: ignore config file placed in /etc/ranger
