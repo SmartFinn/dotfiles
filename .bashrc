@@ -42,7 +42,7 @@ stty stop undef
 HISTCONTROL="erasedups:ignoreboth"
 HISTIGNORE='&:l:l[alrs]:[bf]g:jobs:exit:pwd:cd:clear:history'
 HISTSIZE=10000
-HISTFILESIZE=10000
+HISTFILESIZE=20000
 
 # Use standard ISO 8601 timestamp
 # %F equivalent to %Y-%m-%d
@@ -75,6 +75,8 @@ last_exit_code() {
 		printf '\e[2;37mLast command ended with exit code: \e[31m%s\e[0m\n' $exit_code
 	esac
 }
+
+PROMPT_COMMAND="last_exit_code;$PROMPT_COMMAND"
 
 # set prompt
 PS1='\u@\h:\w\$ ${__shlvl} '
