@@ -34,6 +34,10 @@ bind -m emacs-meta '"n":history-search-forward'
 bind -m emacs '"\t":menu-complete'
 bind -m emacs '"\e[Z":menu-complete-backward'
 
+# disable ^S and ^Q mapping
+stty start undef
+stty stop undef
+
 # History options
 HISTCONTROL="erasedups:ignoreboth"
 HISTIGNORE='&:l:l[alrs]:[bf]g:jobs:exit:pwd:cd:clear:history'
@@ -51,11 +55,39 @@ PROMPT_DIRTRIM=2
 # save and reload the history after each command finishes
 PROMPT_COMMAND="history -a; history -r;$PROMPT_COMMAND"
 
+# alert after command execution ends
+PROMPT_COMMAND="printf \"\\a\";$PROMPT_COMMAND"
+
 # Zsh-like trick for highlighting missing linefeeds
 PROMPT_COMMAND="printf \"%%%\$((COLUMNS-1))s\\r\";$PROMPT_COMMAND"
 
-if command -v tput > /dev/null && [ "$(tput -T "$TERM" colors)" -ge 8 ]; then
+# show subshell level in the promt
+for (( i = 0; i < SHLVL; i++ )); do
+	__shlvl="$__shlvl>"
+done
+
+# visualizing exit codes
+last_exit_code() {
+	local exit_code=$?
+	case "$exit_code" in
+	0|130) ;;
+	*)
+		printf '\e[2;37mLast command ended with exit code: \e[31m%s\e[0m\n' $exit_code
+	esac
+}
+
+# set prompt
+PS1='\u@\h:\w\$ ${__shlvl} '
+PS2='> '
+PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+
+if command -v tput >/dev/null && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+
 	# Less Colors for Man Pages
+	export LESS='-iSRX --tabs=4'
 	export LESS_TERMCAP_mb=$'\e[01;35m'
 	export LESS_TERMCAP_md=$'\e[33m'
 	export LESS_TERMCAP_me=$'\e[0m'
@@ -79,12 +111,9 @@ if command -v tput > /dev/null && [ "$(tput -T "$TERM" colors)" -ge 8 ]; then
 	alias ip='ip --color=auto'
 	alias diff='diff --color=auto'
 
-	# set prompt
-	PS1='\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ '
-	PS2='> '
-	PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
-else
-	PS1='\u@\h:\w\$ '
+	# set color prompt
+	PS1='\[\e[1;32m\]\u@\[\e[1;36m\]\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]\$ ${__shlvl} '
+	trap "echo -ne '\e[0m'" DEBUG
 fi
 
 if command -v dircolors > /dev/null; then
@@ -95,18 +124,29 @@ if command -v dircolors > /dev/null; then
 	fi
 fi
 
+# enable programmable completion features if it is not already
+# enabled in /etc/bash.bashrc and /etc/profile
+if [ -z "$BASH_COMPLETION_VERSINFO" ] && ! shopt -oq posix; then
+	if [ -f /usr/share/bash-completion/bash_completion ]; then
+		. /usr/share/bash-completion/bash_completion
+	elif [ -f /etc/bash_completion ]; then
+		. /etc/bash_completion
+	fi
+fi
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+[ -f ~/.bash_aliases ] && . ~/.bash_aliases
+
+# Functions definitions.
+[ -f ~/.bash_functions ] && . ~/.bash_functions
+
 # include external files if they exist
-if [ -f /usr/share/bash-completion/bash_completion ]; then
-	. /usr/share/bash-completion/bash_completion
-fi
-
-if [ -f /etc/bash_completion ]; then
-	. /etc/bash_completion
-fi
-
-[ -f "$HOME/.bash_aliases"   ] && . "$HOME/.bash_aliases"
-[ -f "$HOME/.bash_functions" ] && . "$HOME/.bash_functions"
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell.d/init.sh" ] &&
 	. "${XDG_CONFIG_HOME:-$HOME/.config}/shell.d/init.sh"
+
 [ -f "${XDG_DATA_HOME:-$HOME/.local}/share/fzf/shell/key-bindings.bash" ] &&
 	. "${XDG_DATA_HOME:-$HOME/.local}/share/fzf/shell/key-bindings.bash"
+
+# vim:ft=sh:ts=4:sw=4
