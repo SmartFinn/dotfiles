@@ -62,7 +62,7 @@ PROMPT_COMMAND="printf \"\\a\";$PROMPT_COMMAND"
 PROMPT_COMMAND="printf \"%%%\$((COLUMNS-1))s\\r\";$PROMPT_COMMAND"
 
 # show subshell level in the promt
-for (( i = 0; i < $SHLVL; i++ )); do
+for (( i = 0; i < SHLVL; i++ )); do
 	__shlvl="$__shlvl>"
 done
 
