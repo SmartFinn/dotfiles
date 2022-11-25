@@ -31,8 +31,8 @@ bind -m emacs-meta '"p":history-search-backward'
 bind -m emacs-meta '"n":history-search-forward'
 
 # make tab cycle through commands instead of listing
-#bind -m emacs '"\t":menu-complete'
-#bind -m emacs '"\e[Z":menu-complete-backward'
+bind -m emacs '"\t":menu-complete'
+bind -m emacs '"\e[Z":menu-complete-backward'
 
 # disable ^S and ^Q mapping
 stty start undef
@@ -75,6 +75,8 @@ last_exit_code() {
 		printf '\e[2;37mLast command ended with exit code: \e[31m%s\e[0m\n' $exit_code
 	esac
 }
+
+PROMPT_COMMAND="last_exit_code;$PROMPT_COMMAND"
 
 # set prompt
 PS1='\u@\h:\w\$ ${__shlvl} '
