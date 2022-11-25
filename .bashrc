@@ -146,7 +146,14 @@ fi
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell.d/init.sh" ] &&
 	. "${XDG_CONFIG_HOME:-$HOME/.config}/shell.d/init.sh"
 
-[ -f "${XDG_DATA_HOME:-$HOME/.local}/share/fzf/shell/key-bindings.bash" ] &&
-	. "${XDG_DATA_HOME:-$HOME/.local}/share/fzf/shell/key-bindings.bash"
+# load fzf shell extension
+for _conf in \
+	"${XDG_DATA_HOME:-$HOME/.local}/share/fzf/shell/key-bindings.bash" \
+	/usr/share/fzf/shell/key-bindings.bash
+do
+[ -f "$_conf" ] &&
+	. "$_conf"
+done
+unset _conf
 
 # vim:ft=sh:ts=4:sw=4
