@@ -1,8 +1,0 @@
-# source user completion directory definitions
-compat_dir="${XDG_DATA_HOME:-$HOME/.local}/etc/bash_completion.d"
-if [[ -d $compat_dir && -r $compat_dir && -x $compat_dir ]]; then
-    for i in "$compat_dir"/*; do
-        [[ -f $i && -r $i ]] && . "$i"
-    done
-fi
-unset compat_dir i
