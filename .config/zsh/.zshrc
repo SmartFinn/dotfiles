@@ -14,10 +14,8 @@ TMPPREFIX="${TMPPREFIX:-/tmp/zsh}"  # not a directory
 ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 [[ -d "$ZSH_CACHE_DIR" ]] || mkdir -p "$ZSH_CACHE_DIR"
 
-# enable colors for ls and grep
-export LS_OPTIONS='--color=auto'
-# export GREP_OPTIONS='--color=auto'
-export GREP_COLOR='7;49;33'
+# customize colors for grep
+export GREP_COLORS='mt=01;31:sl=:cx=:fn=34:ln=32:bn=32:se=2;37'
 
 # support colors in less and man pages
 export LESS='-iSRX --tabs=4'

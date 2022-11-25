@@ -64,6 +64,9 @@ if command -v tput > /dev/null && [ "$(tput -T "$TERM" colors)" -ge 8 ]; then
 	export LESS_TERMCAP_so=$'\e[47;30m'
 	export LESS_TERMCAP_se=$'\e[0m'
 
+	# customize colors for grep
+	export GREP_COLORS='mt=01;31:sl=:cx=:fn=34:ln=32:bn=32:se=2;37'
+
 	# enable color support of ls and also add handy aliases
 	alias ls='ls --color=auto'
 	alias dir='dir --color=auto'
