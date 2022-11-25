@@ -96,8 +96,8 @@ if command -v tput >/dev/null && tput setaf 1 >&/dev/null; then
 	export LESS_TERMCAP_so=$'\e[47;30m'
 	export LESS_TERMCAP_se=$'\e[0m'
 
-	# set hightlight color for grep
-	export GREP_COLOR='7;49;33'
+	# customize colors for grep
+	export GREP_COLORS='mt=01;31:sl=:cx=:fn=34:ln=32:bn=32:se=2;37'
 
 	# set color prompt
 	PS1='\[\e[1;32m\]\u@\[\e[1;36m\]\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]\$ ${__shlvl} '
