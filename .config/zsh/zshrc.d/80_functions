@@ -379,6 +379,7 @@ doh_bench() {
 
 command -v curl >/dev/null &&
 alias cheat.sh=_cheatsh &&
+compdef cheat.sh=command &&
 _cheatsh() {
 	# see curl cheat.sh/:help
 	local topic="${1:-}"
