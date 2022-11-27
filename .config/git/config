@@ -8,7 +8,8 @@
 	user = SmartFinn
 [alias]
 	br = branch
-	ch = checkout
+	co = checkout
+	ci = commit
 	cl = clone
 	sw = switch
 	changes = log --all --abbrev-commit --cherry --find-renames --pretty=medium --name-status
