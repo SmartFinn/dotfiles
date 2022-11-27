@@ -557,7 +557,7 @@ find_bigger_than() {
 }
 
 anywhere() {
-	local -a dbs=( -d /var/lib/mlocate/mlocate.db )
+	local -a dbs=( -d /var/lib/?locate/?locate.db )
 
 	# don't throw errors when file globs don't match anything
 	setopt NULL_GLOB
