@@ -46,7 +46,7 @@ MNML_RPROMPT=(mnml_err _prompt_collapsed_cwd_color mnml_git _prompt_git_indicato
 MNML_INFOLN=(mnml_err mnml_jobs _prompt_info_line mnml_files)
 
 VIRTUAL_ENV_DISABLE_PROMPT=1
-FORGIT_NO_ALIASES=1
+export FORGIT_NO_ALIASES=1
 
 
 # zsh-abbrev
