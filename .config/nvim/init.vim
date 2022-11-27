@@ -214,6 +214,9 @@ Plug 'tpope/vim-sleuth'
 " Multiple cursors plugin for vim/neovim
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
+" provides additional text objects
+Plug 'wellle/targets.vim'
+
 call plug#end()
 
 " Options {{{1
