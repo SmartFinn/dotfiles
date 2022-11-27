@@ -58,9 +58,6 @@ YOUTUBE_CHANNEL_ID="$(secret-tool lookup youtube_api channel_id)"; export YOUTUB
 export SHELLCHECK_OPTS='--exclude=SC1091 --exclude=SC1117'
 export DOTBARE_DIR="$HOME/.local/var/dotbare"
 
-# ranger: ignore config file placed in /etc/ranger
-# export RANGER_LOAD_DEFAULT_RC="FALSE"
-
 if [ -r "${XDG_CONFIG_HOME:-$HOME/.config}/lf/lf_icons.sh" ]; then
 	. "${XDG_CONFIG_HOME:-$HOME/.config}/lf/lf_icons.sh"
 fi
