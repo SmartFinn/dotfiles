@@ -1,0 +1,16 @@
+# Automatically pull images that can not be updated with podman auto-update
+
+[Unit]
+Description=Auto pull images that are not associated with containers
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "/usr/bin/podman image ls \
+	--filter 'dangling=false' \
+	--filter 'containers=false' \
+	--format '{{.Repository}}:{{.Tag}}' | \
+	/usr/bin/xargs -rtL 1 \
+	/usr/bin/podman image pull --quiet --"
+ExecStartPost=/usr/bin/podman image prune -f

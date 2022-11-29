@@ -1,0 +1,10 @@
+[Unit]
+Description=Periodical pull images that are not associated with containers
+
+[Timer]
+OnCalendar=daily
+RandomizedDelaySec=900
+Persistent=true
+
+[Install]
+WantedBy=timers.target
