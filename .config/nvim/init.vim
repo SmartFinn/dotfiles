@@ -128,7 +128,8 @@ let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_loc_list_height = 5
-let g:syntastic_python_checkers = ['python3']
+let g:loaded_syntastic_ansible_ansible_lint_checker = 1
+let g:syntastic_python_checkers = ['pyflakes', 'flake8', 'python3']
 let g:syntastic_python_flake8_args = '--ignore=D100,D101,D102,D103 --max-line-length=100'
 let g:syntastic_python_pylint_args = '--disable=invalid-name,missing-docstring,too-many-instance-attributes,logging-fstring-interpolation'
 
