@@ -2,6 +2,7 @@
 *~
 *-
 *.backup
+*.cache*
 *.save
 *.lock
 *.swp
@@ -14,6 +15,7 @@
 .thumbnails*/
 [Tt]rash*/
 .trash/
+cache/
 core
 lock
 lost+found/
@@ -52,6 +54,7 @@ tmp/
 .themes/
 .thumbnails/
 .rnd
+rpmbuild/
 
 ## Atom
 .atom/.apm/
@@ -214,8 +217,7 @@ logs/
 .local/share/Google/
 Android/
 
-# toolbox
-rpmbuild/
+# podman
 .local/share/containers/
 
 # gnome-boxes
@@ -229,6 +231,7 @@ rpmbuild/
 
 # qBittorrent
 .local/share/data/qBittorrent/
+.local/share/qBittorrent/
 
 # Grilo
 .local/share/grilo-plugins/
