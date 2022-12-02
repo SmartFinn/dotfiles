@@ -6,7 +6,7 @@
 
 mapfile -t -d $'\n' upgradable_packages < <(
 	# return app_name,version,repo
-	dnf --cacheonly check-update | sed '1,/^$/d' | awk -v OFS=',' '{print $1,$2,$3}'
+	dnf --cacheonly check-update | awk -v OFS=',' 'NR>2 {print $1,$2,$3}'
 )
 
 if [ "${#upgradable_packages[@]}" -gt 0 ]; then
