@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
+# --cacheonly option force to use system cache instead of creating a separate
+#             cache for each user under which it executes.
+#             Requires systemd unit dnf-makecache.timer enabled that also
+#             respects metered connection in Network Manager.
 
 mapfile -t -d $'\n' upgradable_packages < <(
 	# return app_name,version,repo
-	dnf check-update | sed '1,/^$/d' | awk -v OFS=',' '{print $1,$2,$3}'
+	dnf --cacheonly check-update | sed '1,/^$/d' | awk -v OFS=',' '{print $1,$2,$3}'
 )
 
 if [ "${#upgradable_packages[@]}" -gt 0 ]; then
