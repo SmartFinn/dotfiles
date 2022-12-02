@@ -8,17 +8,18 @@
 	user = SmartFinn
 [alias]
 	br = branch
-	co = checkout
 	ci = commit
 	cl = clone
-	sw = switch
-	changes = log --all --abbrev-commit --cherry --find-renames --pretty=medium --name-status
-	journal = log --all --pretty=medium
+	co = checkout
+	ff = fetch --tags --prune
 	lo = log --abbrev-commit --graph --max-count=22
 	lp = log -p
 	ls = ls-files
 	st = status --short --branch
+	sw = switch
+	changes = whatchanged -p --abbrev-commit --pretty=medium
 	history = log --graph --all
+	journal = log --all --pretty=medium
 	ls-diff = diff --name-status
 	please = push --force-with-lease
 	amend = commit --amend
@@ -26,7 +27,6 @@
 	drop = reset --hard HEAD
 	undo = reset HEAD^
 	hardreset = reset --hard @{u}
-	ff = fetch --tags --prune
 	branches = branch -av
 	find = log --all --full-history --
 	log-diff = log HEAD --not
@@ -47,12 +47,17 @@
 	pretty = %C(blue)%h%C(reset) %s — %C(bold)%an%C(reset) %C(green)(%cr)%C(reset)%C(yellow bold)%d%C(reset)
 [commit]
 	gpgsign = true
+	verbose = true
 [tag]
 	gpgSign = true
+[init]
+	defaultBranch = main
 [pull]
 	ff = only
 [push]
 	default = simple
+	autoSetupRemote = true
+	followTags = yes
 [merge]
 	tool = vimdiff3
 	guitool = meld
@@ -62,10 +67,12 @@
 	keepBackup = false
 [mergetool "vimdiff3"]
 	cmd = "${EDITOR:-vim}" -R -d "$LOCAL" "$MERGED" "$REMOTE" '+f local' '+winc l' '+set noro' '+%!cat '"$BASE" '+winc l' '+f remote' '+winc h'
+[mergetool "nvimdiff"]
+	cmd = nvim -d "$LOCAL" "$REMOTE" "$MERGED" -c 'wincmd w' -c 'wincmd J'
 [mergetool "vscode"]
 	cmd = code --wait "$MERGED"
 [help]
-	autocorrect = 15
+	autocorrect = prompt
 [url "git+ssh://smartfinn@git.launchpad.net/"]
 	insteadof = lp:
 [url "git+ssh://smartfinn@git.launchpad.net/~smartfinn/+git/"]
@@ -95,8 +102,8 @@
 	changed = green
 	untracked = cyan
 [delta]
-	features = decorations
 	dark = true
+	navigate = true
 	syntax-theme = OneHalfDark
 	zero-style = normal
 [interactive]
