@@ -5,15 +5,18 @@
 	user = SmartFinn
 [alias]
 	br = branch
-	ch = checkout
+	ci = commit
 	cl = clone
-	changes = log --all --abbrev-commit --cherry --find-renames --pretty=medium --name-status
-	journal = log --all --pretty=medium
+	co = checkout
+	ff = fetch --tags --prune
 	lo = log --abbrev-commit --graph --max-count=22
 	lp = log -p
 	ls = ls-files
 	st = status --short --branch
+	sw = switch
+	changes = whatchanged -p --abbrev-commit --pretty=medium
 	history = log --graph --all
+	journal = log --all --pretty=medium
 	ls-diff = diff --name-status
 	please = push --force-with-lease
 	amend = commit --amend
@@ -21,7 +24,6 @@
 	drop = reset --hard HEAD
 	undo = reset HEAD^
 	hardreset = reset --hard @{u}
-	ff = fetch --tags --prune
 	branches = branch -av
 	find = log --all --full-history --
 	log-diff = log HEAD --not
@@ -31,7 +33,6 @@
 	in = log --graph ..@{u}
 	out = log --graph @{u}..
 	unstage = reset HEAD --
-	revertfile = checkout --
 	untrack = rm --cached --
 	last = log -1 HEAD --stat
 	remotes = remote -v
@@ -41,10 +42,16 @@
 	renames = copies
 [format]
 	pretty = %C(blue)%h%C(reset) %s — %C(bold)%an%C(reset) %C(green)(%cr)%C(reset)%C(yellow bold)%d%C(reset)
+[commit]
+	verbose = true
+[init]
+	defaultBranch = main
 [pull]
 	ff = only
 [push]
 	default = simple
+	autoSetupRemote = true
+	followTags = yes
 [merge]
 	tool = vimdiff3
 	guitool = meld
@@ -55,7 +62,7 @@
 [mergetool "vimdiff3"]
 	cmd = "${EDITOR:-vim}" -R -d "$LOCAL" "$MERGED" "$REMOTE" '+f local' '+winc l' '+set noro' '+%!cat '"$BASE" '+winc l' '+f remote' '+winc h'
 [help]
-	autocorrect = 15
+	autocorrect = prompt
 [url "ssh://git@gitea.mkro.tk:2222/"]
 	insteadof = git@gitea.mkro.tk:
 [url "ssh://git@gitea.mkro.tk:2222/"]
