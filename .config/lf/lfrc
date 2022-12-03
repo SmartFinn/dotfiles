@@ -43,6 +43,11 @@ cmd spawn_shell $exec "$SHELL"
 cmd view $$PAGER "$f"
 cmd q :quit
 
+cmd on-cd &{{
+    # zoxide - add a new directory or increment its rank when cd
+    command -v zoxide >/dev/null && zoxide add "${PWD}"
+}}
+
 cmd bulkrename ${{
     if command -v vimv >/dev/null; then
         vimv
@@ -242,6 +247,18 @@ cmd jump ${{
     target=$(fzf --no-info --pointer=cd \
         --header="Jump to location" < <(sort -Vu "$jump_file"))
     lf -remote "send $id cd '$target'"
+}}
+
+cmd z %{{
+    # -- Call zoxide by :z [KEYWORDS]
+    result="$(zoxide query --exclude "${PWD}" -- "$@")"
+    lf -remote "send ${id} cd '${result}'"
+}}
+
+cmd zi ${{
+    # -- Run zoxide in interactive mode
+    result="$(zoxide query -i -- "$@")"
+    lf -remote "send ${id} cd '${result}'"
 }}
 
 cmd bookmark ${{
@@ -498,6 +515,8 @@ map M  fmount
 
 map zi previewer_toggle
 map zp preview_toggle
+
+map zz zi
 
 map dd cut
 map du !du --max-depth=1 -h --apparent-size
