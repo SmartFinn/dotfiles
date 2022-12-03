@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 
 """
-Created on Fri, 11 Aug 2017 05:41:46 +0300
+Created on Thu, 15 Oct 2020 01:13:23 +0300
 
 @author: SmartfFinn
-@documentation: https://github.com/hitbtc-com/hitbtc-api/blob/master/APIv2.md
+@documentation: https://api.hitbtc.com/
 """
 
 from requests.exceptions import ConnectionError, Timeout
+from typing import Any
 import os
 import requests
 
 
 class HitBTCMarket:
-    DEFAULT_BASE_URL = "https://api.hitbtc.com/api/2/"
+    DEFAULT_BASE_URL = "https://api.hitbtc.com/api/3/"
     DEFAULT_TIMEOUT = 30
 
     def __init__(
@@ -22,7 +23,7 @@ class HitBTCMarket:
         secret=None,
         base_url=DEFAULT_BASE_URL,
         request_timeout=DEFAULT_TIMEOUT,
-    ):
+    ) -> None:
         self.base_url = base_url
         self.request_timeout = request_timeout
         self.session = requests.session()
@@ -30,7 +31,7 @@ class HitBTCMarket:
         if public_key and secret:
             self.session.auth = (public_key, secret)
 
-    def _request(self, endpoint: str, params=""):
+    def _request(self, endpoint: str, params: str = "") -> Any:
         response_object = self.session.get(
             self.base_url + endpoint, params=params, timeout=self.request_timeout
         )
@@ -40,60 +41,44 @@ class HitBTCMarket:
         try:
             response = response_object.json()
         except requests.exceptions.RequestException as e:
-            return e
+            raise e
 
         return response
 
-    def _pair(self, pair: str) -> str:
-        return {
-            "BTXUSD": "BTXUSDT",
-            "LCCUSD": "LCCBTC",
-            "ETHBNTUSD": "ETHBNTBTC",
-            "USDUSD": "USDTUSD",
-            "JSTUSD": "JSTUSDT",
-            "XRPUSD": "XRPUSDT",
-            "SBTCUSD": "SBTCUSDT",
-            "EMCUSD": "EMCUSDT",
-        }.get(pair.upper(), pair.upper())
+    def get_ticker(self, symbol: str) -> dict[str, str]:
+        """Get ticker by symbol"""
+        return self._request("public/ticker/" + symbol)
 
-    def get_tickers(self, *symbols) -> list:
+    def get_tickers(self, *symbols: str) -> dict[str, dict]:
         """Get tickers for all symbols or for specified symbols"""
-        symbols = [self._pair(pair) for pair in symbols]
-        response = self._request(
+        return self._request(
             "public/ticker/", params="symbols=" + ",".join(symbols)
         )
 
-        return response
+    @property
+    def trading_balance(self) -> list[dict]:
+        """Returns the spot trading balance"""
+        return self._request("spot/balance")
 
     @property
-    def balance(self) -> list:
-        """Returns the user's trading balance"""
-        response = self._request("trading/balance")
+    def available_currencies(self) -> list[str]:
+        """Returns the available currencies on the trading balance"""
 
-        return response
-
-    @property
-    def own_currencies(self) -> list:
-        """Returns currencies without zero balance"""
-        return [
-            i["currency"]
-            for i in self.balance
-            if float(i["available"]) > 0 or float(i["reserved"]) > 0
-        ]
+        return [item['currency'] for item in self.trading_balance]
 
 
 if __name__ == "__main__":
-    primary_symbol = "BTCUSD"
-    hide_currencies = ["ETHBNT", "LCC"]
+    primary_symbol = "BTCUSDT"
     menu_open = os.getenv("ARGOS_MENU_OPEN")
 
     public_key = os.getenv("HITBTC_PUBLIC_KEY", None)
     secret_key = os.getenv("HITBTC_SECRET_KEY", None)
 
-    hitbtc = HitBTCMarket(public_key=public_key, secret=secret_key, request_timeout=10)
+    hitbtc = HitBTCMarket(public_key=public_key,
+                          secret=secret_key, request_timeout=10)
 
     try:
-        primary_ticker = hitbtc.get_tickers(primary_symbol)[0]
+        primary_ticker = hitbtc.get_ticker(primary_symbol)
         print("${:.0f}".format(float(primary_ticker["last"])))
     except (ConnectionError, Timeout):
         print("No data")
@@ -101,21 +86,10 @@ if __name__ == "__main__":
         print("---")
 
     if menu_open == "true":
-        avail_currencies = hitbtc.own_currencies
-
-        for currency in hide_currencies:
-            try:
-                avail_currencies.remove(currency)
-            except ValueError as e:
-                pass
-
-        symbols = [currency + "USD" for currency in avail_currencies]
-
+        symbols = [currency + "USDT" for currency in hitbtc.available_currencies]
         tickers = hitbtc.get_tickers(*symbols)
-        sorted_tickers = sorted(tickers, key=lambda k: k["symbol"])
 
-        for ticker in sorted_tickers:
-            symbol = ticker["symbol"]
+        for symbol, ticker in tickers.items():
             open_price = float(ticker["open"])
             last_price = float(ticker["last"])
             change_percent = (last_price - open_price) / open_price * 100
