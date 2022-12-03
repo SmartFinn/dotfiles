@@ -1,7 +1,6 @@
 # lf config (ranger-like)
 #
 # Basic Settings
-set autoquit
 set dircounts
 set icons
 set preview
@@ -427,7 +426,7 @@ cmd fmount ${{
     done
 }}
 
-cmd move_to_trash %{{
+cmd move_to_trash ${{
     # :move_to_trash
     mapfile -t selected_items <<< "$fx"
 
@@ -445,7 +444,7 @@ cmd move_to_trash %{{
         gio trash "${selected_items[@]}"
         lf -remote "send $id reload"
         ;;
-    [Nn]|*)  exit 1 ;;
+    [Nn]|*)  exit 0 ;;
     esac
 }}
 
@@ -481,11 +480,13 @@ map C clear
 map S spawn_shell
 map E edit
 map B bookmark
+map H jump-prev
+map L jump-next
 map J jump
 map <a-j> jump
 map D !stat "$f"
 map s shell
-map ` mark-load
+map ` mark-load  # ` close backtick to fix syntax highlight
 map r push $xdg-open<space>"$f"<home><a-f><a-f>
 map [ push hkl
 map ] push hjl
