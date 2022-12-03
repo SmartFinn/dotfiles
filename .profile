@@ -38,10 +38,6 @@ if command -v dotbare >/dev/null; then
 	export DOTBARE_DIR="$HOME/.local/var/dotbare"
 fi
 
-if [ -r "${XDG_CONFIG_HOME:-$HOME/.config}/lf/lf_icons.sh" ]; then
-	. "${XDG_CONFIG_HOME:-$HOME/.config}/lf/lf_icons.sh"
-fi
-
 if command -v tmux >/dev/null; then
 	if [[ -n "$PS1" ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_CONNECTION" ]]; then
 		exec tmux new -As ${HOSTNAME:-SSH}
