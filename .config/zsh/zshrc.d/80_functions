@@ -771,4 +771,29 @@ fif() {
 		fzf --preview "rg --ignore-case --pretty --context 10 -- '$*' {}"
 }
 
+command -v fzf >/dev/null &&
+fzf-git-show-file-history() {
+	# a wrapper for git show hash:filename
+	local previewer="cat"
+	local file_name
+
+	if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+		print 'fzf-git-show-file-history: Not a git repository' >&2
+		return 1
+	fi
+
+	if command -v bat >/dev/null; then
+		previewer="bat --color=always --style=plain"
+	fi
+
+	git ls-files |
+		fzf +m --preview="$previewer {}" |
+		while read -r file_name; do
+			git log --oneline -- "$file_name" \
+				| fzf --preview="git show {1}:$file_name | $previewer" \
+				| cut -d" " -f1 \
+				| xargs -r -I{} git show {}:$file_name
+		done
+}
+
 # vim:ft=zsh
