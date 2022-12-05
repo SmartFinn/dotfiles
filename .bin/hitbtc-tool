@@ -2,42 +2,76 @@
 
 set -eo pipefail
 
-readonly PROGNAME="$(basename "$0")"
-readonly BASE_URL="https://api.hitbtc.com/api/2"
-readonly PUBLIC_KEY="$(secret-tool lookup hitbtc_api public_key)"
-readonly SECRET_KEY="$(secret-tool lookup hitbtc_api secret_key)"
+: "${BASE_URL:=https://api.hitbtc.com/}"
+: "${PUBLIC_KEY:=$(secret-tool lookup hitbtc_api public_key)}"
+: "${SECRET_KEY:=$(secret-tool lookup hitbtc_api secret_key)}"
+
+PROGNAME="$(basename "$0")"
 
 _history_trades() {
-	http --auth "${PUBLIC_KEY}:${SECRET_KEY}" \
-		"$BASE_URL/history/trades" "$@" \
+	_api_call "/api/3/spot/history/trade" "$@" \
 		| jq -r ".[] | [ .timestamp, .symbol, .side, .quantity, .price, .fee ] | @csv" \
-		| awk -F, 'BEGIN {OFS = "\t"} { "date \"+%F %T\" --date=" $1 | getline time; $1 = time; print }'
+		| awk -F, 'BEGIN {OFS = "\t"} { "date \"+%F %T\" --date=" $1 | getline time; $1 = time; print }' \
+		| sort -k 1,1 -n
 }
 
 _order() {
-	http --auth "${PUBLIC_KEY}:${SECRET_KEY}" \
-		"$BASE_URL/order" "$@" \
-		| jq -r '.[] | [ .createdAt, .symbol, .side, .quantity, .price, .status ] | @csv' \
-		| awk -F, 'BEGIN {OFS = "\t"} { "date \"+%F %T\" --date=" $1 | getline time; $1 = time; print }'
+	_api_call "/api/3/spot/order" "$@" \
+		| jq -r '.[] | [ .created_at, .symbol, .side, .quantity, .price, .status ] | @csv' \
+		| awk -F, 'BEGIN {OFS = "\t"} { "date \"+%F %T\" --date=" $1 | getline time; $1 = time; print }' \
+		| sort -k 1,1 -n
 }
 
 _trading_balance() {
-	http --auth "${PUBLIC_KEY}:${SECRET_KEY}" \
-		"$BASE_URL/trading/balance" \
+	_api_call "/api/3/spot/balance" \
 		| jq -r '.[] | [ .currency, .available, .reserved ] |  @csv' \
-		| awk -F, 'BEGIN {OFS = FS} { if ($2 != "\"0\"" || $3 != "\"0\"") print $0 }' \
 		| column -s, -t
 }
 
-_api_call() {
-	local endpoint="$1"
-	local -a params=( "${@:2}" )
+_wallet_balance() {
+	_api_call "/api/3/wallet/balance" \
+		| jq -r '.[] | [ .currency, .available, .reserved ] |  @csv' \
+		| column -s, -t
+}
 
-	http --auth "${PUBLIC_KEY}:${SECRET_KEY}" \
-		"$BASE_URL/${endpoint#/api/2/}" "${params[@]}"
+_arg_parser() {
+	case "$1" in
+	POST|PUT|PATCH|DELETE)
+		echo -n "-X $1"
+		shift
+		;;
+	*)
+		# Default method
+		echo -n "--get"
+		;;
+	esac
+	echo -n " "  # options separator
+
+	while [ -n "$1" ]; do
+		case "$1" in
+		http*)  echo -n "$1"                ;;
+		/api/*) echo -n "$BASE_URL$1"       ;;
+		/*)     echo -n "$BASE_URL/api/2$1" ;;
+		*=*)    echo -n "--data ${1/==/=}"  ;;
+		*)      echo -n "$1"                ;;
+		esac
+		echo -n " "  # options separator
+		shift
+	done
+}
+
+_api_call() {
+	curl -sSL \
+		--header 'Accept: application/json' \
+		--user "${PUBLIC_KEY}:${SECRET_KEY}" \
+		$(_arg_parser "$@")
 }
 
 case "$1" in
+	wallet|w)
+		shift
+		_wallet_balance "$@"
+		;;
 	balance|bal)
 		shift
 		_trading_balance "$@"
@@ -60,6 +94,7 @@ case "$1" in
 		    [bal]ance
 		    [o]rder
 		    [hist]ory
+			[w]allet
 
 		  available endpoints:
 		    https://api.hitbtc.com
