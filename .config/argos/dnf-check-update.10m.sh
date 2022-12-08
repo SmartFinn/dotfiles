@@ -2,7 +2,11 @@
 
 mapfile -t -d $'\n' upgradable_packages < <(
 	# return app_name,version,repo
-	dnf --cacheonly check-update | awk -v OFS=',' 'NR>2 {print $1,$2,$3}'
+	dnf --cacheonly check-update | awk -v OFS=',' '
+	NR>1 && NF>0 && !/Security:/ {print $1,$2,$3}'
+	# |     |       | - remove all lines with Security:
+	# |     |- remove blank lines
+	# |- remove header
 	# --cacheonly option force to use system cache instead of creating a
 	#             separate cache for each user under which it executes.
 	#             Requires systemd unit dnf-makecache.timer enabled that
