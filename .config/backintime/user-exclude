@@ -10,6 +10,7 @@
 .Private
 .cache/
 .gvfs
+.local/state/
 .mail/
 .pipewire-media-session/
 .thumbnails*/
