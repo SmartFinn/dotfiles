@@ -9,10 +9,10 @@ Type=simple
 Nice=19
 IOSchedulingClass=best-effort
 IOSchedulingPriority=7
-# Skip if the service is already started today (resets after reboot)
-ExecCondition=/bin/sh -c 'test ! -e "%t/%N-$(date +%%F)"'
+ExecCondition=/bin/sh -c 'test ! -e "%h/.local/state/backintime/%N-$(date +%%F)"'
+ExecStartPre=/bin/mkdir -p "%h/.local/state/backintime"
 ExecStart=/usr/bin/backintime backup
-ExecStartPost=/bin/sh -c 'touch "%t/%N-$(date +%%F)"'
+ExecStartPost=/bin/sh -c 'touch "%h/.local/state/backintime/%N-$(date +%%F)"'
 TimeoutStopSec=infinity
 
 [Install]
