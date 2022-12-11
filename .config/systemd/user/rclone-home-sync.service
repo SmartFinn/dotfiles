@@ -1,0 +1,10 @@
+[Unit]
+Description=Upload files in ~/Sync directory with rclone
+ConditionPathExists=/usr/bin/rclone
+ConditionPathExists=%h/Sync
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/rclone sync %h/Sync eremenko:Sync

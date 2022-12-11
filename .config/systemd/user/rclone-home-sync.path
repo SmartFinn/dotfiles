@@ -1,0 +1,9 @@
+[Unit]
+Description=Upload files in ~/Sync when they changed
+
+[Path]
+# Need to touch ~/Sync to triggered the unit
+PathChanged=%h/Sync/
+
+[Install]
+WantedBy=default.target
