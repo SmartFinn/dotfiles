@@ -1,8 +1,0 @@
-[Unit]
-Description=Upload Spotify local history file when changed
-
-[Path]
-PathChanged=%h/.var/app/com.spotify.Client/cache/spotify/Users/sergei-x-user/context_player_state_restore
-
-[Install]
-WantedBy=default.target
