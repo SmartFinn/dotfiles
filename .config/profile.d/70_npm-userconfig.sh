@@ -11,7 +11,6 @@ if [ ! -s "$NPM_CONFIG_USERCONFIG" ]; then
 	cat > "$NPM_CONFIG_USERCONFIG" <<- 'EOF'
 	prefix=${HOME}/.local/share/npm
 	cache=${HOME}/.cache/npm
-	tmp=${XDG_RUNTIME_DIR}/npm
 	init-module=${HOME}/.config/npm/config/npm-init.js
 	EOF
 fi
