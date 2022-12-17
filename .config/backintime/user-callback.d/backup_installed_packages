@@ -67,6 +67,11 @@ get_dnf_userinstalled() {
 	dnf history userinstalled > "$dest_dir/dnf-packages.list"
 }
 
+get_installed_sdd() {
+	command -v sdd >/dev/null || return 0
+	sdd list --installed > "$dest_dir/sdd.list"
+}
+
 case "$reason" in
 	1)  # Backup process begins
 		rm -rf "$dest_dir"
@@ -81,6 +86,7 @@ case "$reason" in
 		get_installed_npm_packages
 		get_installed_snaps
 		get_dnf_userinstalled
+		get_installed_sdd
 		;;
 	2)  # Backup process ends
 		true
