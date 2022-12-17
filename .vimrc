@@ -178,6 +178,9 @@ if &term =~ '256color' || &term =~ 'kitty' || &term =~ 'alacritty'
   set t_ut=
 endif
 
+" Suppress all bell events
+set belloff=all
+
 colorscheme desert
 
 
