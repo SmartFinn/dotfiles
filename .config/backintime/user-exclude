@@ -2,27 +2,33 @@
 *~
 *-
 *.backup
+*.bak
 *.cache*
-*.save
 *.lock
+*.pid
+*.socket
 *.swp
 *.tmp
-.Private
+*_sock
+.Private/
 .cache/
-.gvfs
-.local/state/
+.gvfs/
+.ld.so/
 .mail/
 .pipewire-media-session/
 .thumbnails*/
 [Tt]rash*/
 .trash/
 cache/
+thumbnails/
+temp/
+tmp/
 core
 lock
 lost+found/
+.rnd
 .Xauthority
 .xsession-errors*
-tmp/
 
 ## Root
 /dev/
@@ -37,6 +43,12 @@ tmp/
 /var/backup/
 /var/cache/
 /var/lib/apt/lists/*
+/var/lib/btrfs/
+/var/lib/dnf/repos/*
+/var/lib/dnf/repos/
+/var/lib/machines/
+/var/lib/portables/
+/var/lib/rpm/
 /var/log/
 /var/run/
 /var/tmp/
@@ -44,18 +56,31 @@ tmp/
 ## Home
 .cache/
 .ccache/
+.config/pipewire/media-session.d/
+.config/ibus/bus/
 .compiz/
 .dbus/
-.icons/
 .fontconfig/
+.gvfs/
+.icons/
 .local/bin/
 .local/include/
 .local/lib/
 .local/share/gvfs-metadata/
+.local/share/icons/
+.local/share/man/
+.local/share/mime/*
+.local/share/webkitgtk/
+.local/state/
 .themes/
 .thumbnails/
-.rnd
-rpmbuild/
+
+# rpmbuild
+rpmbuild/BUILD
+rpmbuild/BUILDROOT
+rpmbuild/RPMS
+rpmbuild/SOURCES
+rpmbuild/SRPMS
 
 ## Atom
 .atom/.apm/
@@ -72,6 +97,7 @@ rpmbuild/
 **/snap/
 /snap/
 /var/lib/snapd/snaps/
+snap/*/*/.cache
 
 ## Kodi
 .kodi/addons/
@@ -102,7 +128,7 @@ virtualenv/
 .config/Boostnote/
 .config/chromium/
 .config/draw.io/
-.config/Gisto
+.config/Gisto/
 .config/google-chrome/
 .config/google-chrome-beta/
 .config/google-chrome-unstable/
@@ -132,6 +158,7 @@ Steam/
 .steampath
 .steampid
 .steam/
+.steam/root
 .steam/steam/SteamApps/common/
 
 ## Vim
@@ -151,6 +178,7 @@ Steam/
 .wine/drive_c/
 .local/share/wine/dosdevices/
 .local/share/wine/drive_c/
+*.exe
 
 ## WPS Office
 .kingsoft/office6/cache/
@@ -167,7 +195,7 @@ Steam/
 ## Telegram
 .local/share/TelegramDesktop/
 
-## Tmux
+## TMUX
 .tmux/plugins/
 
 ## Pbuilder
@@ -196,6 +224,7 @@ Session Storage/
 
 ## Logs
 logs/
+log*.txt
 *.log
 *.log.*
 
@@ -220,9 +249,10 @@ Android/
 
 # podman
 .local/share/containers/
+/var/lib/containers
 
 # gnome-boxes
-.local/share/gnome-boxes/
+.local/share/gnome-boxes/images/
 
 # pipx
 .local/pipx
@@ -234,32 +264,44 @@ Android/
 .local/share/data/qBittorrent/
 .local/share/qBittorrent/
 
-# Grilo
+## Grilo
 .local/share/grilo-plugins/
 
-# Meld
+## Meld
 .local/share/meld/
 
-# newsboat
+## newsboat
 .local/share/newsboat/
 
-# winbox
+## winbox
 .local/share/winbox/
 
-# Hardcode-Tray
+## Hardcode-Tray
 .config/Hardcode-Tray/
 
-# Jet Brains
+## Jet Brains
 .local/share/JetBrains/
 
-# Akonadi
+## Akonadi
 .local/share/akonadi/
 
-# Cargo
+## Cargo
 .cargo/
 
-# gThumb
+## gThumb
 .comments/
 
-# Joplin
-.config/@joplin
+## Joplin
+.config/@joplin/
+
+## mpv
+.config/mpv/watch_later/
+
+## Celluloid
+.config/celluloid/watch_later/
+
+## Backintime
+.local/share/backintime/
+
+## Ansible
+.ansible/

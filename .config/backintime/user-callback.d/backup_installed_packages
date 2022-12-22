@@ -24,6 +24,11 @@ get_user_installed_packages() {
 			| awk '/Package/ {print $2}' | sort -u) > "$dest_dir/apt-packages.list"
 }
 
+get_apt_manual_installed_packages() {
+	command -v apt >/dev/null || return 0
+	apt list --manual-installed > "$dest_dir/apt-manual-installed-packages.list"
+}
+
 get_installed_gems() {
 	command -v gem >/dev/null || return 0
 	gem list > "$dest_dir/ruby-gems.list"
@@ -43,7 +48,7 @@ get_user_installed_python3_packages() {
 
 get_pipx_venvs() {
 	command -v pipx >/dev/null || return 0
-	pipx list > "$dest_dir/pipx-venv.list"
+	pipx list --short > "$dest_dir/pipx-venv.list"
 }
 
 get_installed_flatpak_apps() {
@@ -67,9 +72,9 @@ get_dnf_userinstalled() {
 	dnf history userinstalled > "$dest_dir/dnf-packages.list"
 }
 
-get_installed_sdd() {
+get_installed_sdd_apps() {
 	command -v sdd >/dev/null || return 0
-	sdd list --installed > "$dest_dir/sdd.list"
+	sdd list --installed > "$dest_dir/sdd-apps.list"
 }
 
 case "$reason" in
@@ -78,6 +83,7 @@ case "$reason" in
 		mkdir -p "$dest_dir"
 
 		get_user_installed_packages
+		get_apt_manual_installed_packages
 		get_installed_gems
 		get_user_installed_python2_packages
 		get_user_installed_python3_packages
@@ -86,7 +92,7 @@ case "$reason" in
 		get_installed_npm_packages
 		get_installed_snaps
 		get_dnf_userinstalled
-		get_installed_sdd
+		get_installed_sdd_apps
 		;;
 	2)  # Backup process ends
 		true
