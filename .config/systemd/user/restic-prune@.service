@@ -1,0 +1,10 @@
+[Unit]
+Description=Remove unneeded data from the restic repository
+OnFailure=restic-notify-failure@%i.service
+
+[Service]
+Type=oneshot
+TimeoutStopSec=4h
+EnvironmentFile=%E/restic/%i.conf
+ExecCondition=/usr/bin/env restic snapshots --no-lock
+ExecStart=/usr/bin/env restic prune

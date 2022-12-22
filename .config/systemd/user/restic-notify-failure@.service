@@ -1,0 +1,10 @@
+[Unit]
+Description=Notify user restic backup failed
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/notify-send \
+          --category=transfer.error \
+          --urgency=critical \
+          'Backup Failure' \
+          'Service <b>%i</b> has failed.'

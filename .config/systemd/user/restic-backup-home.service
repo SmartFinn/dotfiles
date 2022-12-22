@@ -1,0 +1,41 @@
+[Unit]
+Description=Restic backup user's home
+Documentation=man:restic(1)
+Documentation=https://restic.readthedocs.io/en/stable/
+
+Wants=network-online.target
+After=network-online.target
+
+ConditionPathExists=%E/restic/%N.conf
+ConditionPathExists=%E/restic/exclude
+
+Requires=restic-generate-installed-packages-lists.service restic-generate-git-repos-exclude-list.service
+After=restic-generate-installed-packages-lists.service restic-generate-git-repos-exclude-list.service
+OnFailure=restic-notify-failure@%i.service
+
+[Service]
+Type=oneshot
+TimeoutStopSec=4h
+EnvironmentFile=%E/restic/%N.conf
+ExecCondition=/usr/bin/env restic snapshots --no-lock
+ExecStart=/usr/bin/env restic backup \
+	--verbose \
+	--one-file-system \
+	--host=%l \
+	--tag=systemd,%p \
+	--exclude-caches \
+	--exclude-file=%E/restic/exclude \
+	--exclude-file=%C/restic/exclude-git-repos \
+	--exclude-larger-than=$MAX_FILE_SIZE \
+	%h
+ExecStartPost=/usr/bin/env restic forget \
+	--verbose \
+	--prune \
+	--host=%l \
+	--tag=systemd,%p \
+	--keep-daily=$RETENTION_DAYS \
+	--keep-weekly=$RETENTION_WEEKS \
+	--keep-monthly=$RETENTION_MONTHS \
+	--keep-yearly=$RETENTION_YEARS \
+	--group-by=paths
+ExecStartPost=/usr/bin/env restic check

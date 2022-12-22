@@ -1,0 +1,413 @@
+## Root {{{1
+/dev/
+/docker/
+/etc/mtab
+/media/
+/mnt/
+/proc/
+/run/
+/sys/
+/tmp/
+/var/backup/
+/var/cache/
+/var/lib/apt/lists/
+/var/lib/btrfs/
+/var/lib/dnf/repos/
+/var/lib/machines/
+/var/lib/portables/
+/var/lib/rpm/
+/var/log/
+/var/run/
+/var/tmp/
+
+## Home {{{1
+$HOME/.cache/
+$HOME/.ccache/
+$HOME/.compiz/
+$HOME/.config/ibus/bus/
+$HOME/.config/pipewire/media-session.d/
+$HOME/.dbus/
+$HOME/.fontconfig/
+$HOME/.gvfs/
+$HOME/.icons/
+$HOME/.local/bin/
+$HOME/.local/include/
+$HOME/.local/lib/
+$HOME/.local/share/bash-completion/
+$HOME/.local/share/gvfs-metadata/
+$HOME/.local/share/icons/
+$HOME/.local/share/man/
+$HOME/.local/share/mime/*
+$HOME/.local/share/webbrowser-app/
+$HOME/.local/share/webkitgtk/
+$HOME/.local/share/zsh/site-functions/
+$HOME/.local/state/
+$HOME/.themes/
+$HOME/.thumbnails/
+$HOME/Music/
+$HOME/Pictures/Camera/
+$HOME/Pictures/Google Drive/
+$HOME/Pictures/Mi A2 Lite/
+$HOME/Pictures/Photos/
+$HOME/Pictures/Stas Photos/
+$HOME/Videos/
+$HOME/VirtualBox VMs/
+$HOME/rpmbuild/BUILD/
+$HOME/rpmbuild/BUILDROOT/
+$HOME/rpmbuild/RPMS/
+$HOME/rpmbuild/SOURCES/
+$HOME/rpmbuild/SRPMS/
+
+## App specific {{{1
+
+#- flatpak
+/var/lib/flatpak/*
+!/var/lib/flatpak/overrides/
+$HOME/.local/share/flatpak/*
+!$HOME/.local/share/flatpak/overrides/
+$HOME/.var/app/*/cache/
+
+#- snap
+/snap/
+/var/lib/snapd/snaps/
+$HOME/snap/*/*/.cache
+**/snap/
+
+#- Kodi
+$HOME/.kodi/addons/
+$HOME/.kodi/media/
+$HOME/.kodi/system/
+$HOME/.kodi/temp/
+$HOME/.kodi/userdata/Thumbnails/
+
+#- Node.Js
+$HOME/.local/share/npm/
+$HOME/.npm/
+
+#- Ruby
+$HOME/.local/share/gem/
+
+#- Brave
+$HOME/.config/BraveSoftware/Brave-Browser/*
+!$HOME/.config/BraveSoftware/Brave-Browser/Default/
+!$HOME/.config/BraveSoftware/Brave-Browser/Profile [1-9]/
+$HOME/.config/BraveSoftware/Brave-Browser-Nightly
+!$HOME/.config/BraveSoftware/Brave-Browser-Nightly/Default/
+!$HOME/.config/BraveSoftware/Brave-Browser-Nightly/Profile [1-9]/
+
+#- Chromium-based browser with Sync
+$HOME/.config/google-chrome/
+$HOME/.config/google-chrome-beta/
+$HOME/.config/google-chrome-unstable/
+$HOME/.var/app/com.google.Chrome/
+$HOME/.var/app/com.google.ChromeDev/
+$HOME/.config/microsoft-edge/
+$HOME/.config/microsoft-edge-beta/
+$HOME/.config/microsoft-edge-dev/
+$HOME/.var/app/com.microsoft.Edge/
+
+#- Chromium-based and Electron-based
+$HOME/.config/Bitwarden/
+$HOME/.config/Boostnote/
+$HOME/.config/chromium/
+$HOME/.config/draw.io/
+$HOME/.config/Gisto
+$HOME/.config/Min/
+$HOME/.config/Notable/
+$HOME/.config/odrive/
+$HOME/.config/WebTorrent/
+
+#- Dropbox
+$HOME/.dropbox*/
+.dropbox.img
+
+#- App cache
+$HOME/.mozilla/
+$HOME/.thunderbird/
+
+#- Steam
+$HOME/Steam/
+$HOME/.steampath
+$HOME/.steampid
+$HOME/.steam/
+$HOME/.steam/root
+$HOME/.steam/steam/SteamApps/common/
+
+#- Vim
+$HOME/.vim/bundle/
+.viminfo
+
+#- Syncthing
+$HOME/.config/syncthing/index-v0.14.0.db/
+
+#- GPXSee
+$HOME/.gpxsee/tiles/
+
+#- Wine
+$HOME/.local/share/wine/dosdevices/
+$HOME/.local/share/wine/drive_c/
+$HOME/.wine/dosdevices/
+$HOME/.wine/drive_c/
+
+#- WPS Office
+$HOME/.kingsoft/office6/cache/
+
+#- VSCode
+# Use Settings Sync instead of profile backup
+$HOME/.config/Code/
+# !$HOME/.config/Code/User
+# $HOME/.config/Code/User/History/
+# $HOME/.config/Code/User/workspaceStorage/
+$HOME/.vscode/
+$HOME/.sonarlint/
+
+#- TeamViewer
+$HOME/.local/share/teamviewer*/
+
+#- Telegram
+$HOME/Downloads/Telegram Desktop/
+$HOME/.local/share/TelegramDesktop/
+
+#- TMUX
+$HOME/.tmux/plugins/
+
+#- RetroArch
+$HOME/.config/retroarch/assets/
+$HOME/.config/retroarch/autoconfig/
+$HOME/.config/retroarch/cheats/
+$HOME/.config/retroarch/cores/
+$HOME/.config/retroarch/downloads/
+$HOME/.config/retroarch/filters/
+$HOME/.config/retroarch/logs/
+$HOME/.config/retroarch/overlay/
+$HOME/.config/retroarch/shaders/
+$HOME/.config/retroarch/system/
+$HOME/.config/retroarch/thumbnails/
+$HOME/.var/app/org.libretro.RetroArch/config/retroarch/assets/
+$HOME/.var/app/org.libretro.RetroArch/config/retroarch/autoconfig/
+$HOME/.var/app/org.libretro.RetroArch/config/retroarch/cheats/
+$HOME/.var/app/org.libretro.RetroArch/config/retroarch/cores/
+$HOME/.var/app/org.libretro.RetroArch/config/retroarch/downloads/
+$HOME/.var/app/org.libretro.RetroArch/config/retroarch/filters/
+$HOME/.var/app/org.libretro.RetroArch/config/retroarch/logs/
+$HOME/.var/app/org.libretro.RetroArch/config/retroarch/overlay/
+$HOME/.var/app/org.libretro.RetroArch/config/retroarch/shaders/
+$HOME/.var/app/org.libretro.RetroArch/config/retroarch/system/
+$HOME/.var/app/org.libretro.RetroArch/config/retroarch/thumbnails/
+
+#- Pbuilder
+$HOME/.pbuilder/
+
+#- Viber
+$HOME/Documents/ViberDownloads/
+$HOME/.ViberPC/
+
+#- SSH
+$HOME/.ssh/controls/
+
+#- Pulseaudio
+$HOME/.config/pulse/
+$HOME/.var/app/*/config/pulse/
+
+#- Homebrew on Linux
+$HOME/.linuxbrew/
+
+#- ZSH
+.zcompdump*
+
+#- Android Studio
+$HOME/.AndroidStudio?.?/
+$HOME/.gradle/
+$HOME/.java/
+$HOME/.local/share/Google/
+$HOME/Android/
+
+#- podman
+$HOME/.local/share/containers/*
+!$HOME/.local/share/containers/storage/
+$HOME/.local/share/containers/storage/*
+!$HOME/.local/share/containers/storage/secrets/
+!$HOME/.local/share/containers/storage/volumes/
+/var/lib/containers/*
+!/var/lib/containers/storage/
+/var/lib/containers/storage/*
+!/var/lib/containers/storage/secrets/
+!/var/lib/containers/storage/volumes/
+
+#- gnome-boxes
+$HOME/.local/share/gnome-boxes/images/
+
+#- pipx
+$HOME/.local/pipx/
+
+#- dotbare
+$HOME/.local/var/dotbare/
+
+#- qBittorrent
+$HOME/.local/share/data/qBittorrent/
+$HOME/.local/share/qBittorrent/
+
+#- Grilo
+$HOME/.local/share/grilo-plugins/
+
+#- Meld
+$HOME/.local/share/meld/
+
+#- newsboat
+$HOME/.local/share/newsboat/
+
+#- winbox
+$HOME/.local/share/winbox/
+
+#- Hardcode-Tray
+$HOME/.config/Hardcode-Tray/
+
+#- Jet Brains
+$HOME/.local/share/JetBrains/
+
+#- Akonadi
+$HOME/.local/share/akonadi/
+
+#- Cargo
+$HOME/.cargo/
+
+#- gThumb
+.comments/
+
+#- Joplin
+$HOME/.config/@joplin/
+$HOME/.config/Joplin/
+
+#- mpv
+$HOME/.config/mpv/watch_later/
+
+#- Celluloid
+$HOME/.config/celluloid/watch_later/
+
+#- Backintime
+$HOME/.local/share/backintime/
+
+#- Ansible
+$HOME/.ansible/
+
+#- Ulauncher
+$HOME/.local/share/ulauncher/extensions/
+
+#- Zeal
+$HOME/.local/share/Zeal/
+
+#- Spotify
+$HOME/.config/spotify/*
+!$HOME/.config/spotify/prefs
+!$HOME/.config/spotify/Users
+$HOME/.var/app/com.spotify.Client/config/spotify/*
+!$HOME/.var/app/com.spotify.Client/config/spotify/prefs
+!$HOME/.var/app/com.spotify.Client/config/spotify/Users
+
+## Generic {{{1
+*~
+*-
+*.backup
+*.bak
+*.cache*
+*.lock
+*.old
+*.pid
+*.socket
+*.swp
+*.tmp
+*_sock
+.Private/
+.cache/
+.gvfs/
+.ld.so/
+.mail/
+.pipewire-media-session/
+.thumbnails*/
+[Tt]rash*/
+.trash/
+cache/
+thumbnails/
+temp/
+tmp/
+core
+lock
+lost+found/
+.rnd
+.Xauthority
+.xsession-errors*
+
+#- Chromium and Electron-based apps
+Application Cache/
+blob_storage/
+BrowserMetrics/
+Cache/
+CachedData/
+Code Cache/
+Crash Reports/
+CrashpadMetrics*.pma
+DawnCache/
+Download Service/
+GCM Store/
+GPUCache/
+GrShaderCache/
+Guest Profile/
+IndexedDB/
+Service Worker/
+Session Storage/
+Sync App Settings/
+Sync Data/
+Sync Extension Settings/
+System Profile/
+VideoDecodeStats/
+*.pma
+Favicons
+LOG
+LOG.old
+LOCK
+*-journal
+
+#- Logs
+logs/
+log*.txt
+*.log
+*.log.*
+
+#- Python
+__pycache__/
+.pytest_cache/
+.pylint.d/
+venv/
+virtualenv/
+*.py[cod]
+
+# SASS
+.sass-cache
+
+#- Node JS
+node_modules/
+
+#- OS X
+._*
+.DS_Store
+.Spotlight-V100
+.Trashes
+
+#- Syncthing
+.stfolder
+.stversions
+
+#- Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+[._]*.un~
+.netrwhist
+tags
+
+#- Windows
+$$RECYCLE.BIN/
+Thumbs.db
+Desktop.ini

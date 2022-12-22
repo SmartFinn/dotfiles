@@ -1,0 +1,7 @@
+[Unit]
+Description=Generate list of git repositories in restic exclude file format
+ConditionPathExists=%E/restic/restic-exclude-git-repos.sh
+
+[Service]
+Type=oneshot
+ExecStart=%E/restic/restic-exclude-git-repos.sh
