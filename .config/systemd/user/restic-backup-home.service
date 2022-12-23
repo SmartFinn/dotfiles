@@ -18,7 +18,7 @@ Type=oneshot
 TimeoutStopSec=4h
 EnvironmentFile=%E/restic/%N.conf
 ExecCondition=/usr/bin/env restic snapshots --no-lock
-ExecStart=/usr/bin/env restic backup \
+ExecStart=/bin/sh -c "restic backup \
 	--verbose \
 	--one-file-system \
 	--host=%l \
@@ -27,8 +27,8 @@ ExecStart=/usr/bin/env restic backup \
 	--exclude-file=%E/restic/exclude \
 	--exclude-file=%C/restic/exclude-git-repos \
 	--exclude-larger-than=$MAX_FILE_SIZE \
-	%h
-ExecStartPost=/usr/bin/env restic forget \
+	%h"
+ExecStartPost=/bin/sh -c "restic forget \
 	--verbose \
 	--prune \
 	--host=%l \
@@ -37,5 +37,5 @@ ExecStartPost=/usr/bin/env restic forget \
 	--keep-weekly=$RETENTION_WEEKS \
 	--keep-monthly=$RETENTION_MONTHS \
 	--keep-yearly=$RETENTION_YEARS \
-	--group-by=paths
+	--group-by=paths"
 ExecStartPost=/usr/bin/env restic check
