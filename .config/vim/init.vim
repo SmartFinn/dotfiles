@@ -30,7 +30,7 @@ endif
 " Plugins {{{1
 " =======
 
-call plug#begin('~/.config/nvim/bundle')
+call plug#begin('~/.config/vim/bundle')
 
 " netrw
 " Uncomment the line below to disable netrw plugin
