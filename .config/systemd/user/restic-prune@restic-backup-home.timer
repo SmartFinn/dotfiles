@@ -2,7 +2,7 @@
 Description=Prune data from the restic repository on last day of month
 
 [Timer]
-OnCalendar=*-*~1 09:00
+OnCalendar=*-*~1 09:00:00
 Persistent=true
 
 [Install]
