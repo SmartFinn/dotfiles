@@ -9,8 +9,8 @@ After=network-online.target
 ConditionPathExists=%E/restic/%N.conf
 ConditionPathExists=%E/restic/exclude
 
-Requires=restic-generate-installed-packages-lists.service restic-generate-git-repos-exclude-list.service
-After=restic-generate-installed-packages-lists.service restic-generate-git-repos-exclude-list.service
+Requires=restic-helper@generate-installed-packages-lists.service restic-helper@exclude-git-repos.service
+After=restic-helper@generate-installed-packages-lists.service restic-helper@exclude-git-repos.service
 OnFailure=restic-notify-failure@%i.service
 
 [Service]

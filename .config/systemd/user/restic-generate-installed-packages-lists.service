@@ -1,7 +1,0 @@
-[Unit]
-Description=Generate lists of installed packages
-ConditionPathExists=%E/restic/restic-generate-installed-packages-lists.sh
-
-[Service]
-Type=oneshot
-ExecStart=%E/restic/restic-generate-installed-packages-lists.sh

@@ -1,0 +1,7 @@
+[Unit]
+Description=Run helper before restic backup (%i)
+ConditionPathExists=%E/restic/helpers/%i.sh
+
+[Service]
+Type=oneshot
+ExecStart=%E/restic/helpers/%i.sh
