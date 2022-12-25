@@ -137,6 +137,9 @@ $HOME/.steam/steam/SteamApps/common/
 $HOME/.vim/bundle/
 .viminfo
 
+#- Neovim
+$HOME/.local/share/nvim/
+
 #- Syncthing
 $HOME/.config/syncthing/index-v0.14.0.db/
 
