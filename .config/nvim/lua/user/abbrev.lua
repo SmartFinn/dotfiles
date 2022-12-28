@@ -1,0 +1,11 @@
+-- Abbreviations
+vim.cmd.iabbrev('@@', 'Sergei Eremenko (https://github.com/SmartFinn)')
+vim.cmd.iabbrev('fasle', 'false')
+vim.cmd.iabbrev('func', 'function')
+vim.cmd.iabbrev('fuction', 'function')
+vim.cmd.iabbrev('funciton', 'function')
+vim.cmd.iabbrev('listeneres', 'listeners')
+vim.cmd.iabbrev('cancle', 'cancel')
+vim.cmd.iabbrev('delcare', 'declare')
+vim.cmd.iabbrev('loacl', 'local')
+vim.cmd.iabbrev('ecsa', 'esac')

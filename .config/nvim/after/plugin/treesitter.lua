@@ -52,6 +52,12 @@ ts.setup {
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
+  rainbow = {
+    enable = true,
+    disable = { "html", },
+    extended_mode = false, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+  },
 
   autotag = { enable = true },
   incremental_selection = { enable = true },

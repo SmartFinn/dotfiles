@@ -47,6 +47,9 @@ packer.startup(function(use)
     requires = { 'nvim-lua/plenary.nvim' }
   })
 
+  -- Telescope File browser extention
+  use({ "nvim-telescope/telescope-file-browser.nvim" })
+
   -- Treesitter configurations and abstraction layer for Neovim
   use({
     'nvim-treesitter/nvim-treesitter',
@@ -56,6 +59,9 @@ packer.startup(function(use)
   -- Neovim treesitter plugin for setting the commentstring based on
   -- the cursor location in a file
   use({'JoosepAlviste/nvim-ts-context-commentstring'})
+
+  -- Rainbow parentheses for neovim using tree-sitter
+  use({'p00f/nvim-ts-rainbow'})
 
   -- Add/delete/change surrounding pairs
   use({
@@ -99,4 +105,7 @@ packer.startup(function(use)
 
   -- Indent guides
   use({ 'lukas-reineke/indent-blankline.nvim' })
+
+  -- Dashboard
+  use({ 'glepnir/dashboard-nvim' })
 end)

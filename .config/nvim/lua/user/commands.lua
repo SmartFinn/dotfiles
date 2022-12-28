@@ -11,3 +11,4 @@ vim.cmd.abbrev('<expr>', 'ff', "expand('e! ++ff')")
 -- Command corrections
 vim.cmd.abbrev('W', 'w')
 vim.cmd.abbrev('Q', 'q')
+vim.cmd.abbrev('man', 'Man')
