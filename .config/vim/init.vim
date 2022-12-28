@@ -94,7 +94,7 @@ nmap Z yo
 
 " Startify — start screen, sessions and bookmarks manager
 Plug 'mhinz/vim-startify'
-let g:startify_bookmarks = [ '~/.config/nvim/init.vim' ]
+let g:startify_bookmarks = [ '~/.config/vim/init.vim' ]
 let g:startify_session_dir = g:vimcache_dir . 'session'
 let g:startify_custom_header = []
 
