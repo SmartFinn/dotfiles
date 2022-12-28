@@ -218,6 +218,9 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 " provides additional text objects
 Plug 'wellle/targets.vim'
 
+" Ansible Vim snippets
+Plug 'phenomenes/ansible-snippets', { 'for': 'yaml.ansible' }
+
 call plug#end()
 
 " Options {{{1
