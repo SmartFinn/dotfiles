@@ -177,8 +177,8 @@ map('n', 'g,', 'g,zz', { desc =  "Go forward in change list"})
 map('n', 'Q', '@q')
 
 -- reselect visual block after indent
-map('v', '<', '<gv')
-map('v', '>', '>gv')
+map('v', '<', '<gv', { desc = "unindent line" })
+map('v', '>', '>gv', { desc = "indent line" })
 
 -- Make <Backspace> act as <Delete> in Visual mode?
 map('v', '<BS>', 'x')
