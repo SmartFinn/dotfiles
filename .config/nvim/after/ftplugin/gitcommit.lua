@@ -15,8 +15,7 @@ vim.opt_local.spell = true
 -- Macros
 vim.api.nvim_create_autocmd({"BufEnter"}, {
   buffer = 0,
-  command = "startinsert | 1",
---  command = "normal! 1G",
+ command = "normal! 1G",
 })
 
 -- Mapping

@@ -1,7 +1,10 @@
 -- https://github.com/glepnir/dashboard-nvim
 
 local status, dash = pcall(require, "dashboard")
-local home = os.getenv("HOME")
+
+if not status then
+  return
+end
 
 dash.default_banner = {
   "",
@@ -36,7 +39,7 @@ dash.custom_center = {
 		icon = "  ",
 		desc = "File browser                            ",
 		action = "Telescope file_browser",
-		shortcut = "LEADER f b",
+		shortcut = "LEADER e  ",
 	},
 	{
 		icon = "  ",
@@ -63,11 +66,10 @@ dash.session_directory = vim.fn.stdpath("data") .. "/session"
 vim.keymap.set('n', '<Leader>sl', '<CMD>SessionLoad<CR>', { desc = "Load latest session" })
 vim.keymap.set('n', '<Leader>ss', '<CMD>SessionSave<CR>', { desc = "Save current session" })
 
-
-local au_dashboard = vim.api.nvim_create_augroup("dashboard", { clear = true })
+-- Autocmds
 vim.api.nvim_create_autocmd({"FileType"}, {
   desc = "Quit dashboard by q key press",
-  group = au_dashboard,
+  group = vim.api.nvim_create_augroup("dashboard", { clear = true }),
   pattern = { "dashboard" },
   callback = function()
     vim.keymap.set('n', 'q', '<CMD>quit<CR>', { buffer = true })

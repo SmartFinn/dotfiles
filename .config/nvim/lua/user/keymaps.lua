@@ -4,8 +4,8 @@ end
 
 local function remap(m, k, v, _opts)
   _opts = _opts or {}
-  opts = { remap = true, silent = true }
-  for k,v in pairs(_opts) do opts[k] = v end
+  local opts = { remap = true, silent = true }
+  for key,val in pairs(_opts) do opts[key] = val end
   vim.keymap.set(m, k, v, opts)
 end
 
@@ -188,8 +188,8 @@ map('', '<PageUp>', '<C-U>')
 map('', '<PageDown>', '<C-D>')
 
 -- j/k will move virtual lines (lines that wrap)
-map('n', 'j', "(v:count == 0 ? 'gj' : 'j')", { silent = true, expr = true })
-map('n', 'k', "(v:count == 0 ? 'gk' : 'k')", { silent = true, expr = true })
+map({ 'n', 'v' }, 'j', "v:count == 0 ? 'gj' : 'j'", { silent = true, expr = true })
+map({ 'n', 'v' }, 'k', "v:count == 0 ? 'gk' : 'k'", { silent = true, expr = true })
 
 -- Use space to jump down a page (like browsers do)...
 map({'n', 'v'}, '<Space>', '<PageDown>')

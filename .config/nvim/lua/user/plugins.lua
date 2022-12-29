@@ -25,10 +25,9 @@ packer.init({
   },
 })
 
-local au_plugins = vim.api.nvim_create_augroup("plugins_config", { clear = true })
 vim.api.nvim_create_autocmd({"BufWritePost"}, {
   desc = "Reloads Neovim after whenever you save plugins.lua",
-  group = au_plugins,
+  group = vim.api.nvim_create_augroup("PluginsCompile", { clear = true }),
   pattern = "plugins.lua",
   command = "source <afile> | PackerCompile"
 })
@@ -48,20 +47,31 @@ packer.startup(function(use)
   })
 
   -- Telescope File browser extention
-  use({ "nvim-telescope/telescope-file-browser.nvim" })
+  use({
+    'nvim-telescope/telescope-file-browser.nvim',
+    after = 'telescope.nvim',
+  })
 
   -- Treesitter configurations and abstraction layer for Neovim
   use({
     'nvim-treesitter/nvim-treesitter',
-    run = function() require('nvim-treesitter.install').update({ with_sync = true })() end,
+    run = function()
+      require('nvim-treesitter.install').update({ with_sync = true })()
+    end,
   })
 
   -- Neovim treesitter plugin for setting the commentstring based on
   -- the cursor location in a file
-  use({'JoosepAlviste/nvim-ts-context-commentstring'})
+  use({
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    after = 'nvim-treesitter',
+  })
 
   -- Rainbow parentheses for neovim using tree-sitter
-  use({'p00f/nvim-ts-rainbow'})
+  use({'p00f/nvim-ts-rainbow', after = 'nvim-treesitter' })
+
+  -- Autoclose tags
+  use({ 'windwp/nvim-ts-autotag', after = 'nvim-treesitter' })
 
   -- Add/delete/change surrounding pairs
   use({
@@ -97,7 +107,7 @@ packer.startup(function(use)
   use({
     'akinsho/bufferline.nvim',
     tag = 'v3.*',
-    requires = { 'nvim-tree/nvim-web-devicons' },
+    requires = { 'nvim-tree/nvim-web-devicons', opt = true },
   })
 
   -- Indent detection

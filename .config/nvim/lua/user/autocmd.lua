@@ -53,7 +53,7 @@ vim.api.nvim_create_autocmd({"BufReadPost"}, {
   desc = "Restore last position of cursor in a file",
   group = au_vimrc,
   pattern = "*",
-  command = "normal! g'\""
+  command = "normal! g'\"",
 })
 
 -- Automatically creates parent directories for the current file if they
@@ -73,21 +73,21 @@ vim.api.nvim_create_autocmd({"BufWritePre", "FileWritePre"}, {
 })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight the region on yank",
+  desc = "Highlight yanked text",
   group = au_vimrc,
   callback = function()
     vim.highlight.on_yank({ higroup = "Visual", timeout = 120 })
   end,
 })
 
-local au_quickfix = vim.api.nvim_create_augroup("quickfix", { clear = true })
 vim.api.nvim_create_autocmd({"FileType"}, {
   desc = "Close quickfix window by q key press",
-  group = au_quickfix,
+  group =  vim.api.nvim_create_augroup("quickfix", { clear = true }),
   pattern = { "qf", "netrw" },
   callback = function()
     vim.opt_local.wrap = false
     vim.opt_local.list = false
-    vim.keymap.set('n', 'q', '<CMD>bdelete<CR>', { buffer = true })
+    vim.opt_local.buflisted = false
+    vim.keymap.set('n', 'q', '<CMD>close<CR>', { buffer = true })
   end,
 })

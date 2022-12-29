@@ -3,6 +3,7 @@
 vim.opt_local.tabstop = 4
 vim.opt_local.shiftwidth = 4
 vim.opt_local.shiftround = true
+vim.opt_local.expandtab = false
 vim.opt_local.foldmethod = "indent"
 vim.opt_local.textwidth = 79
 vim.opt_local.wrap = false

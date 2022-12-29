@@ -57,8 +57,8 @@ vim.opt.diffopt:remove("closeoff")
 vim.opt.diffopt:append("vertical") -- always open diffs in vertical splits.
 
 -- Set langmap for russian layout
-vim.opt.langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯЁХЪЖЭБЮ;ABCDEFGHIJKLMNOPQRSTUVWXYZ~{}:\\"<>'
-vim.opt.langmap:append("фисвуапршолдьтщзйкыегмцчняёхъжэбю;abcdefghijklmnopqrstuvwxyz`[]\\;'\\,.")
+vim.opt.langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯЁХЪЖЭБЮ;ABCDEFGHIJKLMNOPQRSTUVWXYZ~{}:"<>,' ..
+                  "фисвуапршолдьтщзйкыегмцчняёхъжэбю;abcdefghijklmnopqrstuvwxyz`[];'\\,."
 
 vim.opt.shada = {
   "h",     -- disable hlsearch when loading shada

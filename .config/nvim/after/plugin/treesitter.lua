@@ -5,7 +5,6 @@ if not status then
   return
 end
 
-
 ts.setup {
   -- A list of parser names, or "all"
   ensure_installed = {

@@ -5,10 +5,9 @@ if not status then
   return
 end
 
-local au_indent_blackline = vim.api.nvim_create_augroup("IndentBlacklineColors", { clear = true })
 vim.api.nvim_create_autocmd({"VimEnter"}, {
   desc = "Set custom highlighting for indent-blankline",
-  group = au_indent_blackline,
+  group = vim.api.nvim_create_augroup("IndentBlacklineColors", { clear = true }),
   callback = function()
     vim.api.nvim_set_hl(0, 'IndentBlanklineChar', { fg = '#353c45', nocombine = true })
     vim.api.nvim_set_hl(0, 'IndentBlanklineContextChar', { fg = '#4f6687', nocombine = true })

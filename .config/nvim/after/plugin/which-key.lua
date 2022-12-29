@@ -5,6 +5,16 @@ if not status then
   return
 end
 
-whichkey.setup()
+whichkey.setup({
+  plugins = {
+    spelling = { enabled = true },
+    presets = { operators = false },
+  },
+  window = {
+    border = "rounded",
+    padding = { 2, 2, 2, 2 },
+  },
+  disable = { filetypes = { "TelescopePrompt" } },
+})
 
 vim.opt.timeoutlen = 500 -- reduce time of popup showing

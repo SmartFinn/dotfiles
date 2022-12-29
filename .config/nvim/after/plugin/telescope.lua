@@ -13,12 +13,19 @@ telescope.setup({
   },
   extensions = {
     file_browser = {
-      -- theme = "onedark",
       hijack_netrw = true, -- disables netrw and use telescope-file-browser in its place
       hidden = true, -- show hidden (dot) files
       select_buffer = true,
       grouped = true, -- dirs before files
       collapse_dirs = true, -- ship dirs with only single subdir
+      mappings = {
+        ["i"] = {
+          ["<C-u>"] = require("telescope").extensions.file_browser.actions.goto_parent_dir,
+        },
+        ["n"] = {
+          ["<BS>"] = require("telescope").extensions.file_browser.actions.goto_parent_dir,
+        },
+      },
     },
   },
 })
