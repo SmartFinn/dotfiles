@@ -151,6 +151,7 @@ $HOME/.local/share/wine/dosdevices/
 $HOME/.local/share/wine/drive_c/
 $HOME/.wine/dosdevices/
 $HOME/.wine/drive_c/
+$HOME/.var/app/org.winehq.Wine/data/
 
 #- WPS Office
 $HOME/.kingsoft/office6/cache/
