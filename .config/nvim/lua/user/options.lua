@@ -76,6 +76,10 @@ vim.opt.listchars = { tab = "│ ", trail = "·", nbsp = "·", extends = ">", pr
 -- vim.opt.numberwidth = 2 -- set number column width to 2 {default 4}
 vim.opt.cmdheight = 0 -- hide the command-line
 
+-- Highlight the line number of the cursor
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "number"
+
 vim.opt.termguicolors = true -- set term gui colors (most terminals support this)
 
 vim.opt.confirm = true -- asking instead of fail

@@ -4,14 +4,14 @@ vim.api.nvim_create_autocmd({"InsertEnter"}, {
   desc = "Show cursor line in insert mode",
   group = au_vimrc,
   pattern = "*",
-  callback = function() vim.opt_local.cursorline = true end,
+  callback = function() vim.opt_local.cursorlineopt = "both" end,
 })
 
 vim.api.nvim_create_autocmd({"InsertLeave"}, {
-  desc = "Disable cursor line when leaving insert mode",
+  desc = "Hide cursor line when leaving insert mode",
   group = au_vimrc,
   pattern = "*",
-  callback = function() vim.opt_local.cursorline = false end,
+  callback = function() vim.opt_local.cursorlineopt = "number" end,
 })
 
 vim.api.nvim_create_autocmd({"BufEnter", "WinEnter"}, {
