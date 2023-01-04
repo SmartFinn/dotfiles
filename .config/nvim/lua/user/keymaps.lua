@@ -35,6 +35,9 @@ map('x', '<Leader>y', '"+y', { desc = "Yank to system clipboard" })
 -- Paste from system clipboard
 map('', '<Leader>p', '"+p', { desc = "Paste from system clipboard" })
 
+-- Save/Load sessions
+map('n', '<Leader>sl', '<CMD>SessionLoad<CR>', { desc = "Load latest session" })
+map('n', '<Leader>ss', '<CMD>SessionSave<CR>', { desc = "Save current session" })
 
 -- New key mapping
 --

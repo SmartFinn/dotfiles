@@ -1,21 +1,6 @@
 -- https://github.com/lukas-reineke/indent-blankline.nvim
 
-local status, indent_blankline = pcall(require, 'indent_blankline')
-if not status then
-  return
-end
-
-vim.api.nvim_create_autocmd({"VimEnter"}, {
-  desc = "Set custom highlighting for indent-blankline",
-  group = vim.api.nvim_create_augroup("IndentBlacklineColors", { clear = true }),
-  callback = function()
-    vim.api.nvim_set_hl(0, 'IndentBlanklineChar', { fg = '#353c45', nocombine = true })
-    vim.api.nvim_set_hl(0, 'IndentBlanklineContextChar', { fg = '#4f6687', nocombine = true })
-    vim.api.nvim_set_hl(0, 'IndentBlanklineContextStart', { fg = '#4f6687', nocombine = true })
-  end,
-})
-
-indent_blankline.setup({
+require("indent_blankline").setup({
   buftype_exclude = {
     "nofile",
     "terminal",
@@ -55,8 +40,18 @@ indent_blankline.setup({
     "operation_type",
   },
   show_trailing_blankline_indent = false,
-  use_treesitter = true,
+  use_treesitter = false,
   char = "▏",
   context_char = "▏",
   show_current_context = true,
+})
+
+vim.api.nvim_create_autocmd({"Syntax"}, {
+  desc = "Set custom highlighting for indent-blankline",
+  group = vim.api.nvim_create_augroup("IndentBlacklineColors", { clear = true }),
+  callback = function()
+    vim.api.nvim_set_hl(0, 'IndentBlanklineChar', { fg = '#353c45', nocombine = true })
+    vim.api.nvim_set_hl(0, 'IndentBlanklineContextChar', { fg = '#4f6687', nocombine = true })
+    vim.api.nvim_set_hl(0, 'IndentBlanklineContextStart', { fg = '#4f6687', nocombine = true })
+  end,
 })

@@ -1,11 +1,6 @@
 -- https://github.com/akinsho/bufferline.nvim
 
-local status, bufferline = pcall(require, 'bufferline')
-if not status then
-  return
-end
-
-bufferline.setup({
+require("bufferline").setup({
   options = {
     numbers = "ordinal",
     separator_style = "slant",

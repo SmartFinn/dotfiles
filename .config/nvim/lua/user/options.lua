@@ -27,8 +27,6 @@ vim.opt.synmaxcol = 1000 -- Don't try to highlight lines longer than 1000 charac
 vim.opt.showmatch = true -- show the matching paren
 vim.opt.matchtime = 2 -- reduce seconds to show the matching paren.
 
-vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
-
 vim.opt.path:append("**") -- search down into subfolders
 
 -- ignore file patterns when completing files

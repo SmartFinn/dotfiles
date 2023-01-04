@@ -1,10 +1,6 @@
 -- https://github.com/glepnir/dashboard-nvim
 
-local status, dash = pcall(require, "dashboard")
-
-if not status then
-  return
-end
+local dash = require("dashboard")
 
 dash.default_banner = {
   "",
@@ -61,10 +57,6 @@ dash.custom_center = {
 	},
 }
 dash.session_directory = vim.fn.stdpath("data") .. "/session"
-
--- Keymapping
-vim.keymap.set('n', '<Leader>sl', '<CMD>SessionLoad<CR>', { desc = "Load latest session" })
-vim.keymap.set('n', '<Leader>ss', '<CMD>SessionSave<CR>', { desc = "Save current session" })
 
 -- Autocmds
 vim.api.nvim_create_autocmd({"FileType"}, {

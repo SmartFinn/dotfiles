@@ -91,3 +91,10 @@ vim.api.nvim_create_autocmd({"FileType"}, {
     vim.keymap.set('n', 'q', '<CMD>close<CR>', { buffer = true })
   end,
 })
+
+vim.api.nvim_create_autocmd({"BufWritePost"}, {
+  desc = "Reloads Neovim after whenever you save plugins.lua",
+  group = vim.api.nvim_create_augroup("Packer", { clear = true }),
+  pattern = "plugins.lua",
+  command = "source <afile> | PackerCompile"
+})
