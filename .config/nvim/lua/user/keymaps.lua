@@ -67,6 +67,7 @@ map({'n', 'v', 'i'}, '<M-b>', '<S-Left>', { desc = "Go a word backward" })
 map({'n', 'v', 'i'}, '<M-f>', '<S-Right>', { desc = "Go a word forward" })
 map({'n', 'v', 'i'}, '<M-n>', '<Down>', { desc = "Go down" })
 map({'n', 'v', 'i'}, '<M-p>', '<Up>', { desc = "Go up" })
+map('i', '<C-->', '<C-o>u', { desc = "Undo" })
 
 -- Toogle options (vim-unimpaired replacement)
 map('', 'Zc', '<CMD>setlocal cursorline!<CR>', { desc = "Toggle cursorline" })
@@ -202,3 +203,8 @@ map('', '<MiddleMouse>', '<Nop>')
 
 -- Remap Ctrl+C on Esc (needed for the correct exit from insert mode)
 map('i', '<C-C>', '<Esc>')
+
+-- Add undo break-points
+map('i', ',', ',<c-g>u')
+map('i', '.', '.<c-g>u')
+map('i', ';', ';<c-g>u')
