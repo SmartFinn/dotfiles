@@ -63,7 +63,9 @@ vim.api.nvim_create_autocmd({"FileType"}, {
   desc = "Quit dashboard by q key press",
   group = vim.api.nvim_create_augroup("dashboard", { clear = true }),
   pattern = { "dashboard" },
-  callback = function()
-    vim.keymap.set('n', 'q', '<CMD>quit<CR>', { buffer = true })
+  callback = function(event)
+		vim.keymap.set('n', 'q', '<CMD>quit<CR>', {
+			buffer = event.buf, silent = true
+		})
   end,
 })

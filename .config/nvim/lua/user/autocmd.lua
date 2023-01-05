@@ -4,28 +4,28 @@ vim.api.nvim_create_autocmd({"InsertEnter"}, {
   desc = "Show cursor line in insert mode",
   group = au_vimrc,
   pattern = "*",
-  callback = function() vim.opt_local.cursorlineopt = "both" end,
+  callback = function() vim.wo.cursorlineopt = "both" end,
 })
 
 vim.api.nvim_create_autocmd({"InsertLeave"}, {
   desc = "Hide cursor line when leaving insert mode",
   group = au_vimrc,
   pattern = "*",
-  callback = function() vim.opt_local.cursorlineopt = "number" end,
+  callback = function() vim.wo.cursorlineopt = "number" end,
 })
 
 vim.api.nvim_create_autocmd({"BufEnter", "WinEnter"}, {
   desc = "Show colorcolumn in the current buffer",
   group = au_vimrc,
   pattern = "*",
-  callback = function() vim.opt_local.colorcolumn = "+1" end,
+  callback = function() vim.wo.colorcolumn = "+1" end,
 })
 
 vim.api.nvim_create_autocmd({"BufLeave", "WinLeave"}, {
   desc = "Hide colorcolumn when leaving the current buffer",
   group = au_vimrc,
   pattern = "*",
-  callback = function() vim.opt_local.colorcolumn = "0" end,
+  callback = function() vim.wo.colorcolumn = "0" end,
 })
 
 vim.api.nvim_create_autocmd({"BufWinEnter"}, {
@@ -49,11 +49,16 @@ vim.api.nvim_create_autocmd({"BufWritePre"}, {
   command = "%s/\\s\\+$//e",
 })
 
-vim.api.nvim_create_autocmd({"BufReadPost"}, {
-  desc = "Restore last position of cursor in a file",
+vim.api.nvim_create_autocmd('BufReadPost', {
+  desc = "Jump to the last place in the file before exiting",
   group = au_vimrc,
-  pattern = "*",
-  command = "normal! g'\"",
+  callback = function(data)
+    -- https://github.com/numToStr/dotfiles/commit/49e6d6d
+    local last_pos = vim.api.nvim_buf_get_mark(data.buf, '"')
+    if last_pos[1] > 0 and last_pos[1] <= vim.api.nvim_buf_line_count(data.buf) then
+      vim.api.nvim_win_set_cursor(0, last_pos)
+    end
+  end,
 })
 
 -- Automatically creates parent directories for the current file if they
@@ -84,11 +89,13 @@ vim.api.nvim_create_autocmd({"FileType"}, {
   desc = "Close quickfix window by q key press",
   group =  vim.api.nvim_create_augroup("quickfix", { clear = true }),
   pattern = { "qf", "netrw" },
-  callback = function()
-    vim.opt_local.wrap = false
-    vim.opt_local.list = false
-    vim.opt_local.buflisted = false
-    vim.keymap.set('n', 'q', '<CMD>close<CR>', { buffer = true })
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.bo[event.buf].list = false
+    vim.bo[event.buf].wrap = false
+    vim.keymap.set('n', 'q', '<CMD>close<CR>', {
+      buffer = event.buf, silent = true
+    })
   end,
 })
 
