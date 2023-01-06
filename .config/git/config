@@ -33,6 +33,9 @@
 	mark-unchanged = update-index --assume-unchanged
 	unmark-unchanged = update-index --no-assume-unchanged
 	ls-unchanged = !git ls-files -v | grep '^[a-z]'
+	mark-skipped = update-index --skip-worktree
+	unmark-skipped = update-index --no-skip-worktree
+	ls-skipped = !git ls-files -v | grep '^S'
 	in = log --graph ..@{u}
 	out = log --graph @{u}..
 	unstage = reset HEAD --
