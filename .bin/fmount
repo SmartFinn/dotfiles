@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+#  Toggle mount status of a device using pmount
+#  If the device is not mounted, it will be mounted.
+#  If the device is mounted, it will be unmounted and powered down.
+
+set -eu -o pipefail
+
+while IFS=, read -r dev mountpoint; do
+    if mountpoint -q "$mountpoint"; then
+        if [[ $PWD =~ $mountpoint ]]; then
+            echo "$dev is busy. Change working directory and try again." >&2
+            exit 1
+        fi
+
+        if command -v udisksctl >/dev/null; then
+            udisksctl unmount -b "$dev"
+        else
+            pumount "$dev"
+            printf '%s unmounted.\n' "$dev"
+        fi
+
+        if udisksctl power-off -b "$dev" 2>/dev/null; then
+            printf '%s ejected.\n' "$dev"
+        fi
+    else
+        if command -v udisksctl >/dev/null; then
+            udisksctl mount -b "$dev"
+        else
+            pmount "$dev"
+            printf '%s mounted to %s.\n' "$dev" "$(lsblk -n -o MOUNTPOINT "$dev")"
+        fi
+    fi
+done < <(
+    lsblk -o PATH,TYPE,SIZE,LABEL,MOUNTPOINT,HOTPLUG |
+        awk '$NF !~ 0 {print}' |
+        fzf --multi --no-info --header-lines=1 --with-nth=..-2 -0 |
+        awk '{printf "%s,%s\n", $1, $5}'
+)
+
+exit 0
