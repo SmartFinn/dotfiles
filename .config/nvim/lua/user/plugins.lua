@@ -121,8 +121,8 @@ packer.startup(function(use)
 
   -- Indent detection
   use({
-    'Darazaki/indent-o-matic',
-    config = function() require('user.plugins.indent-o-matic') end,
+    'nmac427/guess-indent.nvim',
+    config = function() require('guess-indent').setup() end,
   })
 
   -- Indent guides
