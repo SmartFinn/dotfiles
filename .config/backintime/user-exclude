@@ -175,10 +175,11 @@ Steam/
 
 ## Wine
 .wine/dosdevices/
-.wine/drive_c/
+.wine/drive_c/windows
 .local/share/wine/dosdevices/
-.local/share/wine/drive_c/
-.var/app/org.winehq.Wine/data/
+.local/share/wine/drive_c/windows
+.var/app/org.winehq.Wine/data/wine/dosdevices
+.var/app/org.winehq.Wine/data/wine/drive_c/windows
 *.exe
 
 ## WPS Office
