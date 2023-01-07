@@ -46,6 +46,9 @@ require('gitsigns').setup({
     map('n', '<leader>hp', gs.preview_hunk, {
       buffer = buf, desc = "Git: preview hunk"
     })
+    map('n', '<leader>hd', gs.diffthis, {
+      buffer = buf, desc = "Git: show diff"
+    })
 
     -- Text object
     map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', {
