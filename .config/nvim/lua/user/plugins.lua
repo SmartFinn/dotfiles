@@ -148,6 +148,12 @@ packer.startup(function(use)
     end,
   })
 
+  -- Gitsigns
+  use({
+    'lewis6991/gitsigns.nvim',
+    config = function() require('user.plugins.gitsigns') end
+  })
+
   -- Package Manager
   use({
     'williamboman/mason.nvim',
