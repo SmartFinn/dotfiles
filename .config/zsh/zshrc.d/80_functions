@@ -71,6 +71,8 @@ extract() {
 				nomarch -- "$1"    ;;
 		*.arj|*.ARJ)
 				arj e -r -- "$1"   ;;
+		*.asar)
+			asar extract "$1" "$(basename "$1" .asar)" ;;
 		*.bz|*.bz2)
 				bunzip2 -k -- "$1" ;;
 		*.cab|*.CAB|*.exe|*.EXE)
