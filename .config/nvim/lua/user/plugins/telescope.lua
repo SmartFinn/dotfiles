@@ -31,7 +31,6 @@ require('telescope').setup({
       hidden = true, -- show hidden (dot) files
       select_buffer = true,
       grouped = true, -- dirs before files
-      collapse_dirs = true, -- ship dirs with only single subdir
       mappings = {
         ['i'] = {
           ['<C-u>'] = fb_actions.goto_parent_dir,
