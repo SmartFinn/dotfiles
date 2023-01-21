@@ -17,13 +17,15 @@ user smartfinn@outlook.com
 
 account gmail
 host smtp.gmail.com
-port 587
+port 465
+tls_starttls off
 from finalitik@gmail.com
 user finalitik@gmail.com
 
 account mkro.tk
 host smtp.gmail.com
-port 587
+port 465
+tls_starttls off
 from null@mkro.tk
 user null@smartfinn.com
 
