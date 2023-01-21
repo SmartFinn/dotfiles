@@ -335,6 +335,7 @@ $HOME/.var/app/com.spotify.Client/config/spotify/*
 [Tt]rash*/
 .trash/
 cache/
+fontconfig/
 thumbnails/
 temp/
 tmp/
