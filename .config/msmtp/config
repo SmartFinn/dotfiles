@@ -3,19 +3,19 @@ aliases /etc/aliases
 
 syslog LOG_MAIL
 
+auth on
 tls on
 tls_trust_file /etc/ssl/certs/ca-certificates.crt
-#tls_certcheck off
-
-auth on
 
 account outlook
+domain outlook.com
 host smtp.office365.com
 port 587
 from smartfinn@outlook.com
 user smartfinn@outlook.com
 
 account gmail
+domain gmail.com
 host smtp.gmail.com
 port 465
 tls_starttls off
@@ -23,6 +23,7 @@ from finalitik@gmail.com
 user finalitik@gmail.com
 
 account mkro.tk
+domain mkro.tk
 host smtp.gmail.com
 port 465
 tls_starttls off
