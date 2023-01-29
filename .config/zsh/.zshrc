@@ -193,6 +193,11 @@ unset rcfile
 # COMPLETIONS
 # -----------
 #
+# Adding a XDG directory to fpath
+if [ -d "${XDG_DATA_HOME:-$HOME/.local/share}/zsh/site-functions" ]; then
+	fpath=("${XDG_DATA_HOME:-$HOME/.local/share}/zsh/site-functions" $fpath)
+fi
+
 # Load the compinit module. This will readefine the `compdef` function to
 # the one that actually initializes completions.
 
