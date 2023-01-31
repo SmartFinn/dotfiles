@@ -1,71 +1,87 @@
 -- https://github.com/glepnir/dashboard-nvim
 
-local dash = require("dashboard")
-
-dash.default_banner = {
-  "",
-  "",
-  " ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗",
-  " ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║",
-  " ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║",
-  " ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║",
-  " ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║",
-  " ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝",
-  "",
-  " [ TIP: To exit Neovim, just power off your computer. ] ",
-  "",
-}
-
-dash.preview_file_height = 11
-dash.preview_file_width = 70
-dash.custom_center = {
-	{
-		icon = "  ",
-		desc = "Recently opened files                   ",
-		action = "Telescope oldfiles",
-		shortcut = "LEADER f r",
+require("dashboard").setup({
+	theme = 'doom',
+	config = {
+		header = {
+			"",
+			"",
+			" ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗",
+			" ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║",
+			" ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║",
+			" ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║",
+			" ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║",
+			" ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝",
+			"",
+			" [ TIP: To exit Neovim, just power off your computer. ] ",
+			"",
+			"",
+		},
+		center = {
+			{
+				icon = "  ",
+				icon_hl = 'Title',
+				desc = "Recently opened files    ",
+				desc_hl = 'String',
+				action = "Telescope oldfiles",
+				key = 'r',
+				keymap = "LEADER f",
+				key_hl = 'Number',
+			},
+			{
+				icon = "  ",
+				icon_hl = 'Title',
+				desc = "Find files",
+				desc_hl = 'String',
+				action = "Telescope find_files",
+				key = 'f',
+				keymap = "LEADER f",
+				key_hl = 'Number',
+			},
+			{
+				icon = "  ",
+				icon_hl = 'Title',
+				desc = "File browser",
+				desc_hl = 'String',
+				action = "Telescope file_browser",
+				key = 'e',
+				keymap = "LEADER  ",
+				key_hl = 'Number',
+			},
+			{
+				icon = "  ",
+				icon_hl = 'Title',
+				desc = "Find word",
+				desc_hl = 'String',
+				action = "Telescope live_grep",
+				key = 'w',
+				keymap = "LEADER f",
+				key_hl = 'Number',
+			},
+			{
+				icon = "  ",
+				icon_hl = 'Title',
+				desc = "Open dotfiles",
+				desc_hl = 'String',
+				action = "Telescope find_files find_command=dotbare,ls-files",
+				key = 'd',
+				keymap = "LEADER f",
+				key_hl = 'Number',
+			},
+			{
+				icon = "  ",
+				icon_hl = 'Title',
+				desc = "Quit",
+				desc_hl = 'String',
+				key = 'q',
+				keymap = "        ",
+				action = "quit",
+				key_hl = 'Number',
+			},
+		},
 	},
-	{
-		icon = "  ",
-		desc = "Find files                              ",
-		action = "Telescope find_files",
-		shortcut = "LEADER f f",
+	preview = {
+		file_height = 11,
+		file_width = 70,
 	},
-	{
-		icon = "  ",
-		desc = "File browser                            ",
-		action = "Telescope file_browser",
-		shortcut = "LEADER e  ",
-	},
-	{
-		icon = "  ",
-		desc = "Find word                               ",
-		action = "Telescope live_grep",
-		shortcut = "LEADER f w",
-	},
-	{
-		icon = "  ",
-		desc = "Open dotfiles                           ",
-		action = "Telescope find_files find_command=dotbare,ls-files",
-		shortcut = "LEADER f d"
-	},
-	{
-		icon = "  ",
-		desc = "Load lastest session                    ",
-		shortcut = "LEADER s l",
-		action = "SessionLoad",
-	},
-}
-dash.session_directory = vim.fn.stdpath("data") .. "/session"
-
--- Autocmds
-vim.api.nvim_create_autocmd({"FileType"}, {
-  desc = "Quit dashboard by q key press",
-  group = vim.api.nvim_create_augroup("dashboard", { clear = true }),
-  pattern = { "dashboard" },
-  callback = function(event)
-		vim.keymap.set('n', 'q', '<CMD>quit<CR>', {
-			buffer = event.buf, silent = true
-		})
-  end,
 })
