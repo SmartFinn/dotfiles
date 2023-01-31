@@ -11,7 +11,7 @@ ConditionPathExists=%E/restic/exclude
 
 Requires=restic-helper@generate-installed-packages-lists.service restic-helper@exclude-git-repos.service
 After=restic-helper@generate-installed-packages-lists.service restic-helper@exclude-git-repos.service
-OnFailure=restic-notify-failure@%i.service
+OnFailure=restic-notify-failure@%N.service
 
 [Service]
 Type=oneshot
@@ -26,16 +26,26 @@ ExecStart=/bin/sh -c "restic backup \
 	--exclude-caches \
 	--exclude-file=%E/restic/exclude \
 	--exclude-file=%C/restic/exclude-git-repos \
-	--exclude-larger-than=$MAX_FILE_SIZE \
+	${MAX_FILE_SIZE:+--exclude-larger-than=$MAX_FILE_SIZE} \
+	$RESTIC_BACKUP_ARGS \
 	%h"
 ExecStartPost=/bin/sh -c "restic forget \
 	--verbose \
 	--prune \
 	--host=%l \
 	--tag=systemd,%p \
-	--keep-daily=$RETENTION_DAYS \
-	--keep-weekly=$RETENTION_WEEKS \
-	--keep-monthly=$RETENTION_MONTHS \
-	--keep-yearly=$RETENTION_YEARS \
+	${KEEP_LAST:+--keep-last=$KEEP_LAST} \
+	${KEEP_HOURLY:+--keep-hourly=$KEEP_HOURLY} \
+	${KEEP_DAILY:+--keep-daily=$KEEP_DAILY} \
+	${KEEP_WEEKLY:+--keep-weekly=$KEEP_WEEKLY} \
+	${KEEP_MONTHLY:+--keep-monthly=$KEEP_MONTHLY} \
+	${KEEP_YEARLY:+--keep-yearly=$KEEP_YEARLY} \
+	${KEEP_WITHIN:+--keep-within=$KEEP_WITHIN} \
+	${KEEP_WITHIN_HOURLY:+--keep-within-hourly=$KEEP_WITHIN_HOURLY} \
+	${KEEP_WITHIN_DAILY:+--keep-within-daily=$KEEP_WITHIN_DAILY} \
+	${KEEP_WITHIN_WEEKLY:+--keep-within-weekly=$KEEP_WITHIN_WEEKLY} \
+	${KEEP_WITHIN_MONTHLY:+--keep-within-monthly=$KEEP_WITHIN_MONTHLY} \
+	${KEEP_WITHIN_YEARLY:+--keep-within-yearly=$KEEP_WITHIN_YEARLY} \
+	$RESTIC_FORGET_ARGS \
 	--group-by=paths"
 ExecStartPost=/usr/bin/env restic check
