@@ -6,23 +6,25 @@ Documentation=https://restic.readthedocs.io/en/stable/
 Wants=network-online.target
 After=network-online.target
 
-ConditionPathExists=%E/restic/%N.conf
+ConditionPathExists=%E/restic/%p.conf
 ConditionPathExists=%E/restic/exclude
 
 Requires=restic-helper@generate-installed-packages-lists.service restic-helper@exclude-git-repos.service
 After=restic-helper@generate-installed-packages-lists.service restic-helper@exclude-git-repos.service
-OnFailure=restic-notify-failure@%N.service
+OnFailure=restic-notify-failure@%n.service
 
 [Service]
 Type=oneshot
 TimeoutStopSec=4h
-EnvironmentFile=%E/restic/%N.conf
+EnvironmentFile=%E/restic/%p.conf
 ExecCondition=/usr/bin/env restic snapshots --no-lock
+# Not a failure if some files in backup dir cannot be read
+SuccessExitStatus=0 3
 ExecStart=/bin/sh -c "restic backup \
 	--verbose \
 	--one-file-system \
 	--host=%l \
-	--tag=systemd,%p \
+	--tag=%p,%i \
 	--exclude-caches \
 	--exclude-file=%E/restic/exclude \
 	--exclude-file=%C/restic/exclude-git-repos \
@@ -33,7 +35,7 @@ ExecStartPost=/bin/sh -c "restic forget \
 	--verbose \
 	--prune \
 	--host=%l \
-	--tag=systemd,%p \
+	--tag=%p,%i \
 	${KEEP_LAST:+--keep-last=$KEEP_LAST} \
 	${KEEP_HOURLY:+--keep-hourly=$KEEP_HOURLY} \
 	${KEEP_DAILY:+--keep-daily=$KEEP_DAILY} \

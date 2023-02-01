@@ -1,6 +1,6 @@
 [Unit]
 Description=Remove unneeded data from the restic repository
-OnFailure=restic-notify-failure@%i.service
+OnFailure=restic-notify-failure@%n.service
 
 [Service]
 Type=oneshot
