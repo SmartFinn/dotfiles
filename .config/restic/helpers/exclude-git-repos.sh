@@ -18,16 +18,19 @@ mapfile -d $'\0' -t GIT_REPOS < <(
 
 generate_exclude_list_for_git_repo() {
 	local git_dir="$1"
+	local -a uncommitted_files
+	local -a path_components
+	local -i i j
 
 	# if has remotes
 	git -C "$git_dir" remote | grep -q '.' || return 0
 
-	mapfile -d $'\0' -t files < <(
+	mapfile -d $'\0' -t uncommitted_files < <(
 		git -C "$git_dir" ls-files -z --exclude-standard --others --modified 2>/dev/null
 	)
 
 	# exclude whole git repo if array is empty
-	if [ "${#files[@]}" -eq 0 ]; then
+	if [ "${#uncommitted_files[@]}" -eq 0 ]; then
 		printf -- '%s\n' "$git_dir"
 		return 0
 	fi
@@ -35,20 +38,28 @@ generate_exclude_list_for_git_repo() {
 	# exclude files in git work tree
 	printf -- '%s/*\n' "$git_dir"
 
-	for file in "${files[@]}"; do
-		file_path="$git_dir/$file"
-		dir_path="${file_path%/*}"
+	for uncommitted_file in "${uncommitted_files[@]}"; do
+		# Convert relative path to uncommitted file into bash array
+		IFS=/ read -ra path_components <<< "$uncommitted_file"
 
-		if [ "$dir_path" != "$git_dir" ]; then
-			# cancel excluding parent dir
-			printf -- '!%s\n' "${dir_path}"
-			# but exclude files in the dir
-			printf -- '%s/*\n' "${dir_path}"
-		fi
+		# for each path components except the last one
+		for ((i = 0; i < ${#path_components[@]} - 1; i++)) {
+			for ((j = 0; j <= i; j++)) {
+				subdir="${subdir:+$subdir/}${path_components[$j]}"
+			}
 
-		# cancel excluding of non-commited files
-		printf -- '!%s\n' "${file_path}"
-	done | sort -u
+			# cancel excluding subdirectory
+			printf -- '!%s\n' "$git_dir/$subdir"
+
+			# but exclude files in the subdirectory
+			printf -- '%s/*\n' "$git_dir/$subdir"
+
+			unset subdir
+		}
+
+		# cancel excluding of uncommited files
+		printf -- '!%s\n' "$git_dir/$uncommitted_file"
+	done | awk '!(count[$0]++)'  # remove duplicate lines
 }
 
 generate_exclude_list() {
