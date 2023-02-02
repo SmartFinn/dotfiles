@@ -4,14 +4,12 @@ Documentation=man:restic(1)
 Documentation=https://restic.readthedocs.io/en/stable/
 
 Wants=network-online.target
-After=network-online.target
+Requires=restic-helper@generate-installed-packages-lists.service restic-helper@exclude-git-repos.service
+After=network-online.target restic-helper@generate-installed-packages-lists.service restic-helper@exclude-git-repos.service
+OnFailure=restic-notify-failure@%n.service
 
 ConditionPathExists=%E/restic/%p.conf
 ConditionPathExists=%E/restic/exclude
-
-Requires=restic-helper@generate-installed-packages-lists.service restic-helper@exclude-git-repos.service
-After=restic-helper@generate-installed-packages-lists.service restic-helper@exclude-git-repos.service
-OnFailure=restic-notify-failure@%n.service
 
 [Service]
 Type=oneshot
