@@ -125,6 +125,9 @@ $HOME/.dropbox*/
 $HOME/.mozilla/
 $HOME/.thunderbird/
 
+#- kitty
+$HOME/.local/share/kitty-ssh-kitten/
+
 #- Steam
 $HOME/Steam/
 $HOME/.steampath
@@ -324,6 +327,7 @@ $HOME/.var/app/com.spotify.Client/config/spotify/*
 *.socket
 *.swp
 *.tmp
+*_cache/
 *_sock
 .Private/
 .cache/
