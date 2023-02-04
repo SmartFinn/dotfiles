@@ -199,7 +199,9 @@ packer.startup(function(use)
   -- Snippets
   use({
     'L3MON4D3/LuaSnip',
-    config = function() require('user.plugins.lsp.luasnip') end
+    tag = 'v1.*',
+    config = function() require('user.plugins.lsp.luasnip') end,
+    run = "make install_jsregexp", -- luajit-devel package required
   })
   use({
     'rafamadriz/friendly-snippets',
