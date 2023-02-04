@@ -203,7 +203,6 @@ packer.startup(function(use)
   })
   use({
     'rafamadriz/friendly-snippets',
-    event = 'CursorHold',
   })
 
   -- Formatting and linting
