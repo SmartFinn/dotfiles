@@ -91,8 +91,6 @@ vim.api.nvim_create_autocmd({"FileType"}, {
   pattern = { "qf", "netrw" },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
-    vim.bo[event.buf].list = false
-    vim.bo[event.buf].wrap = false
     vim.keymap.set('n', 'q', '<CMD>close<CR>', {
       buffer = event.buf, silent = true
     })
