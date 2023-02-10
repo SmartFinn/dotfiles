@@ -1,0 +1,48 @@
+@import "firefox-papirus-icon-theme/theme/icons.css";
+
+:root {
+  /* Compact menu */
+  --arrowpanel-menuitem-padding-block: 2px !important;
+  /* Replace button-like tabs with classic */
+  --tab-border-radius: 4px 4px 0 0 !important;
+  --tab-block-margin: 4px 0 !important;
+  --tab-selected-bgcolor: var(--toolbar-non-lwt-bgcolor) !important;
+  --tab-selected-bgimage: var(--toolbar-non-lwt-bgimage) !important;
+  --lwt-selected-tab-background-color: unset !important; /* fix Light theme */
+}
+
+/* Fix buttons on TabsToolbar after overriding --tab-border-radius */
+#TabsToolbar .toolbarbutton-1 > .toolbarbutton-icon,
+#TabsToolbar .toolbarbutton-1 > .toolbarbutton-text,
+#TabsToolbar .toolbarbutton-1 > .toolbarbutton-badge-stack {
+  border-radius: 4px !important;
+}
+
+/* Hide secondary label on tabs */
+.tab-secondary-label > label {
+  display: none;
+}
+
+/* Improve tab content alignment  */
+.tab-content {
+  padding: calc(var(--inline-tab-padding, 8px) / 2) var(--inline-tab-padding) 0 !important;
+}
+
+/* Reduce left spacer on non-maximized windows */
+.titlebar-spacer[type="pre-tabs"] { display: none !important; }
+
+/* remove separator beetweeb tabs and spacer */
+#tabbrowser-tabs {
+  border-inline-start: none !important;
+  padding-inline-start: 0 !important;
+  margin-inline-start: 0 !important;
+}
+
+/* Hide titlebar buttons when maximized (Unity-like) */
+html[sizemode="maximized"] .titlebar-buttonbox { display: none !important; }
+html[sizemode="maximized"] .titlebar-spacer[type="post-tabs"] { display: none !important; }
+
+/* OPTIONAL - show audio label in compact mode and make the audio icon behavior match non-compact mode */
+.tab-secondary-label:is([soundplaying], [muted], [activemedia-blocked], [pictureinpicture]){ display: -moz-box !important; margin-bottom: 1px }
+#TabsToolbar:not(:hover) .tab-icon-image{ opacity: 1 !important; }
+#TabsToolbar:not(:hover) .tab-icon-overlay:not([pinned]){ opacity: 0 !important; }
