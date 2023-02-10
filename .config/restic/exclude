@@ -321,6 +321,8 @@ $HOME/.var/app/com.spotify.Client/config/spotify/*
 *.backup
 *.bak
 *.cache*
+*.iso
+*.img
 *.lock
 *.old
 *.pid
