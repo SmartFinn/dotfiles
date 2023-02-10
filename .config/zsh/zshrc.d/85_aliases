@@ -23,6 +23,7 @@ alias dd='dd status=progress'
 alias dmesg='dmesg -H'
 alias ip='ip --color=auto'
 alias diff='diff --color=auto'
+alias tree='tree -C --dirsfirst'
 
 # short commands
 alias -g M='| more'
