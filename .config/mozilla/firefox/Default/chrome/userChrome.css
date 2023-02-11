@@ -38,6 +38,15 @@
   margin-inline-start: 0 !important;
 }
 
+/* Hide navigation buttons in context menu */
+#context-navigation {
+  display: none;
+}
+
+#context-navigation + #context-sep-navigation {
+  display: none;
+}
+
 /* Hide titlebar buttons when maximized (Unity-like) */
 html[sizemode="maximized"] .titlebar-buttonbox { display: none !important; }
 html[sizemode="maximized"] .titlebar-spacer[type="post-tabs"] { display: none !important; }
