@@ -5,10 +5,12 @@
 *.bak
 *.cache*
 *.lock
+*.old
 *.pid
 *.socket
 *.swp
 *.tmp
+*_cache/
 *_sock
 .Private/
 .cache/
@@ -20,6 +22,7 @@
 [Tt]rash*/
 .trash/
 cache/
+fontconfig/
 thumbnails/
 temp/
 tmp/
@@ -29,6 +32,21 @@ lost+found/
 .rnd
 .Xauthority
 .xsession-errors*
+
+## Logs
+logs/
+log*.txt
+*.log
+*.log.*
+
+## Python
+*.pyc
+*.pyo
+__pycache__/
+.pytest_cache/
+.pylint.d/
+venv/
+virtualenv/
 
 ## Root
 /dev/
@@ -42,9 +60,8 @@ lost+found/
 /tmp/
 /var/backup/
 /var/cache/
-/var/lib/apt/lists/*
+/var/lib/apt/lists/
 /var/lib/btrfs/
-/var/lib/dnf/repos/*
 /var/lib/dnf/repos/
 /var/lib/machines/
 /var/lib/portables/
@@ -114,15 +131,6 @@ node_modules/
 ## Ruby
 .local/share/gem/
 
-## Python
-*.pyc
-*.pyo
-__pycache__/
-.pytest_cache/
-.pylint.d/
-venv/
-virtualenv/
-
 ## Chromium-based and Electron-based
 .config/Bitwarden/
 .config/Boostnote/
@@ -150,8 +158,40 @@ virtualenv/
 ## App cache
 .local/share/webbrowser-app/
 .local/share/Zeal/
-.mozilla/
-.thunderbird/
+
+## Mozilla Firefox
+.mozilla/*
+.config/mozilla/firefox/Crash Reports/
+.config/mozilla/firefox/Default/.parentlock
+.config/mozilla/firefox/Default/bookmarkbackups/
+.config/mozilla/firefox/Default/chrome_debugger_profile/
+.config/mozilla/firefox/Default/crashes/
+.config/mozilla/firefox/Default/datareporting/
+.config/mozilla/firefox/Default/favicons.sqlite
+.config/mozilla/firefox/Default/favicons.sqlite-wal
+.config/mozilla/firefox/Default/gmp/
+.config/mozilla/firefox/Default/gmp-widevinecdm/
+.config/mozilla/firefox/Default/lock
+.config/mozilla/firefox/Default/minidumps/
+.config/mozilla/firefox/Default/saved-telemetry-pings/
+.config/mozilla/firefox/Default/search.json.mozlz4
+.config/mozilla/firefox/Default/serviceworker.txt
+.config/mozilla/firefox/Default/sessionCheckpoints.json
+.config/mozilla/firefox/Default/sessionstore-backups/
+.config/mozilla/firefox/Default/storage/
+.config/mozilla/firefox/Default/storage-sync*
+.config/mozilla/firefox/Default/storage.sqlite
+.config/mozilla/firefox/Default/synced-tabs.db*
+.config/mozilla/firefox/Default/weave/changes/
+.config/mozilla/firefox/Default/weave/failed/
+.config/mozilla/firefox/Default/weave/logs/
+.config/mozilla/firefox/Default/weave/toFetch/
+.config/mozilla/firefox/Pending Pings/
+.config/mozilla/firefox/firefox-mpris/
+
+
+## Mozilla Thunderbird
+.thunderbird/*
 
 ## Steam
 Steam/
@@ -223,12 +263,6 @@ IndexedDB/
 Local Storage/
 Service Worker/
 Session Storage/
-
-## Logs
-logs/
-log*.txt
-*.log
-*.log.*
 
 ## ssh
 .ssh/controls/
