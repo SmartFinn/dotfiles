@@ -4,6 +4,8 @@
 
 set -eo pipefail
 
+: "${MAX_DEPTH:=6}"
+
 reason="$3"
 
 case "$reason" in
@@ -25,7 +27,7 @@ PROJECTS_DIRS=(
 )
 
 mapfile -d $'\0' -t GIT_REPOS < <(
-	find "${PROJECTS_DIRS[@]}" -maxdepth 5 -type d -name '.git' -printf '%h\0'
+	find "${PROJECTS_DIRS[@]}" -maxdepth "$MAX_DEPTH" -type d -name '.git' -printf '%h\0'
 )
 
 generate_exclude_list_for_git_repo() {

@@ -4,16 +4,19 @@
 
 set -eo pipefail
 
+: "${MAX_DEPTH:=6}"
+
 IFS=$'\n\t'
 THIS_SCRIPT="${BASH_SOURCE[0]}"
 EXCLUDE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/restic/exclude-git-repos"
 PROJECTS_DIRS=(
 	"$HOME"
+	"${XDG_CONFIG_HOME:-$HOME/.config}/"
 	"${XDG_DATA_HOME:-$HOME/.local}/share/"
 )
 
 mapfile -d $'\0' -t GIT_REPOS < <(
-	find "${PROJECTS_DIRS[@]}" -maxdepth 5 -type d -name '.git' -printf '%h\0'
+	find "${PROJECTS_DIRS[@]}" -maxdepth "$MAX_DEPTH" -type d -name '.git' -printf '%h\0'
 )
 
 generate_exclude_list_for_git_repo() {
