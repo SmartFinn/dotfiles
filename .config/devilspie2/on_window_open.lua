@@ -43,7 +43,7 @@ if (wm_class == 'TelegramDesktop') then
 end
 
 if (app_name == 'Picture in picture' or wm_role == 'PictureInPicture') then
-	set_window_geometry(screen_x, screen_y, 520, 286);
+	set_window_geometry(screen_x, screen_y, 500, 282);
 	stick_window();
 	-- set_skip_tasklist(true);
 	set_skip_pager(true);
