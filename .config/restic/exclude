@@ -121,8 +121,37 @@ $HOME/.config/WebTorrent/
 $HOME/.dropbox*/
 .dropbox.img
 
-#- App cache
-$HOME/.mozilla/
+#- Mozilla Firefox
+$HOME/.mozilla/*
+$HOME/.config/mozilla/firefox/Crash Reports/
+$HOME/.config/mozilla/firefox/Default/.parentlock
+$HOME/.config/mozilla/firefox/Default/bookmarkbackups/
+$HOME/.config/mozilla/firefox/Default/chrome_debugger_profile/
+$HOME/.config/mozilla/firefox/Default/crashes/
+$HOME/.config/mozilla/firefox/Default/datareporting/
+$HOME/.config/mozilla/firefox/Default/favicons.sqlite
+$HOME/.config/mozilla/firefox/Default/favicons.sqlite-wal
+$HOME/.config/mozilla/firefox/Default/gmp/
+$HOME/.config/mozilla/firefox/Default/gmp-widevinecdm/
+$HOME/.config/mozilla/firefox/Default/lock
+$HOME/.config/mozilla/firefox/Default/minidumps/
+$HOME/.config/mozilla/firefox/Default/saved-telemetry-pings/
+$HOME/.config/mozilla/firefox/Default/search.json.mozlz4
+$HOME/.config/mozilla/firefox/Default/serviceworker.txt
+$HOME/.config/mozilla/firefox/Default/sessionCheckpoints.json
+$HOME/.config/mozilla/firefox/Default/sessionstore-backups/
+$HOME/.config/mozilla/firefox/Default/storage/
+$HOME/.config/mozilla/firefox/Default/storage-sync*
+$HOME/.config/mozilla/firefox/Default/storage.sqlite
+$HOME/.config/mozilla/firefox/Default/synced-tabs.db*
+$HOME/.config/mozilla/firefox/Default/weave/changes/
+$HOME/.config/mozilla/firefox/Default/weave/failed/
+$HOME/.config/mozilla/firefox/Default/weave/logs/
+$HOME/.config/mozilla/firefox/Default/weave/toFetch/
+$HOME/.config/mozilla/firefox/Pending Pings/
+$HOME/.config/mozilla/firefox/firefox-mpris/
+
+#- Thunderbird
 $HOME/.thunderbird/
 
 #- kitty
