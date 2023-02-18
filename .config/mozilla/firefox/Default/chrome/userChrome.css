@@ -47,6 +47,24 @@
   display: none;
 }
 
+/* Compact tabs */
+#tabbrowser-tabs .tab-label-container {
+  height: unset !important;
+}
+
+/* Styling container indicator on tabs */
+.tabbrowser-tab[usercontextid] > .tab-stack > .tab-background > .tab-context-line {
+  height: 100% !important;
+  border-radius: var(--tab-border-radius) !important;
+  margin: 0 !important;
+  opacity: .2;
+}
+
+.tabbrowser-tab[usercontextid] > .tab-stack > .tab-background[selected] > .tab-context-line {
+  height: 2px !important;
+  opacity: 1;
+}
+
 /* Hide titlebar buttons when maximized (Unity-like) */
 html[sizemode="maximized"] .titlebar-buttonbox { display: none !important; }
 html[sizemode="maximized"] .titlebar-spacer[type="post-tabs"] { display: none !important; }
