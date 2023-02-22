@@ -11,35 +11,37 @@ debug_print("Window role: "      .. wm_role);
 
 -- set_window_strut(50, 0, 26, 0)
 
-if (inst_name == 'org.gnome.Nautilus') then
-	-- place at top right
-	set_window_position(0, 0);
-end
+if (get_window_type() == "WINDOW_TYPE_NORMAL") then
+	if (inst_name == 'org.gnome.Nautilus') then
+		-- place at top right
+		set_window_position(0, 0);
+	end
 
-if (wm_class == 'kitty')
-or (wm_class == 'Alacritty')
--- or (wm_class == 'Gnome-terminal')
-then
-	-- place at bottom left
-	set_window_position(0, screen_y);
-end
+	if (wm_class == 'kitty')
+	or (wm_class == 'Alacritty')
+	or (wm_class == 'Gnome-terminal')
+	then
+		-- place at bottom left
+		set_window_position(0, screen_y);
+	end
 
-if (wm_role == 'browser')
-or (wm_role == 'browser-window')
-then
-	maximize();
-end
+	if (wm_role == 'browser')
+	or (wm_role == 'browser-window')
+	then
+		maximize();
+	end
 
-if (wm_class == 'Spotify')
-or (wm_class == 'DB Browser for SQLite')
-then
-	undecorate_window();
-	maximize();
-end
+	if (wm_class == 'Spotify')
+	or (wm_class == 'DB Browser for SQLite')
+	then
+		undecorate_window();
+		maximize();
+	end
 
-if (wm_class == 'TelegramDesktop') then
-	-- place at bottom right
-	set_window_position(screen_x, screen_y);
+	if (wm_class == 'TelegramDesktop') then
+		-- place at bottom right
+		set_window_position(screen_x, screen_y);
+	end
 end
 
 if (app_name == 'Picture in picture' or wm_role == 'PictureInPicture') then
