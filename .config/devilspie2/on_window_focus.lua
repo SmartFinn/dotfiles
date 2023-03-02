@@ -12,6 +12,7 @@ local wmctrl_mvargs = {
 	["org-openstreetmap-josm-gui-MainApplication"] = {
 		screen_x - 520, screen_y, 320, 180
 	},
+	["digikam"] = {0, screen_y, 320, 180},
 };
 
 if (get_window_type() == "WINDOW_TYPE_NORMAL") then
