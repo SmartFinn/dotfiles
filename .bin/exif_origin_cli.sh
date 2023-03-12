@@ -3,7 +3,6 @@
 # digikam
 # -------
 # 0x001a Iptc.Application2.LocationCode               String     UKR
-# 0x001b Iptc.Application2.LocationName               String     Ukraine
 # 0x005a Iptc.Application2.City                       String     Berdyansk
 # 0x005c Iptc.Application2.SubLocation                String     Bitch 3
 # 0x005f Iptc.Application2.ProvinceState              String     Zaporizhya
@@ -20,7 +19,6 @@
 # 0x005a Iptc.Application2.City                       String     Бердянськ
 # 0x0064 Iptc.Application2.CountryCode                String     UKR
 # 0x0065 Iptc.Application2.CountryName                String     Ukraine
-# 0x001b Iptc.Application2.LocationName               String     Пляж 3
 # 0x005f Iptc.Application2.ProvinceState              String     Запоріжська область
 # 0x0000 Xmp.iptc.Location                            XmpText    Пляж 3
 
@@ -67,7 +65,6 @@ while true; do
 	-l|--location)
 		# sub_location="$2"
 		exiv2_args+=(
-			-M"set Iptc.Application2.LocationName $2" \
 			-M"set Iptc.Application2.SubLocation $2" \
 			-M"set Xmp.iptc.Location $2" \
 		)
@@ -97,4 +94,4 @@ if [ "${#exiv2_args[@]}" -eq 0 ] || [ $# -eq 0 ]; then
 	exit 2
 fi
 
-exiv2 "${exiv2_args[@]}" "$@"
+exiv2 -n "UTF-8" "${exiv2_args[@]}" "$@"
