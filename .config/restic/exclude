@@ -67,6 +67,11 @@ $HOME/.local/share/flatpak/*
 !$HOME/.local/share/flatpak/overrides/
 $HOME/.var/app/*/cache/
 
+#- Digikam
+$HOME/.var/app/org.kde.digikam/data/marble/maps/
+$HOME/.var/app/org.kde.digikam/data/digikam/QtWebEngine/
+$HOME/.var/app/org.kde.digikam/data/digikam/facesengine/
+
 #- snap
 /snap/
 /var/lib/snapd/snaps/

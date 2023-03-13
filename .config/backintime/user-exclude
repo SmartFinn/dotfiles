@@ -116,6 +116,11 @@ rpmbuild/SRPMS
 /var/lib/snapd/snaps/
 snap/*/*/.cache
 
+## Digikam
+.var/app/org.kde.digikam/data/marble/maps/
+.var/app/org.kde.digikam/data/digikam/QtWebEngine/
+.var/app/org.kde.digikam/data/digikam/facesengine/
+
 ## Kodi
 .kodi/addons/
 .kodi/media/
