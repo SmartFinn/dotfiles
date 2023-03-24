@@ -65,6 +65,11 @@
   opacity: 1;
 }
 
+/* Hide info icon on tabs */
+.tabbrowser-tab[image="chrome://global/skin/icons/info.svg"]:not([busy]):not([progress]) .tab-icon-stack:before {
+  display: none;
+}
+
 /* Hide titlebar buttons when maximized (Unity-like) */
 html[sizemode="maximized"] .titlebar-buttonbox { display: none !important; }
 html[sizemode="maximized"] .titlebar-spacer[type="post-tabs"] { display: none !important; }
