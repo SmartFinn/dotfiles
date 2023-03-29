@@ -22,6 +22,7 @@
 [Tt]rash*/
 .trash/
 cache/
+crashlogs/
 fontconfig/
 thumbnails/
 temp/
@@ -83,11 +84,13 @@ virtualenv/
 .local/bin/
 .local/include/
 .local/lib/
+.local/share/bash-completion/
 .local/share/gvfs-metadata/
 .local/share/icons/
 .local/share/man/
 .local/share/mime/*
 .local/share/webkitgtk/
+.local/share/zsh/site-functions/
 .local/state/
 .themes/
 .thumbnails/

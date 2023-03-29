@@ -417,6 +417,7 @@ LOCK
 *-journal
 
 #- Logs
+crashlogs/
 logs/
 log*.txt
 *.log
