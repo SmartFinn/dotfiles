@@ -24,8 +24,6 @@ if [ -f "$HOME/.config/profile.d/init.sh" ]; then
 	. "$HOME/.config/profile.d/init.sh"
 fi
 
-export QT_QPA_PLATFORMTHEME="qt5ct"
-
 export EDITOR="nvim"
 export SUDO_EDITOR="vim"
 export VISUAL="nvim"
