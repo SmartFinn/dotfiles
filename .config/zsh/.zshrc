@@ -174,7 +174,7 @@ function zsh_install_plugin() {
 	local repo_url="$2"
 
 	[ -d "${ZDOTDIR:-$HOME/.zsh}/plugins/$repo_dir" ] && return 0
-	[ "$repo_url" == "local" ] && return 0
+	[ "$repo_url" = "local" ] && return 0
 
 	git clone --depth 1 "$repo_url" "${ZDOTDIR:-$HOME/.zsh}/plugins/$repo_dir"
 }
