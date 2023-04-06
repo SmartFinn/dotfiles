@@ -1,38 +1,38 @@
 # ZSH plugins and their settings
 
-ZSH_PLUGINS=(
-	activate-venv
-	clip-tools
-	clipcopy
-	copyq
-	custom-completions
-	ding
-	dotbare
-	# exa
-	fast-syntax-highlighting
-	files-completer
-	forgit
-	fzf
-	fzf-widgets
-	gio-trash
-	git-extras-completion
-	grlm-features
-	insert-datestamp
-	minimal
-	oh-my-zsh/plugins/dotenv
-	oh-my-zsh/plugins/fancy-ctrl-z
-	pet
-	ranger
-	# tmux-pane-words
-	todo-banner
-	zoxide
-	zsh-256color
-	zsh-abbrev
-	zsh-autosuggestions
-	zsh-bash-completions-fallback
-	zsh-completions
-	zsh-hist
-	zsh-hist-auto-fix
+typeset -A ZSH_PLUGINS=(
+	[activate-venv]="local"
+	[clip-tools]="local"
+	[clipcopy]="local"
+	[copyq]="local"
+	[custom-completions]="local"
+	[ding]="local"
+	[dotbare]="https://github.com/kazhala/dotbare.git"
+	# [exa]="local"
+	[fast-syntax-highlighting]="https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
+	[files-completer]="local"
+	[forgit]="https://github.com/wfxr/forgit.git"
+	[fzf]="local"
+	[fzf-widgets]="https://github.com/SmartFinn/fzf-widgets.git"
+	[gio-trash]="local"
+	[git-extras-completion]="local"
+	[grlm-features]="local"
+	[insert-datestamp]="local"
+	[minimal]="https://github.com/subnixr/minimal.git"
+	[oh-my-zsh/plugins/dotenv]="https://github.com/robbyrussell/oh-my-zsh.git"
+	[oh-my-zsh/plugins/fancy-ctrl-z]="https://github.com/robbyrussell/oh-my-zsh.git"
+	[pet]="local"
+	[ranger]="local"
+	# [tmux-pane-words]="local"
+	[todo-banner]="local"
+	[zoxide]="local"
+	[zsh-256color]="https://github.com/chrissicool/zsh-256color.git"
+	[zsh-abbrev]="local"
+	[zsh-autosuggestions]="https://github.com/zsh-users/zsh-autosuggestions.git"
+	[zsh-bash-completions-fallback]="https://github.com/3v1n0/zsh-bash-completions-fallback.git"
+	[zsh-completions]="https://github.com/zsh-users/zsh-completions.git"
+	[zsh-hist]="https://github.com/marlonrichert/zsh-hist.git"
+	[zsh-hist-auto-fix]="local"
 )
 
 ## ==[Plugins]===(pre-configuration)==================================
@@ -80,8 +80,15 @@ zstyle ':hist:*' auto-format no
 
 ## ==[Plugins]===(initialize)=========================================
 
+# install plugins
+for plugin_path repo_url in ${(kv)ZSH_PLUGINS}; do
+	zsh_install_plugin "$plugin_path" "$repo_url"
+done
+
+unset plugin_path repo_url
+
 # initialize plugins
-zsh_load_plugins "${ZSH_PLUGINS[@]}"
+zsh_load_plugins "${(@k)ZSH_PLUGINS}"
 
 
 ## ==[Plugins]===(post-configuration)=================================
