@@ -3,26 +3,32 @@
 #
 # requires https://github.com/marlonrichert/zsh-hist
 
-# exit immediately if hist function not exists
-typeset -f hist >/dev/null || return 0
-
 _auto_hist_fix() {
 	local last_exit_code="${(%)?}"
 
-	[ "$last_exit_code" -eq 0 ] && return 0
+	# exit if hist function not exists
+	typeset -f hist >/dev/null || return 0
 
-	# ignore SIGINT (Ctrl-C)
-	[ "$last_exit_code" -eq 130 ] && return 0
+	case "$last_exit_code" in
+	0)
+		return 0
+		;;
+	130)
+		# ignore SIGINT (Ctrl-C)
+		return 0
+		;;
+	esac
 
 	print -P "%F{blue}auto-hist-fix%f\n" \
-		"Press %F{green}Ctrl-Q%f to save the command in history" \
-		"without execution or %F{red}Ctrl-C%f to clear"
+		"%{\e[2m%}Oops! The last command finished with a non-zero exit status:" \
+		"%{\e[22m%}%F{red}%B$last_exit_code%b%f\n" \
+		"%{\e[2m%}Press %{\e[22m%}%F{7}%BCtrl-Q%b%{\e[2m%} to save the command" \
+		"in history without execution or %{\e[22m%}%BCtrl-C%b%{\e[2m%}" \
+		"to clear.%{\e[22m%}"
 
 	# Fix last entry (cut from history; paste into command line)
 	hist -q fix -1
 }
-
-bindkey '^Q' push-line-or-edit
 
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _auto_hist_fix
