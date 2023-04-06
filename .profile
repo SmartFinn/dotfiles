@@ -40,9 +40,6 @@ export GH_TOKEN="$GITHUB_TOKEN"
 export GHI_TOKEN="$GITHUB_TOKEN"
 export PET_GITHUB_ACCESS_TOKEN="$GITHUB_TOKEN"
 
-CR_PAT="$(secret-tool lookup ghcr.io token)"; export CR_PAT
-
-WA_APPID="$(secret-tool lookup wolframalpha_api appid)"; export WA_APPID
 GITEA_TOKEN="$(secret-tool lookup gitea_api token)"; export GITEA_TOKEN
 
 HITBTC_PUBLIC_KEY="$(secret-tool lookup hitbtc_api public_key)"; export HITBTC_PUBLIC_KEY
