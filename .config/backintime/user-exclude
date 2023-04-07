@@ -281,6 +281,9 @@ Session Storage/
 ## Homebrew on Linux
 .linuxbrew/
 
+## sdd
+.local/share/sdd/apps/
+
 ## ZSH
 .zcompdump*
 

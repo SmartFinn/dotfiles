@@ -257,6 +257,9 @@ $HOME/.var/app/*/config/pulse/
 #- Homebrew on Linux
 $HOME/.linuxbrew/
 
+#- sdd
+$HOME/.local/share/sdd/apps/
+
 #- ZSH
 .zcompdump*
 
