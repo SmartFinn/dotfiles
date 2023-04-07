@@ -44,7 +44,7 @@ vim.diagnostic.config({
 })
 
 -- Lua
-lsp.sumneko_lua.setup({
+lsp.lua_ls.setup({
   flags = flags,
   capabilities = capabilities,
   on_attach = on_attach,

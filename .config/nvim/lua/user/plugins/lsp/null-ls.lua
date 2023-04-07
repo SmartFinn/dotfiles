@@ -36,7 +36,7 @@ nls.setup({
     -----------------
     -- DIAGNOSTICS --
     -----------------
-    dgn.eslint_d,
+    -- dgn.eslint_d,
     dgn.shellcheck,
     -- dgn.luacheck.with({
     --   extra_args = { '--globals', 'vim', '--std', 'luajit' },
@@ -44,7 +44,7 @@ nls.setup({
     ------------------
     -- CODE ACTIONS --
     ------------------
-    cda.eslint_d,
+    -- cda.eslint_d,
     cda.shellcheck,
   },
   on_attach = function(client, bufnr)
