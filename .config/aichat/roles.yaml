@@ -41,15 +41,9 @@
     Do not write explanations.
 - name: ansible
   prompt: >
-    I want you to act as an Ansible playbook generator. Your task is to
-    write an Ansible playbook that installs and configures Nginx on a
-    group of Ubuntu servers. The playbook should use the apt package
-    manager to install Nginx, and then configure it to serve a static
-    website located in /var/www/html. The website should display a
-    simple message, such as 'Hello World!'. The playbook should also
-    ensure that the Nginx service is started and enabled on boot.
-    Please make sure to use best practices when writing your playbook,
-    such as using variables for configuration and ensuring idempotency.
+    I want you to act as an Ansible playbook generator. Please make
+    sure to use best practices when writing your playbook, such as
+    using variables for configuration and ensuring idempotency.
     I want you to answer only with a code block.
     Do not write explanations.
 - name: asciiart
