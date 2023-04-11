@@ -31,8 +31,12 @@ core
 lock
 lost+found/
 .rnd
+.uuid
 .Xauthority
 .xsession-errors*
+
+## GNOME Apps
+recently-used.xbel
 
 ## Logs
 logs/
@@ -79,6 +83,7 @@ virtualenv/
 .compiz/
 .dbus/
 .fontconfig/
+.grass8/
 .gvfs/
 .icons/
 .local/bin/
@@ -92,6 +97,7 @@ virtualenv/
 .local/share/webkitgtk/
 .local/share/zsh/site-functions/
 .local/state/
+.redhat/
 .themes/
 .thumbnails/
 
@@ -159,9 +165,16 @@ node_modules/
 .config/spotify/
 .config/WebTorrent/
 
+## .NET Core
+.dotnet
+
 ## Dropbox
 .dropbox*/
 .dropbox.img
+
+## GNOME Shell
+.local/share/gnome-shell/notifications
+.local/share/gnome-shell/extension-updates/
 
 ## App cache
 .local/share/webbrowser-app/
@@ -248,6 +261,9 @@ Steam/
 ## TMUX
 .tmux/plugins/
 
+## Qalculate
+.local/share/qalculate/
+
 ## Pbuilder
 .pbuilder/
 
@@ -274,6 +290,9 @@ Session Storage/
 
 ## ssh
 .ssh/controls/
+
+## SystemD
+.local/share/systemd/timers/
 
 ## pulseaudio
 .config/pulse/

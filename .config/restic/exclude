@@ -29,6 +29,7 @@ $HOME/.config/pipewire/media-session.d/
 $HOME/.dbus/
 $HOME/.fontconfig/
 $HOME/.gvfs/
+$HOME/.grass8/
 $HOME/.icons/
 $HOME/.local/bin/
 $HOME/.local/include/
@@ -42,6 +43,7 @@ $HOME/.local/share/webbrowser-app/
 $HOME/.local/share/webkitgtk/
 $HOME/.local/share/zsh/site-functions/
 $HOME/.local/state/
+$HOME/.redhat/
 $HOME/.themes/
 $HOME/.thumbnails/
 $HOME/Music/
@@ -122,9 +124,16 @@ $HOME/.config/Notable/
 $HOME/.config/odrive/
 $HOME/.config/WebTorrent/
 
+#- .NET Core
+$HOME/.dotnet
+
 #- Dropbox
 $HOME/.dropbox*/
 .dropbox.img
+
+#- GNOME Shell
+$HOME/.local/share/gnome-shell/notifications
+$HOME/.local/share/gnome-shell/extension-updates/
 
 #- Mozilla Firefox
 $HOME/.mozilla/*
@@ -216,6 +225,9 @@ $HOME/.local/share/TelegramDesktop/
 #- TMUX
 $HOME/.tmux/plugins/
 
+#- Qalculate
+$HOME/.local/share/qalculate/
+
 #- RetroArch
 $HOME/.config/retroarch/assets/
 $HOME/.config/retroarch/autoconfig/
@@ -249,6 +261,9 @@ $HOME/.ViberPC/
 
 #- SSH
 $HOME/.ssh/controls/
+
+#- SystemD
+$HOME/.local/share/systemd/timers/
 
 #- Pulseaudio
 $HOME/.config/pulse/
@@ -386,6 +401,7 @@ core
 lock
 lost+found/
 .rnd
+.uuid
 .Xauthority
 .xsession-errors*
 
@@ -418,6 +434,9 @@ LOG
 LOG.old
 LOCK
 *-journal
+
+#- GNOME Apps
+recently-used.xbel
 
 #- Logs
 crashlogs/
