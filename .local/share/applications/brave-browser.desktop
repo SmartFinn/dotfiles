@@ -105,7 +105,7 @@ Comment[vi]=Truy cập Internet
 Comment[zh_CN]=访问互联网
 Comment[zh_HK]=連線到網際網路
 Comment[zh_TW]=連線到網際網路
-Exec=/usr/bin/brave-browser-stable --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy --disable-gpu-driver-bug-workarounds --enable-features=VaapiVideoDecoder --use-gl=egl --disable-features=UseChromeOSDirectVideoDecoder %U
+Exec=/usr/bin/brave-browser-stable --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy --disable-gpu-driver-bug-workarounds --enable-features=VaapiVideoDecoder --disable-features=UseChromeOSDirectVideoDecoder %U
 StartupNotify=true
 Terminal=false
 Icon=brave-browser
@@ -168,7 +168,7 @@ Name[uk]=Нове вікно
 Name[vi]=Cửa sổ Mới
 Name[zh_CN]=新建窗口
 Name[zh_TW]=開新視窗
-Exec=/usr/bin/brave-browser-stable --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy --disable-gpu-driver-bug-workarounds --enable-features=VaapiVideoDecoder --use-gl=egl --disable-features=UseChromeOSDirectVideoDecoder
+Exec=/usr/bin/brave-browser-stable --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy --disable-gpu-driver-bug-workarounds --enable-features=VaapiVideoDecoder --disable-features=UseChromeOSDirectVideoDecoder
 
 [Desktop Action new-private-window]
 Name=New Incognito Window
@@ -220,4 +220,4 @@ Name[uk]=Нове вікно в режимі анонімного перегля
 Name[vi]=Cửa sổ ẩn danh mới
 Name[zh_CN]=新建隐身窗口
 Name[zh_TW]=新增無痕式視窗
-Exec=/usr/bin/brave-browser-stable --incognito --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy --disable-gpu-driver-bug-workarounds --enable-features=VaapiVideoDecoder --use-gl=egl --disable-features=UseChromeOSDirectVideoDecoder
+Exec=/usr/bin/brave-browser-stable --incognito --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy --disable-gpu-driver-bug-workarounds --enable-features=VaapiVideoDecoder --disable-features=UseChromeOSDirectVideoDecoder
