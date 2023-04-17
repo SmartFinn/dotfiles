@@ -250,6 +250,11 @@ Steam/
 .vscode/
 .config/Code/CachedExtensionVSIXs/
 .config/Code/CachedExtensions/
+.config/Code/CachedConfigurations/
+.config/exthost Crash Reports/
+.config/Code/Crashpad/
+.config/Code/User/History/
+.config/Code/User/workspaceStorage/
 .sonarlint/
 
 ## TeamViewer
