@@ -33,9 +33,13 @@ up2date() {
 
 	_try sudo snap refresh
 
-	_try flatpak update --appstream
-	_try flatpak update -y
-	_try flatpak uninstall --unused -y
+	_try sudo flatpak --system update --appstream
+	_try sudo flatpak --system update -y
+	_try sudo flatpak --system uninstall --unused -y
+
+	_try flatpak --user update --appstream
+	_try flatpak --user update -y
+	_try flatpak --user uninstall --unused -y
 
 	_try apm update --confirm=false
 
