@@ -15,6 +15,7 @@ ConditionPathExists=%E/restic/exclude
 Type=oneshot
 TimeoutStopSec=4h
 EnvironmentFile=%E/restic/%p.conf
+WorkingDirectory=%h
 ExecCondition=/usr/bin/env restic snapshots --no-lock
 # Not a failure if some files in backup dir cannot be read
 SuccessExitStatus=0 3
@@ -28,7 +29,7 @@ ExecStart=/bin/sh -c "restic backup \
 	--exclude-file=%C/restic/exclude-git-repos \
 	${MAX_FILE_SIZE:+--exclude-larger-than=$MAX_FILE_SIZE} \
 	$RESTIC_BACKUP_ARGS \
-	%h"
+	."
 ExecStartPost=/bin/sh -c "restic forget \
 	--verbose \
 	--prune \
