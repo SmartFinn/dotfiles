@@ -130,15 +130,36 @@ __run_if_exists() {
 }
 
 up2date() {
+	# Debian/Ubuntu
 	__run_if_exists sudo apt update
 	__run_if_exists sudo apt dist-upgrade -Vy
+
+	# ArchLinux/Manjaro
 	__run_if_exists sudo pacman -Syu --noconfirm
+
+	# RHEL/Fedora
 	__run_if_exists sudo dnf --refresh update -y
+
+	# snap
 	__run_if_exists sudo snap refresh
-	__run_if_exists flatpak update --appstream
-	__run_if_exists flatpak update -y
+
+	# Flatpak (system-wide)
+	__run_if_exists sudo flatpak --system update --appstream
+	__run_if_exists sudo flatpak --system update -y
+	__run_if_exists sudo flatpak --system uninstall --unused -y
+
+	# Flatpak (user)
+	__run_if_exists flatpak --user update --appstream
+	__run_if_exists flatpak --user update -y
+	__run_if_exists flatpak --user uninstall --unused -y
+
+	# pipx
 	__run_if_exists pipx upgrade-all
+
+	# sdd
 	__run_if_exists sdd upgrade
+
+	# NPM
 	__run_if_exists ncu -g
 }
 
