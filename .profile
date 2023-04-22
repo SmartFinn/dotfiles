@@ -39,6 +39,7 @@ GITHUB_TOKEN="$(secret-tool lookup github_api token)"; export GITHUB_TOKEN
 export GH_TOKEN="$GITHUB_TOKEN"
 export GHI_TOKEN="$GITHUB_TOKEN"
 export PET_GITHUB_ACCESS_TOKEN="$GITHUB_TOKEN"
+export THE_WAY_GITHUB_TOKEN="$GITHUB_TOKEN"
 
 GITEA_TOKEN="$(secret-tool lookup gitea_api token)"; export GITEA_TOKEN
 
