@@ -146,18 +146,18 @@ user_pref("media.ffvpx.enabled", false); // disables software decoding of VP8/VP
 user_pref("media.av1.enabled", false); // Disable AV1 codec
 
 /* Keep Firefox open when you close the last tab */
-user_pref("browser.tabs.closeWindowWithLastTab", false);
+/* user_pref("browser.tabs.closeWindowWithLastTab", false); */
 
 /* Papirus icons
  * https://github.com/PapirusDevelopmentTeam/firefox-papirus-icon-theme
  */
 
-// Enable customChrome.css
+/* Enable customChrome.css */
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 
-// Set UI density to compact
+/* Set UI density to compact */
 user_pref("browser.compactmode.show", true);
 user_pref("browser.uidensity", 1);
 
-// Enable SVG context-propertes
+/* Enable SVG context-propertes */
 user_pref("svg.context-properties.content.enabled", true);
