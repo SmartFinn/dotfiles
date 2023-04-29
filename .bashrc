@@ -67,16 +67,15 @@ for (( i = 0; i < SHLVL; i++ )); do
 done
 
 # visualizing exit codes
-last_exit_code() {
-	local exit_code=$?
+__handle_cmd_err() {
+    local exit_code=$?
 	case "$exit_code" in
-	0|130) ;;
-	*)
-		printf '\e[2;37mLast command ended with exit code: \e[31m%s\e[0m\n' $exit_code
+	130) return ;;
 	esac
+	printf '\e[2;37mThe last command was terminated with error code: \e[31m%s\e[0m\n' $exit_code
 }
 
-PROMPT_COMMAND="last_exit_code;$PROMPT_COMMAND"
+trap __handle_cmd_err ERR
 
 # set prompt
 PS1='\u@\h:\w\$ ${__shlvl} '
