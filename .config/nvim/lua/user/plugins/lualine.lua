@@ -16,7 +16,7 @@ require('lualine').setup({
     },
     lualine_c = {
       { 'filename', file_status = true },
-      { 'diagnostics' },
+      { 'diagnostics', symbols = { error = "󰅙 ", warn = " ", hint = "󰌵 ", info = " " }},
     },
     lualine_x = {
       'filetype',

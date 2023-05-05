@@ -108,7 +108,7 @@ packer.startup(function(use)
   use({
     'nvim-lualine/lualine.nvim',
     config = function() require('user.plugins.lualine') end,
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    requires = { 'nvim-tree/nvim-web-devicons', opt = true }
   })
 
   -- Bufferline
@@ -210,7 +210,6 @@ packer.startup(function(use)
   -- Formatting and linting
   use({
     'jose-elias-alvarez/null-ls.nvim',
-    event = 'BufRead',
     config = function() require('user.plugins.lsp.null-ls') end,
 
     -- null-ls manager

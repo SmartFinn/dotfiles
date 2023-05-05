@@ -49,7 +49,7 @@ require("dashboard").setup({
 				key_hl = 'Number',
 			},
 			{
-				icon = "  ",
+				icon = "󰈞  ",
 				icon_hl = 'Title',
 				desc = "Find word",
 				desc_hl = 'String',
@@ -69,7 +69,7 @@ require("dashboard").setup({
 				key_hl = 'Number',
 			},
 			{
-				icon = "  ",
+				icon = "󰗼  ",
 				icon_hl = 'Title',
 				desc = "Quit",
 				desc_hl = 'String',
