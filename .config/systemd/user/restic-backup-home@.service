@@ -4,7 +4,7 @@ Documentation=man:restic(1)
 Documentation=https://restic.readthedocs.io/en/stable/
 
 Wants=network-online.target
-Requires=restic-helper@generate-installed-packages-lists.service restic-helper@exclude-git-repos.service
+Requires=restic-helper@generate-installed-packages-lists.service restic-helper@handle-git-repos.service
 After=network-online.target restic-helper@generate-installed-packages-lists.service restic-helper@handle-git-repos.service
 OnFailure=restic-notify-failure@%n.service
 
