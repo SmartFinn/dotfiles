@@ -25,14 +25,16 @@ if (get_window_type() == "WINDOW_TYPE_NORMAL") then
 		set_window_position(0, screen_y);
 	end
 
-	if (wm_role == 'browser')
-	or (wm_role == 'browser-window')
+	if ((wm_role == 'browser')
+  or (wm_role == 'browser-window'))
+	and (screen_x <= 1366)
 	then
 		maximize();
 	end
 
-	if (wm_class == 'Spotify')
-	or (wm_class == 'DB Browser for SQLite')
+	if ((wm_class == 'Spotify')
+	or (wm_class == 'DB Browser for SQLite'))
+	and (screen_x <= 1366)
 	then
 		undecorate_window();
 		maximize();

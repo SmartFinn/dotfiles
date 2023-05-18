@@ -8,7 +8,6 @@ local wmctrl_mvargs = {
 	["Meld"] = {screen_x, screen_y - 210, 320, 180},
 	["TelegramDesktop"] = {screen_x, 0, 400, 226},
 	["Inkscape"] = {screen_x - 340, screen_y - 240, 280, 158},
-	["firefox"] = {screen_x, screen_y, 320, 180},
 	["org-openstreetmap-josm-gui-MainApplication"] = {
 		screen_x - 520, screen_y, 320, 180
 	},
