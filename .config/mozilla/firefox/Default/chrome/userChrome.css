@@ -29,7 +29,7 @@
 }
 
 /* Reduce left spacer on non-maximized windows */
-.titlebar-spacer[type="pre-tabs"] { display: none !important; }
+.titlebar-spacer[type="pre-tabs"] { width: calc(var(--inline-tab-padding, 8px) / 2) !important; }
 
 /* remove separator beetweeb tabs and spacer */
 #tabbrowser-tabs {
