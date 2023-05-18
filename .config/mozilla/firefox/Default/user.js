@@ -157,7 +157,6 @@ user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 
 /* Set UI density to compact */
 user_pref("browser.compactmode.show", true);
-user_pref("browser.uidensity", 1);
 
 /* Enable SVG context-propertes */
 user_pref("svg.context-properties.content.enabled", true);
