@@ -191,6 +191,9 @@ $HOME/.config/syncthing/index-v0.14.0.db/
 #- GPXSee
 $HOME/.gpxsee/tiles/
 
+#- Lutris
+$HOME/.var/app/net.lutris.Lutris/data/
+
 #- Wine
 $WINEPREFIX/dosdevices/
 $WINEPREFIX/drive_c/*

@@ -234,6 +234,9 @@ Steam/
 ## GPXSee
 .gpxsee/tiles/
 
+## Lutris
+.var/app/net.lutris.Lutris/data/
+
 ## Wine
 .wine/dosdevices/
 .wine/drive_c/windows
