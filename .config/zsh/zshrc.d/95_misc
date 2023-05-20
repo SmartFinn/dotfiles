@@ -19,7 +19,7 @@ _try() {
 		sudo) shift 1 ;;
 	esac
 
-	if command -v "$1" >/dev/null; then
+	if whence -p "$1" >/dev/null; then
 		echo "\e[1;32m =>\e[0m" "${saved_cmd[@]}" >&2
 		"${saved_cmd[@]}"
 	fi
