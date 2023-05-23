@@ -1,8 +1,8 @@
 [Unit]
 Description=Start Backintime job when the backup disk is mounted
 ConditionPathExists=/usr/bin/backintime
-Requires=run-media-sergei-ambry.mount
-After=run-media-sergei-ambry.mount
+Requires=run-media-serhii-ambry.mount
+After=run-media-serhii-ambry.mount
 
 [Service]
 Type=simple
@@ -16,4 +16,4 @@ ExecStartPost=/bin/sh -c 'touch "%h/.local/state/backintime/%N-$(date +%%F)"'
 TimeoutStopSec=infinity
 
 [Install]
-WantedBy=run-media-sergei-ambry.mount
+WantedBy=run-media-serhii-ambry.mount
