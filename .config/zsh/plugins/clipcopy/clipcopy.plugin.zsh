@@ -35,7 +35,16 @@ function clipcopy() {
 			fi
 			;;
 		linux*)
-			if [ -n "${WAYLAND_DISPLAY:-}" ]; then
+			if [[ -n $KITTY_PID ]] && (( ${+commands[kitten]} )); then
+				if [[ -z $file ]]; then
+					kitten clipboard
+				else
+					kitten clipboard --mime "$(file --brief --mime-type "$file")" "$file"
+				fi
+				return 0
+			fi
+
+			if [[ -n $WAYLAND_DISPLAY ]]; then
 				if (( ${+commands[wl-copy]} )); then
 					if [[ -z $file ]]; then
 						wl-copy
@@ -99,6 +108,11 @@ function clippaste() {
 			cat /dev/clipboard
 			;;
 		linux*)
+			if [[ -n $KITTY_PID ]] && (( ${+commands[kitten]} )); then
+				kitten clipboard --get-clipboard
+				return 0
+			fi
+
 			if [ -n "${WAYLAND_DISPLAY:-}" ]; then
 				if (( ${+commands[wl-paste]} )); then
 					wl-paste
