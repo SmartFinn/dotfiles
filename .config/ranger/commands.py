@@ -271,6 +271,10 @@ class yank(Command):
         def clipboards():
             from ranger.ext.get_executables import get_executables
             clipboard_managers = {
+                'kitten': [
+                    ['kitten', 'clipboard', '--use-primary'],
+                    ['kitten', 'clipboard'],
+                ],
                 'xclip': [
                     ['xclip'],
                     ['xclip', '-selection', 'clipboard'],
@@ -286,6 +290,9 @@ class yank(Command):
                     ['pbcopy'],
                 ],
             }
+            _is_kitty_terminal=os.environ.get('KITTY_PID', None)
+            if _is_kitty_terminal:
+                return clipboard_managers['kitten']
             _is_wayland_display=os.environ.get('WAYLAND_DISPLAY', None)
             if _is_wayland_display:
                 return clipboard_managers['wl-copy']
