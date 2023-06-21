@@ -103,5 +103,5 @@ if __name__ == "__main__":
 
             print(
                 f"{symbol:10} {last_price:12.4f} {percent:10}",
-                f"| font=monospace href=https://hitbtc.com/exchange/{symbol}",
+                f"| font=monospace href=https://hitbtc.com/{symbol[:-4]}-to-USDT",
             )
