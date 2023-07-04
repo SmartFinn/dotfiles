@@ -35,6 +35,13 @@ generate_exclude_list_for_git_repo() {
 		git -C "$git_dir" ls-files -z --exclude-standard --others --modified 2>/dev/null
 	)
 
+	# add git-crypt keys to uncommitted files
+	if [ -d "$git_dir/.git/git-crypt/keys" ]; then
+		for key in "$git_dir/.git/git-crypt/keys"/*; do
+			uncommitted_files+=(".git/git-crypt/keys/${key##*/}")
+		done
+	fi
+
 	# exclude whole git repo if array is empty
 	if [ "${#uncommitted_files[@]}" -eq 0 ]; then
 		printf -- '%s\n' "$git_dir"
