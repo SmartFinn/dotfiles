@@ -173,9 +173,6 @@ map('n', 'N', 'Nzz', { desc = "Goto search match in opposite dicection" })
 map('n', 'g;', 'g;zz', { desc =  "Go backward in change list"})
 map('n', 'g,', 'g,zz', { desc =  "Go forward in change list"})
 
--- Quick macro to the q registry, use Q to play back
-map('n', 'Q', '@q')
-
 -- reselect visual block after indent
 map('v', '<', '<gv', { desc = "unindent line" })
 map('v', '>', '>gv', { desc = "indent line" })
