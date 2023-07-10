@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Type=Application
+Name=qemu-wrapper
+Exec=qemu-wrapper -cdrom %f
+Icon=qemu
+StartupWMClass=qemu-system-x86_64
+MimeType=application/x-cd-image;
+NoDisplay=true
