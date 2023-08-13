@@ -14,6 +14,9 @@ return {
       lualine = {
         transparent = false,
       },
+      highlights = {
+        ['LineNr'] = {fg = '$bg3'},
+      },
     })
 
     onedark.load()
