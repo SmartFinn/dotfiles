@@ -11,8 +11,15 @@ return {
   event = 'InsertEnter',
   keys = {
     -- Mappins to move around inside snippets
-    { '<C-j>', '<CMD>lua require("luasnip").jump(1)<CR>', mode = { 'i', 's' }, silent = true },
-    { '<C-k>', '<CMD>lua require("luasnip").jump(-1)<CR>', mode = { 'i', 's' }, silent = true },
+    {
+      '<Tab>',
+      function()
+        return require('luasnip').jumpable(1) and '<Plug>luasnip-jump-next' or '<Tab>'
+      end,
+      expr = true, remap = true, silent = true, mode = 'i',
+    },
+    { '<Tab>', function() require('luasnip').jump(1) end, mode = 's' },
+    { '<S-Tab>', function() require('luasnip').jump(-1) end, mode = { 'i', 's' } },
   },
   cmd = {
     'LuaSnipEdit',
