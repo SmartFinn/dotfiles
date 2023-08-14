@@ -73,7 +73,7 @@ profile1.snapshots.mode=local
 profile1.snapshots.no_on_battery=true
 profile1.snapshots.notify.enabled=true
 profile1.snapshots.path=/run/media/serhii/ambry/vault/Backup
-profile1.snapshots.path.host=thinkpad
+profile1.snapshots.path.host=rog
 profile1.snapshots.path.profile=1
 profile1.snapshots.path.user=serhii
 profile1.snapshots.path.uuid=8b33385e-524f-44d3-b785-1698a86fa015
@@ -83,7 +83,7 @@ profile1.snapshots.remove_old_snapshots.enabled=true
 profile1.snapshots.remove_old_snapshots.unit=80
 profile1.snapshots.remove_old_snapshots.value=5
 profile1.snapshots.rsync_options.enabled=true
-profile1.snapshots.rsync_options.value=--exclude-from="/home/serhii/.config/backintime/user-exclude" --exclude-from="/home/serhii/.cache/backintime/git_repos.exclude" --prune-empty-dirs
+profile1.snapshots.rsync_options.value=--exclude-from="/home/serhii/.config/backintime/user-exclude" --exclude-from="/home/serhii/.cache/backintime/git_repos.exclude" --exclude-from="/home/serhii/.cache/backintime/cachedir.exclude" --prune-empty-dirs
 profile1.snapshots.smart_remove=true
 profile1.snapshots.smart_remove.keep_all=5
 profile1.snapshots.smart_remove.keep_one_per_day=14
@@ -124,6 +124,6 @@ qt.main_window.main_splitter_right_w=809
 qt.main_window.second_splitter_left_w=194
 qt.main_window.second_splitter_right_w=592
 qt.main_window.width=1024
-qt.main_window.x=147
-qt.main_window.y=101
+qt.main_window.x=380
+qt.main_window.y=242
 qt.show_hidden_files=true
