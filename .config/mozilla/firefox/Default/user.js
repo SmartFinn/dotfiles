@@ -79,33 +79,6 @@ user_pref("dom.push.enabled", false);
 user_pref("permissions.default.desktop-notification", 2);
 user_pref("permissions.default.geo", 2);
 
-/* Smooth scrolling */
-/*
-user_pref("general.smoothScroll.currentVelocityWeighting", "0");
-user_pref("general.smoothScroll.durationToIntervalRatio", 1000);
-user_pref("general.smoothScroll.lines.durationMaxMS", 150);
-user_pref("general.smoothScroll.lines.durationMinMS", 0);
-user_pref("general.smoothScroll.mouseWheel.durationMaxMS", 150);
-user_pref("general.smoothScroll.mouseWheel.durationMinMS", 0);
-user_pref("general.smoothScroll.msdPhysics.continuousMotionMaxDeltaMS", 250);
-user_pref("general.smoothScroll.msdPhysics.enabled", true);
-user_pref("general.smoothScroll.msdPhysics.motionBeginSpringConstant", 450);
-user_pref("general.smoothScroll.msdPhysics.regularSpringConstant", 450);
-user_pref("general.smoothScroll.msdPhysics.slowdownMinDeltaMS", 50);
-user_pref("general.smoothScroll.msdPhysics.slowdownSpringConstant", 5000);
-user_pref("general.smoothScroll.other", true);
-user_pref("general.smoothScroll.other.durationMaxMS", 150);
-user_pref("general.smoothScroll.other.durationMinMS", 0);
-user_pref("general.smoothScroll.pages.durationMaxMS", 150);
-user_pref("general.smoothScroll.pages.durationMinMS", 0);
-user_pref("general.smoothScroll.pixels", true);
-user_pref("general.smoothScroll.pixels.durationMaxMS", 150);
-user_pref("general.smoothScroll.pixels.durationMinMS", 0);
-user_pref("general.smoothScroll.scrollbars.durationMaxMS", 600);
-user_pref("general.smoothScroll.scrollbars.durationMinMS", 0);
-user_pref("general.smoothScroll.stopDecelerationWeighting", "0.2");
-*/
-
 /* Acceleration */
 user_pref("gfx.use_text_smoothing_setting", true);
 user_pref("gfx.webrender.all", true);
