@@ -90,14 +90,11 @@ user_pref("media.autoplay.enabled", false);
 user_pref("media.av1.enabled", false);
 
 /* Network tweaks */
-// user_pref("network.allow-experiments", false);
-// user_pref("network.cookie.prefsMigrated", true);
 // user_pref("network.dns.disablePrefetch", true);
 // user_pref("network.dns.echconfig.enabled", true);
 // user_pref("network.http.speculative-parallel-limit", 0);
 // user_pref("network.predictor.enabled", false);
 // user_pref("network.prefetch-next", false);
-// user_pref("network.tcp.tcp_fastopen_enable", true);
 // user_pref("network.trr.mode", 2);
 // user_pref("network.trr.uri", "https://mozilla.cloudflare-dns.com/dns-query");
 user_pref("network.warnOnAboutNetworking", false);
