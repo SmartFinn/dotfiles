@@ -80,12 +80,10 @@ user_pref("permissions.default.desktop-notification", 2);
 user_pref("permissions.default.geo", 2);
 
 /* Acceleration */
-user_pref("gfx.use_text_smoothing_setting", true);
-user_pref("gfx.webrender.all", true);
-user_pref("gfx.webrender.enabled", true);
-user_pref("gfx.webrender.highlight-painted-layers", false);
-user_pref("gfx.x11-egl.force-enabled", true);
-user_pref("layers.acceleration.force-enabled", true);
+// user_pref("gfx.webrender.all", true);
+// user_pref("gfx.webrender.enabled", true);
+// user_pref("gfx.x11-egl.force-enabled", true);
+// user_pref("layers.acceleration.force-enabled", true);
 
 /* Video settings */
 user_pref("media.autoplay.enabled", false);
