@@ -25,6 +25,21 @@ if fname:find('tasks/') then
   vim.bo.path = table.concat(paths, ",")
 end
 
+-- Abbreviations
+
+vim.cmd.iabbrev('-:', '- name:')
+vim.cmd.iabbrev('b:', 'become:')
+vim.cmd.iabbrev('e:', 'environment:')
+vim.cmd.iabbrev('l:', 'loop:')
+vim.cmd.iabbrev('n:', 'name:')
+vim.cmd.iabbrev('o:', 'notify:')
+vim.cmd.iabbrev('p:', 'path:')
+vim.cmd.iabbrev('r:', 'register:')
+vim.cmd.iabbrev('s:', 'state:')
+vim.cmd.iabbrev('t:', 'tags:')
+vim.cmd.iabbrev('w:', 'when:')
+vim.cmd.iabbrev('ogm:', 'owner: root\ngroup: root\nmode: \'0644\'')
+
 -- Compiler
 
 -- Syntax
