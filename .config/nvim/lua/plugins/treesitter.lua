@@ -12,7 +12,7 @@ return {
     { 'nvim-treesitter/nvim-treesitter-refactor' },
 
     -- Rainbow parentheses for neovim using tree-sitter
-    { 'hiphish/rainbow-delimiters.nvim' },
+    { 'hiphish/rainbow-delimiters.nvim', cond = vim.fn.has('nvim-0.9') == 1 },
 
     -- Autoclose tags
     { 'windwp/nvim-ts-autotag' },
