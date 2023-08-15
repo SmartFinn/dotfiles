@@ -16,6 +16,8 @@ return {
       },
       highlights = {
         ['LineNr'] = {fg = '$bg3'},
+        ['NormalFloat'] = {fg = '$fg', bg = '$bg0'},
+        ['FloatBorder'] = {fg = '$grey', bg = '$bg0'},
       },
     })
 

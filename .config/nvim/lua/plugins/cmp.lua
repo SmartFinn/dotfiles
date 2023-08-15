@@ -49,6 +49,11 @@ return {
       luasnip = 'snippet',
     }
 
+    local border_opts = {
+      border = "rounded",
+      winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+    }
+
     vim.opt.completeopt:append('menu')
     vim.opt.completeopt:append('menuone')
     vim.opt.completeopt:append('noselect')
@@ -125,6 +130,10 @@ return {
           item.menu = string.format('[%s]', aliases[entry.source.name] or entry.source.name)
           return item
         end,
+      },
+      window = {
+        completion = cmp.config.window.bordered(border_opts),
+        documentation = cmp.config.window.bordered(border_opts),
       },
     })
   end,
