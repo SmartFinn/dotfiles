@@ -25,3 +25,6 @@ vim.keymap.set('n', '<CR>', '<C-]>', { buffer = true })
 vim.keymap.set('n', '<BS>', '<C-T>', { buffer = true })
 
 -- Plugins
+if vim.fn.has('nvim-0.9') == 1 then
+  vim.treesitter.start()
+end
