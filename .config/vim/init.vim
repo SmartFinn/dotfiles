@@ -179,9 +179,6 @@ Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
 " A dark Vim/Neovim color scheme inspired by Atom's One Dark syntax theme
 Plug 'joshdick/onedark.vim'
 let g:onedark_hide_endofbuffer = 1
-let g:onedark_color_overrides = {
-\ "black": {"gui": "#20242c", "cterm": "235", "cterm16": "0" },
-\}
 
 " shows a git diff in the gutter (sign column) and stages/undoes hunks
 Plug 'airblade/vim-gitgutter'
@@ -345,16 +342,6 @@ let g:markdown_fenced_languages = ['bash=sh', 'css', 'django', 'javascript', 'js
 
 " set background=dark
 
-if (has("autocmd"))
-  augroup colorextend
-    autocmd!
-    autocmd ColorScheme * call onedark#extend_highlight("SignColumn", { "guibg": "#1b1f27", "guifg": "none" })
-    autocmd ColorScheme * call onedark#extend_highlight("SignifySignAdd", { "guibg": "#121212", "guifg": "#5f8700" })
-    autocmd ColorScheme * call onedark#extend_highlight("SignifySignChange", { "guibg": "#121212", "guifg": "#0087af" })
-    autocmd ColorScheme * call onedark#extend_highlight("SignifySignDelete", { "guibg": "#121212", "guifg": "#870000" })
-  augroup END
-endif
-
 if !exists('g:vimrcloaded')
   if &t_Co == 256
     try
@@ -367,31 +354,6 @@ if !exists('g:vimrcloaded')
   endif
   let g:vimrcloaded = 1
 endif
-
-" Fixes for minimalist theme
-" highlight SpecialKey ctermfg=237 ctermbg=NONE guifg=#3A3A3A guibg=NONE
-" highlight SignColumn ctermfg=NONE ctermbg=233 guifg=NONE guibg=#121212
-" highlight LineNr ctermfg=237 ctermbg=233 guifg=#3A3A3A guibg=#121212
-
-" Signify for minimalist theme
-" highlight SignifySignAdd    guibg=#121212 guifg=#5f8700 ctermbg=233 ctermfg=64
-" highlight SignifySignChange guibg=#121212 guifg=#0087af ctermbg=233 ctermfg=31
-" highlight SignifySignDelete guibg=#121212 guifg=#870000 ctermbg=233 ctermfg=88
-
-" Fixes for onedark theme
-highlight SignColumn ctermfg=NONE ctermbg=234 guifg=NONE guibg=#1b1f27
-highlight LineNr ctermfg=237 ctermbg=234 guifg=#3f4657 guibg=#1b1f27
-
-" Signify for onedark theme
-highlight SignifySignAdd    guibg=#1b1f27 guifg=#5f8700 ctermbg=234 ctermfg=64
-highlight SignifySignChange guibg=#1b1f27 guifg=#0087af ctermbg=234 ctermfg=31
-highlight SignifySignDelete guibg=#1b1f27 guifg=#870000 ctermbg=234 ctermfg=88
-
-" GitGutter
-highlight link GitGutterAdd SignifySignAdd
-highlight link GitGutterChange SignifySignChange
-highlight link GitGutterDelete SignifySignDelete
-highlight link GitGutterChangeDelete GitGutterDelete
 
 " Use 24-bit (true-color) mode in Vim/Neovim
 " For Neovim 0.1.3 and 0.1.4 <https://github.com/neovim/neovim/pull/2198>
