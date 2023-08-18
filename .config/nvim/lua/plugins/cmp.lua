@@ -9,6 +9,7 @@ return {
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'saadparwaiz1/cmp_luasnip', -- LuaSnip completion source
+    'hrsh7th/cmp-nvim-lsp-signature-help', -- displaying function parameters
     'hrsh7th/cmp-nvim-lua', -- Neovim Lua API completion source
     'hrsh7th/cmp-nvim-lsp', -- Neovim builtin LSP client completion source
   },
@@ -47,6 +48,7 @@ return {
     local aliases = {
       nvim_lsp = 'lsp',
       luasnip = 'snippet',
+      nvim_lsp_signature_help = 'parameter',
     }
 
     local border_opts = {
@@ -116,6 +118,7 @@ return {
           option = { get_bufnrs = vim.api.nvim_list_bufs }
         },
         { name = 'path', priority = 250 },
+        { name = 'nvim_lsp_signature_help' },
       }),
       snippet = {
         expand = function(args)
