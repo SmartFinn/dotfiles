@@ -80,6 +80,9 @@ return {
           if ok and stats and stats.size > max_filesize then
             return true
           end
+
+          -- disable treesitter highlight for filetypes
+          return { 'htmldjango', }
         end,
 
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
