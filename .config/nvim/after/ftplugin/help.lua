@@ -16,15 +16,15 @@ vim.opt_local.textwidth = 0
 -- Compiler
 
 -- Syntax
+if vim.fn.has('nvim-0.9') == 1 then
+  vim.treesitter.start()
+end
 
 -- Macros
 
 -- Mapping
-vim.keymap.set('n', 'q', '<CMD>bdelete<CR>', { buffer = true })
-vim.keymap.set('n', '<CR>', '<C-]>', { buffer = true })
-vim.keymap.set('n', '<BS>', '<C-T>', { buffer = true })
+vim.keymap.set('n', 'q', '<CMD>bdelete<CR>', { buffer = true, silent = true })
+vim.keymap.set('n', '<CR>', '<C-]>', { buffer = true, silent = true })
+vim.keymap.set('n', '<BS>', '<C-T>', { buffer = true, silent = true })
 
 -- Plugins
-if vim.fn.has('nvim-0.9') == 1 then
-  vim.treesitter.start()
-end

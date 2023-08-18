@@ -1,7 +1,7 @@
--- help specific settings.
+-- vim pages specific settings.
 -- Options
-vim.opt_local.tabstop = 8
-vim.opt_local.shiftwidth = 8
+vim.opt_local.tabstop = 4
+vim.opt_local.shiftwidth = 4
 vim.opt_local.shiftround = false
 vim.opt_local.expandtab = false
 vim.opt_local.foldmethod = "indent"
@@ -20,8 +20,6 @@ vim.opt_local.textwidth = 0
 -- Macros
 
 -- Mapping
-vim.keymap.set('n', 'q', '<CMD>bdelete<CR>', { buffer = true })
-vim.keymap.set('n', '<CR>', '<C-]>', { buffer = true })
-vim.keymap.set('n', '<BS>', '<C-T>', { buffer = true })
+vim.keymap.set('n', 'q', '<CMD>bdelete<CR>', { buffer = true, silent = true })
 
 -- Plugins
