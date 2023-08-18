@@ -12,7 +12,11 @@ if exists('$SUDO_USER')
     call mkdir('/tmp/vim', 'p')
   endif
   set runtimepath=/tmp/vim,$VIMRUNTIME
-  set viminfo+=n/tmp/vim/viminfo
+  if (has("nvim"))
+    set shada+=n/tmp/vim/shada
+  else
+    set viminfo+=n/tmp/vim/viminfo
+  endif
   set noswapfile
   finish
 endif
@@ -22,15 +26,19 @@ filetype off
 
 " Load vimcache
 if (has("nvim"))
-  call vimcache#init($HOME . '/.cache/nvim')
+  call vimcache#init(stdpath('state'))
 else
-  call vimcache#init($HOME . '/.cache/vim')
+  call vimcache#init($HOME . '/.local/state/vim')
 endif
 
 " Plugins {{{1
 " =======
 
-call plug#begin('~/.config/vim/bundle')
+if (has("nvim"))
+  call plug#begin(stdpath('data') . '/plugged')
+else
+  call plug#begin($HOME . '/.local/share/vim' . '/plugged')
+endif
 
 " netrw
 " Uncomment the line below to disable netrw plugin
@@ -95,7 +103,6 @@ nmap Z yo
 " Startify — start screen, sessions and bookmarks manager
 Plug 'mhinz/vim-startify'
 let g:startify_bookmarks = [ '~/.config/vim/init.vim' ]
-let g:startify_session_dir = g:vimcache_dir . 'session'
 let g:startify_custom_header = []
 
 " Tcomment — An extensible & universal comment vim-plugin that also handles
@@ -313,10 +320,10 @@ set dictionary=/usr/share/dict/words
 "           | |    |      |     |     +---Remember last 1000 commands
 "           | |    |      |     |     |
 "           v v    v      v     v     v
-set viminfo=h,'500,<10000,s1000,/1000,:1000,n~/.cache/vim/viminfo
+set viminfo=h,'500,<10000,s1000,/1000,:1000,n~/.local/state/vim/viminfo
 
 if (has("nvim"))
-  set shada=h,'500,<10000,s1000,/1000,:1000,n~/.cache/nvim/shada
+  set shada=h,'500,<10000,s1000,/1000,:1000,n~/.local/state/vim/shada
 endif
 
 " Enable histogram-based diffs
