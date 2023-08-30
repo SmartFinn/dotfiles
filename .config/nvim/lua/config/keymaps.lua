@@ -56,6 +56,12 @@ map({'n', 'v', 'i'}, '<M-n>', '<Down>', { desc = "Go down" })
 map({'n', 'v', 'i'}, '<M-p>', '<Up>', { desc = "Go up" })
 map('i', '<C-->', '<C-o>u', { desc = "Undo" })
 
+-- Multiple cursors for poor man
+-- Tip: use . (dot) to apply the changes, n/N - to skip
+-- https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db
+map('x', 'gb', '*cgn', { remap = true })
+map('x', 'gB', '*cgN', { remap = true })
+
 -- Improve work with brackets
 map('o', '(', 'i(')
 map('o', ')', 'a(')
