@@ -15,6 +15,7 @@ end
 vim.filetype.add({
   extension = {
     ['j2'] = 'htmldjango',
+    ['SVG'] = 'svg',
     ['yml'] = function(_, bufnr) return ftdetect_ansible_playbook(bufnr) end,
     ['yaml'] = function(_, bufnr) return ftdetect_ansible_playbook(bufnr) end,
   },
