@@ -1,6 +1,8 @@
 -- :help options
 vim.opt.clipboard:prepend("unnamed") -- copy/paste to/from primary clipboard
 
+vim.opt.viewoptions:remove "curdir" -- disable saving current directory with views
+
 vim.opt.swapfile = false -- disable creating a swapfile
 vim.opt.undofile = true -- enable persistent undo
 vim.opt.writebackup = false -- if a file is being edited by another program, it is not allowed to be edited
@@ -13,6 +15,7 @@ vim.opt.sidescrolloff = 15
 
 vim.opt.whichwrap:append("<,>,[,]")
 vim.opt.virtualedit = "block" -- allow virtual editing in Visual block mode
+vim.opt.breakindent = true -- wrap indent to match  line start
 
 vim.opt.tabstop = 4 -- insert 4 spaces for a tab
 vim.opt.shiftwidth = 4 -- the number of spaces inserted for each indentation
@@ -54,6 +57,10 @@ vim.opt.diffopt:remove("closeoff")
 
 vim.opt.diffopt:append("vertical") -- always open diffs in vertical splits.
 
+if vim.fn.has "nvim-0.9" == 1 then
+  vim.opt.diffopt:append("linematch:60") -- enable linematch diff algorithm
+end
+
 -- Set langmap for russian layout
 vim.opt.langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯЁХЪЖЭБЮ;ABCDEFGHIJKLMNOPQRSTUVWXYZ~{}:"<>,' ..
                   "фисвуапршолдьтщзйкыегмцчняёхъжэбю;abcdefghijklmnopqrstuvwxyz`[];'\\,."
@@ -72,9 +79,12 @@ vim.opt.splitright = true -- force all vertical splits to go to the right of cur
 vim.opt.splitbelow = true -- force all horizontal splits to go below current window
 
 vim.opt.listchars = { tab = "│ ", trail = "·", nbsp = "·", extends = ">", precedes = "<", }
+vim.opt.fillchars = { eob = " " } -- disable `~` on nonexistent lines
 
 -- vim.opt.numberwidth = 2 -- set number column width to 2 {default 4}
 vim.opt.cmdheight = 0 -- hide the command-line
+
+vim.opt.pumheight = 10 -- height of the pop up menu
 
 -- Highlight the line number of the cursor
 vim.opt.cursorline = true
