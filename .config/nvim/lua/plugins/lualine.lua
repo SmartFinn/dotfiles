@@ -12,6 +12,17 @@ local function show_macro_recording()
   end
 end
 
+local function diff_source()
+  local gitsigns = vim.b.gitsigns_status_dict
+  if gitsigns then
+    return {
+      added = gitsigns.added,
+      modified = gitsigns.changed,
+      removed = gitsigns.removed
+    }
+  end
+end
+
 return {
   'nvim-lualine/lualine.nvim',
   event = 'UIEnter',
@@ -27,8 +38,8 @@ return {
         { 'mode', color = { gui = 'bold' } },
       },
       lualine_b = {
-        { 'branch' },
-        { 'diff', colored = false },
+        { 'b:gitsigns_head', icon = '' },
+        { 'diff', source = diff_source },
       },
       lualine_c = {
         { 'filename', file_status = true },
