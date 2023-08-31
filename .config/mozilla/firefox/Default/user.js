@@ -129,5 +129,8 @@ user_pref("browser.compactmode.show", true);
 /* Enable SVG context-propertes */
 user_pref("svg.context-properties.content.enabled", true);
 
+// Disable private window dark theme
+user_pref("browser.theme.dark-private-windows", false);
+
 /* Deny to respect disablePictureInPicture option */
 user_pref("media.videocontrols.picture-in-picture.respect-disablePictureInPicture", false)
