@@ -18,8 +18,7 @@ if not has_lazy then
   return
 end
 
-lazy.setup({
-  import = "plugins",
+lazy.setup("plugins", {
   defaults = { lazy = true },
   lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
 })
