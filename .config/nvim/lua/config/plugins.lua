@@ -8,7 +8,7 @@ if not vim.loop.fs_stat(lazypath) then
     "--branch=stable", -- latest stable release
     lazypath,
   })
-	print("Installing lazy.nvim plugin manager...")
+  print("Installing lazy.nvim plugin manager...")
 end
 vim.opt.rtp:prepend(lazypath)
 
