@@ -68,9 +68,9 @@ done
 
 # visualizing exit codes
 __handle_cmd_err() {
-    local exit_code=$?
+	local exit_code=$?
 	case "$exit_code" in
-	130) return ;;
+		130) return ;;
 	esac
 	printf '\e[2;37mThe last command was terminated with error code: \e[31m%s\e[0m\n' $exit_code
 }
