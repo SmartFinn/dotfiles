@@ -26,6 +26,11 @@ command! -buffer RemoveTrailingWhitespace :%s/\s\+$//e
 map <silent> <buffer> <F8> :!/usr/bin/env python "%:p"<CR>
 map <silent> <buffer> <F9> :update \| silent! make \| redraw! \| cwindow<CR>
 
+" Run the current line with shell
+" https://parobalth.github.io/vim-run-line
+nmap <Leader><Enter> :.w !python3<CR>
+vmap <Leader><Enter> :'<'>.w !python3<CR>
+
 " Plugins
 let python_highlight_all=1
 

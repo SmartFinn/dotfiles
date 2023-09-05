@@ -18,6 +18,11 @@ setlocal nowrap
 map <silent> <buffer> <F8> :!/usr/bin/zsh "%:p"<CR>
 map <silent> <buffer> <F9> :update<CR>
 
+" Run the current line with shell
+" https://parobalth.github.io/vim-run-line
+nmap <Leader><Enter> :.w !zsh<CR>
+vmap <Leader><Enter> :'<'>.w !zsh<CR>
+
 " Plugins
 
 " vim:ft=vim
