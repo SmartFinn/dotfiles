@@ -70,6 +70,7 @@ return {
         { 'diagnostics', symbols = U.sings },
       },
       lualine_x = {
+        'searchcount',
         {
           'macro-recording',
           fmt = show_macro_recording,
