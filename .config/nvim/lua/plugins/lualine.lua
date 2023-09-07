@@ -89,6 +89,7 @@ return {
         'progress',
       },
       lualine_z = {
+        'selectioncount',
         { 'location', color = { gui = 'bold' } },
       },
     },
