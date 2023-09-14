@@ -1,9 +1,11 @@
 #!/bin/sh
 
+ram=$(awk '/^MemAvailable/ { print (int($2 / 1000 / 1000) >= 4 ? 4 : 2)"G" }' /proc/meminfo)
+
 qemu-system-x86_64 \
 	-enable-kvm \
 	-cpu host \
-	-m 2048 \
+	-m "$ram" \
 	-netdev user,id=network0,hostfwd=tcp::8022-:22,hostfwd=tcp::8090-:80 \
 	-device e1000,netdev=network0 \
 	-device qemu-xhci,id=xhci \
