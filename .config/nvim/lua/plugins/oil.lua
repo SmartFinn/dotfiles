@@ -4,7 +4,6 @@
 return {
   'stevearc/oil.nvim',
   version = 'v2.*',
-  event = 'VeryLazy',
   cmd = 'Oil',
   opts = {
     columns = {},
