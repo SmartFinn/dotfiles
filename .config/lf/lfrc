@@ -502,7 +502,7 @@ map a :rename; cmd-word-back; cmd-left
 map I :rename; cmd-home
 map C clear
 map S spawn_shell
-map E edit
+map e edit
 map B bookmark
 map H jump-prev
 map L jump-next
