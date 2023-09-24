@@ -642,6 +642,7 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .bak               38;5;59
 .dist              38;5;59
 .dpkg-dist         38;5;59
+.dpkg-old          38;5;59
 .incomplete        38;5;59  # Transmission
 .lock              38;5;59
 .log               38;5;59
@@ -652,8 +653,12 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .part              38;5;59  # Chromium
 .pid               38;5;59
 .rpmnew            38;5;59
+.rpmorig           38;5;59
 .rpmsave           38;5;59
 .save              38;5;59
+.ucf-dist          38;5;59
+.ucf-new           38;5;59
+.ucf-old           38;5;59
 
 # Junk {{{2
 *~                 38;5;245
