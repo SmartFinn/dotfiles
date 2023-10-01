@@ -28,8 +28,12 @@ return {
     end,
   },
   keys = function()
-    local comment = require('Comment.api')
+    local comment_avail, comment = pcall(require, 'Comment.api')
     local esc = vim.api.nvim_replace_termcodes('<Esc>', true, false, true)
+
+    if not comment_avail then
+      return
+    end
 
     -- Toggle current line (linewise) using C-/
     vim.keymap.set({'n', 'i'}, '<C-_>', comment.toggle.linewise.current, {
