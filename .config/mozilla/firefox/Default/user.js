@@ -65,8 +65,8 @@ user_pref("browser.tabs.warnOnClose", false);
 /* URL bar settings */
 user_pref("browser.urlbar.maxRichResults", 6);
 user_pref("browser.urlbar.trimURLs", false);
-user_pref("browser.urlbar.showSearchSuggestionsFirst", false)
-user_pref("browser.urlbar.groupLabels.enabled", false)
+user_pref("browser.urlbar.showSearchSuggestionsFirst", false);
+user_pref("browser.urlbar.groupLabels.enabled", false);
 
 /* DevTools settings */
 user_pref("devtools.aboutdebugging.showSystemAddons", true);
@@ -133,4 +133,4 @@ user_pref("svg.context-properties.content.enabled", true);
 user_pref("browser.theme.dark-private-windows", false);
 
 /* Deny to respect disablePictureInPicture option */
-user_pref("media.videocontrols.picture-in-picture.respect-disablePictureInPicture", false)
+user_pref("media.videocontrols.picture-in-picture.respect-disablePictureInPicture", false);
