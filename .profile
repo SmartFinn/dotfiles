@@ -29,7 +29,7 @@ export SUDO_EDITOR="vim"
 export VISUAL="nvim"
 export WORDCHARS='*?[]~=/&;!|#$%^(){}<>'
 
-export DEBFULLNAME="Sergei Eremenko"
+export DEBFULLNAME="Serhii Yeremenko"
 export DEBEMAIL="finalitik@gmail.com"
 
 #export GPGKEY=DAF1B4B5	# sergei@eremenko.pp.ua
