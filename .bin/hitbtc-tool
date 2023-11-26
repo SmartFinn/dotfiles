@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-: "${BASE_URL:=https://api.hitbtc.com/}"
+: "${BASE_URL:=https://api.hitbtc.com}"
 : "${PUBLIC_KEY:=$(secret-tool lookup hitbtc_api public_key)}"
 : "${SECRET_KEY:=$(secret-tool lookup hitbtc_api secret_key)}"
 
