@@ -12,7 +12,7 @@
 	cl = clone
 	co = checkout
 	ff = fetch --tags --prune
-	lo = log --abbrev-commit --graph --max-count=22
+	lo = log --abbrev-commit --first-parent --max-count=22
 	lp = log -p
 	ls = ls-files
 	st = status --short --branch
