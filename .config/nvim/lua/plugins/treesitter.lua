@@ -16,11 +16,6 @@ return {
 
     -- Autoclose tags
     { 'windwp/nvim-ts-autotag' },
-
-    -- Neovim treesitter plugin for setting the commentstring based on
-    -- the cursor location in a file
-    -- https://github.com/JoosepAlviste/nvim-ts-context-commentstring
-    { 'JoosepAlviste/nvim-ts-context-commentstring' },
   },
   event = { 'BufReadPost', 'BufNewFile' },
   cmd = {
@@ -63,11 +58,6 @@ return {
       -- Automatically install missing parsers when entering buffer
       -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
       auto_install = true,
-
-      context_commentstring = {
-        enable = true,
-        enable_autocmd = false,
-      },
 
       highlight = {
         -- `false` will disable the whole extension

@@ -5,9 +5,13 @@ return {
   'numToStr/Comment.nvim',
   version = 'v0.*',
   dependencies = {
-    -- Treesitter plugin for setting the commentstring based on the cursor location
-    'nvim-treesitter/nvim-treesitter',
-    'JoosepAlviste/nvim-ts-context-commentstring',
+    -- Neovim treesitter plugin for setting the commentstring based on
+    -- the cursor location in a file
+    -- https://github.com/JoosepAlviste/nvim-ts-context-commentstring
+    {
+      'JoosepAlviste/nvim-ts-context-commentstring',
+      opts = { enable_autocmd = false }
+    },
   },
   event = { 'BufReadPost', 'BufNewFile' },
   opts = {
