@@ -1,8 +1,9 @@
-local x, y, w, h = get_window_geometry();
+-- local x, y, w, h = get_window_geometry();
 local app_name = get_application_name();
 local wm_role = get_window_role();
 local wm_class = get_window_class();
 local inst_name = get_class_instance_name() or "";
+local screen_x, screen_y = get_screen_geometry();
 
 debug_print("Application name: " .. app_name);
 debug_print("Window class: "     .. wm_class);
@@ -47,7 +48,7 @@ if (get_window_type() == "WINDOW_TYPE_NORMAL") then
 end
 
 if (app_name == 'Picture in picture' or wm_role == 'PictureInPicture') then
-	set_window_geometry(screen_x, screen_y, pip_width_full, pip_height_full);
+	set_window_geometry(screen_x, screen_y, screen_x / 2.72, screen_y / 2.72);
 	stick_window();
 	-- set_skip_tasklist(true);
 	set_skip_pager(true);

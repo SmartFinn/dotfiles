@@ -3,25 +3,19 @@ local wm_class = get_window_class();
 local pip_windows = {"Picture in picture", "Picture-in-picture"};
 local pip_preset = "_window";
 local wmctrl_mvargs = {
-	["_window"] = {screen_x, screen_y, pip_width_full, pip_height_full},
-	["_maximized"] = {screen_x, screen_y, pip_width_small, pip_height_small},
-	["Code"] = {
-		screen_x, screen_y - pip_height_small - 30, pip_width_small, pip_height_small
-	},
-	["Meld"] = {
-		screen_x, screen_y - pip_height_small - 30, pip_width_small, pip_height_small
-	},
-	["TelegramDesktop"] = {screen_x, 0, pip_width_medium, pip_height_medium},
-	["Inkscape"] = {
-		screen_x - string.format("%.0f", pip_width_full / 1.785) - 76,
-		screen_y - string.format("%.0f", pip_height_full / 1.785) - 94,
-		string.format("%.0f", pip_width_full / 1.785),
-		string.format("%.0f", pip_height_full / 1.785),
-	},
-	["org-openstreetmap-josm-gui-MainApplication"] = {
-		screen_x - 520, screen_y, pip_width_small, pip_height_small
-	},
-	["digikam"] = {0, screen_y, pip_width_small, pip_height_small},
+	["_window"] = pip_size({}),
+	["_maximized"] = pip_size({size = "small"}),
+	["firefox"] = pip_size({size = "small"}),
+	["Code"] = pip_size({size = "small", offset_y = 24}),
+	["Meld"] = pip_size({size = "small", offset_y = 24}),
+	["TelegramDesktop"] = pip_size({size = "medium", pos = "tr"}),
+	["Inkscape"] = pip_size({size = "xsmall", offset_x = 76, offset_y = 94}),
+	["org-openstreetmap-josm-gui-MainApplication"] = pip_size({
+		size = "small",
+		offset_x = 240
+	}),
+	["digikam"] = pip_size({pos = 'bl', size = "xsmall"}),
+	["obsidian"] = pip_size({pos = 'br', size = "xsmall", offset_x = 280}),
 };
 
 if (get_window_type() == "WINDOW_TYPE_NORMAL") then
