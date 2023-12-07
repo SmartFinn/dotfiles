@@ -26,7 +26,7 @@ if (get_window_type() == "WINDOW_TYPE_NORMAL") then
 	end
 
 	if ((wm_role == 'browser')
-  or (wm_role == 'browser-window'))
+	or (wm_role == 'browser-window'))
 	and (screen_x <= 1366)
 	then
 		maximize();
@@ -47,7 +47,7 @@ if (get_window_type() == "WINDOW_TYPE_NORMAL") then
 end
 
 if (app_name == 'Picture in picture' or wm_role == 'PictureInPicture') then
-	set_window_geometry(screen_x, screen_y, 500, 282);
+	set_window_geometry(screen_x, screen_y, pip_width_full, pip_height_full);
 	stick_window();
 	-- set_skip_tasklist(true);
 	set_skip_pager(true);
