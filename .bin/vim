@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if command -v nvim >/dev/null; then
+	if  [ -e "${XDG_CONFIG_HOME:-$HOME/.config}/vim/vimrc" ] ||
+		[ -e "${XDG_CONFIG_HOME:-$HOME/.config}/vim/init.vim" ]; then
+		NVIM_APPNAME=vim nvim "$@"
+	else
+		nvim "$@"
+	fi
+elif command -v vim >/dev/null; then
+	vim "$@"
+else
+	vi "$@"
+fi
