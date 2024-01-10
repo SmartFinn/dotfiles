@@ -29,10 +29,13 @@ vim.api.nvim_create_autocmd({"BufLeave", "WinLeave"}, {
 })
 
 vim.api.nvim_create_autocmd({"BufWinEnter"}, {
-  desc = "Do not insert the current comment leader after hitting o/O",
+  desc = "Do not insert the current comment leader in a new line",
   group = au_vimrc,
   pattern = "*",
-  callback = function() vim.opt_local.formatoptions:remove("o") end,
+  callback = function()
+    vim.opt_local.formatoptions:remove("o")
+    vim.opt_local.formatoptions:remove("r")
+  end,
 })
 
 vim.api.nvim_create_autocmd({"BufEnter"}, {
