@@ -47,6 +47,7 @@ return {
         'markdown',
         'markdown_inline',
         'python',
+        'vimdoc',
         'yaml',
       },
 
