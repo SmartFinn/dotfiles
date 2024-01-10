@@ -28,6 +28,6 @@ host smtp.gmail.com
 port 465
 tls_starttls off
 from null@mkro.tk
-user null@smartfinn.com
+user null@mkro.tk
 
 account default : gmail
