@@ -49,6 +49,10 @@ HITBTC_SECRET_KEY="$(secret-tool lookup hitbtc_api secret_key)"; export HITBTC_S
 WHITEBIT_PUBLIC_KEY="$(secret-tool lookup whitebit_api api_key)"; export WHITEBIT_PUBLIC_KEY
 WHITEBIT_SECRET_KEY="$(secret-tool lookup whitebit_api api_secret)"; export WHITEBIT_SECRET_KEY
 
+OKX_PUBLIC_KEY="$(secret-tool lookup okx_api api_key)"; export OKX_PUBLIC_KEY
+OKX_SECRET_KEY="$(secret-tool lookup okx_api api_secret)"; export OKX_SECRET_KEY
+OKX_PASSPHRASE="$(secret-tool lookup okx_api api_passphrase)"; export OKX_PASSPHRASE
+
 TINYPNG_API_KEY="$(secret-tool lookup tinypng_api api_key)"; export TINYPNG_API_KEY
 
 YOUTUBE_API_KEY="$(secret-tool lookup youtube_api api_key)"; export YOUTUBE_API_KEY
