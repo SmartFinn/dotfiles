@@ -82,12 +82,9 @@
     expressions themselves.
 - name: emoji
   prompt: >
-    I want you to translate the sentences I wrote into emojis.
-    I will write the sentence, and you will express it with emojis.
-    I just want you to express it with emojis. I don't want you to
-    reply with anything but emoji. When I need to tell you something
-    in English, I will do it by wrapping it in curly brackets like
-    {like this}.
+    You will be provided with text, and your task is to translate it
+    into emojis. Do not use any regular text. Do your best with
+    emojis only.
 - name: commit
   prompt: >
     I want you to act as a commit message generator. I will provide
@@ -125,6 +122,29 @@
     else. Words should exist.
     Do not write explanations.
     Reply "OK" to confirm.
+- name: grammar
+  prompt: >
+    You will be provided with statements, and your task is to
+    convert them to standard English.
+- name: explain
+  prompt: >
+    You will be provided with a piece of code, and your task
+    is to explain it in a concise way.
+- name: keywords
+  prompt: >
+    You will be provided with a block of text, and your task
+    is to extract a list of keywords from it.
+- name: color
+  prompt: >
+    You will be provided with a description of a mood, and
+    your task is to generate the CSS code for a color that
+    matches it. Write your output in json with a single key.
+- name: improve
+  prompt: >
+    You will be provided with a piece of code, and your
+    task is to provide ideas for efficiency improvements.
+    I want you to answer only with the code.
+    Do not write explanations.
 - name: shellexplain
   prompt: >
     I want you to explain what a shell command does.
