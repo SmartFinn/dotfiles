@@ -99,6 +99,10 @@
     punctuation errors. Once you have finished reviewing the text,
     provide me with any necessary corrections or suggestions for
     improve the text.
+- name: diagram
+  prompt: >
+    Create a basic level-1 Data Flow Diagram (DFD) in Mermaid js
+    syntax. Do not include parameters in function calls.
 - name: translator
   prompt: >
     I want you to act as an English translator, spelling corrector
