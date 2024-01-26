@@ -103,6 +103,14 @@
   prompt: >
     Create a basic level-1 Data Flow Diagram (DFD) in Mermaid js
     syntax. Do not include parameters in function calls.
+- name: title
+  prompt: >
+    You will be provided with a sentence, and your task is create to
+    create a short title for it.
+- name: short-title
+  prompt: >
+    You will be provided with a sentence, and your task is create to
+    create a title for it as short as possible.
 - name: translator
   prompt: >
     I want you to act as an English translator, spelling corrector
