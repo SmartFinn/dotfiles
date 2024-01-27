@@ -55,6 +55,7 @@ ZSH_ABBREVIATIONS+=(
 	"vi"	"vim"
 	"gti"	"git"
 	"got"	"git"
+	"gut"   "git"
 	"dfn"	"dnf"
 	"comit" "commit"
 	"scr"	"src"
