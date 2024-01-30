@@ -7,7 +7,7 @@ vim.opt.swapfile = false -- disable creating a swapfile
 vim.opt.undofile = true -- enable persistent undo
 vim.opt.writebackup = false -- if a file is being edited by another program, it is not allowed to be edited
 
-vim.opt.lazyredraw = true -- lazily redraw screen
+vim.opt.lazyredraw = false -- lazily redraw screen
 vim.opt.foldenable = false -- open all fold by default
 
 vim.opt.scrolloff = 5
