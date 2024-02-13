@@ -22,12 +22,12 @@ tls_starttls off
 from finalitik@gmail.com
 user finalitik@gmail.com
 
-account mkro.tk
-domain mkro.tk
+account mkro.pp.ua
+domain mkro.pp.ua
 host smtp.gmail.com
 port 465
 tls_starttls off
-from null@mkro.tk
-user null@mkro.tk
+from null@mkro.pp.ua
+user null@mkro.pp.ua
 
 account default : gmail
