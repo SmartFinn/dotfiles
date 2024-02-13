@@ -43,6 +43,7 @@ up2date() {
 
 	_try apm update --confirm=false
 
+	_try code --update-extensions
 	_try vim +PlugUpdate +quitall
 	_try zsh -i -c zsh_update_plugins
 	_try pipx upgrade-all
