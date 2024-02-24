@@ -110,7 +110,6 @@ user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
 
 /* Hardware Video Acceleration */
 user_pref("media.ffmpeg.vaapi.enabled", true);
-user_pref("media.ffvpx.enabled", false); // disables software decoding of VP8/VP9
 user_pref("media.av1.enabled", false); // Disable AV1 codec
 
 /* Keep Firefox open when you close the last tab */
