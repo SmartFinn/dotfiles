@@ -10,4 +10,7 @@ pull:
 prune:
 	@bash prune.sh
 
+maintenance:
+	@bash run-maintenance.sh
+
 .PHONY: clone pull prune
