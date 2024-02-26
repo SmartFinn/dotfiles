@@ -91,7 +91,7 @@ class HitBTCMarket:
         _symbol: str = symbol.replace("-", "")
         return Ticker(_symbol, self._request("public/ticker/" + _symbol))
 
-    def get_tickers(self, *symbols: list[str]) -> Generator[Ticker, None, None]:
+    def get_tickers(self, symbols: list[str]) -> Generator[Ticker, None, None]:
         """Get tickers for all symbols or for specified symbols
 
         Args:
@@ -147,11 +147,16 @@ if __name__ == "__main__":
         print("${:.0f}".format(float(main_ticker_data.last)))
     except (ConnectionError, Timeout):
         print("No data")
+        raise SystemExit(1)
     finally:
         print("---")
 
     if menu_open == "true":
-        tickers = exchange.get_tickers(*symbols)
+        try:
+            tickers = exchange.get_tickers(symbols)
+        except (ConnectionError, Timeout):
+            print("Failed to get data.")
+            raise SystemExit(1)
 
         for ticker in tickers:
             ticker_link = exchange.get_link(ticker.symbol)
