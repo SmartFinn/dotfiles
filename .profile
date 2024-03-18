@@ -53,6 +53,9 @@ OKX_PUBLIC_KEY="$(secret-tool lookup okx_api api_key)"; export OKX_PUBLIC_KEY
 OKX_SECRET_KEY="$(secret-tool lookup okx_api api_secret)"; export OKX_SECRET_KEY
 OKX_PASSPHRASE="$(secret-tool lookup okx_api api_passphrase)"; export OKX_PASSPHRASE
 
+BYBIT_PUBLIC_KEY="$(secret-tool lookup bybit_api api_key)"; export BYBIT_PUBLIC_KEY
+BYBIT_SECRET_KEY="$(secret-tool lookup bybit_api api_secret)"; export BYBIT_SECRET_KEY
+
 TINYPNG_API_KEY="$(secret-tool lookup tinypng_api api_key)"; export TINYPNG_API_KEY
 
 YOUTUBE_API_KEY="$(secret-tool lookup youtube_api api_key)"; export YOUTUBE_API_KEY
