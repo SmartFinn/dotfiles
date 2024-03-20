@@ -63,3 +63,4 @@ YOUTUBE_CHANNEL_ID="$(secret-tool lookup youtube_api channel_id)"; export YOUTUB
 
 export SHELLCHECK_OPTS='--exclude=SC1091 --exclude=SC1117'
 export DOTBARE_DIR="$HOME/.local/var/dotbare"
+export GNOME_SETUP_DISPLAY=${DISPLAY:-:0}
