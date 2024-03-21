@@ -1,13 +1,17 @@
 -- Formatting and linting
--- https://github.com/jose-elias-alvarez/null-ls.nvim
--- NOTE: this plugin is going to deprecate
+-- https://github.com/nvimtools/none-ls.nvim
 
 return {
-  'jose-elias-alvarez/null-ls.nvim',
+  'nvimtools/none-ls.nvim',
   event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     -- Package Manager
     { 'williamboman/mason.nvim' },
+
+    -- Extra sources
+    -- https://github.com/nvimtools/none-ls.nvim/issues/58
+    { 'gbprod/none-ls-shellcheck.nvim' },
+    { 'nvimtools/none-ls-extras.nvim' },
 
     -- null-ls manager
     -- https://github.com/jayp0521/mason-null-ls.nvim
@@ -39,20 +43,17 @@ return {
         ----------------
         -- FORMATTING --
         ----------------
-        fmt.trim_whitespace.with({
-          filetypes = { 'sh', 'zsh', 'toml', 'yaml', 'make', 'conf', 'tmux' },
-        }),
         fmt.shfmt.with({
           extra_args = { '-i', 0, '-ci', '-sr' },
         }),
         -----------------
         -- DIAGNOSTICS --
         -----------------
-        dgn.shellcheck,
+        require("none-ls-shellcheck.diagnostics"),
         ------------------
         -- CODE ACTIONS --
         ------------------
-        cda.shellcheck,
+        require("none-ls-shellcheck.code_actions"),
       },
     })
   end,
