@@ -132,6 +132,7 @@ $HOME/.dropbox*/
 .dropbox.img
 
 #- GNOME Shell
+$HOME/.config/content_shell/
 $HOME/.local/share/gnome-shell/notifications
 $HOME/.local/share/gnome-shell/extension-updates/
 
@@ -355,6 +356,7 @@ $HOME/.local/share/backintime/
 
 #- Ansible
 $HOME/.ansible/
+$HOME/.local/share/ansible/
 
 #- Ulauncher
 $HOME/.local/share/ulauncher/extensions/
@@ -407,6 +409,10 @@ lost+found/
 .uuid
 .Xauthority
 .xsession-errors*
+
+#- Codeium
+.codeium/
+codeium/
 
 #- Chromium and Electron-based apps
 Application Cache/
