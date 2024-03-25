@@ -114,6 +114,10 @@ rpmbuild/SRPMS
 .atom/compile-cache
 .config/Atom/
 
+## Codeium
+.codeium/
+codeium/
+
 ## flatpak
 .local/share/flatpak/
 .var/app/*/cache/
@@ -173,6 +177,7 @@ node_modules/
 .dropbox.img
 
 ## GNOME Shell
+.config/content_shell/
 .local/share/gnome-shell/notifications
 .local/share/gnome-shell/extension-updates/
 
@@ -380,3 +385,4 @@ Android/
 
 ## Ansible
 .ansible/
+.local/share/ansible
