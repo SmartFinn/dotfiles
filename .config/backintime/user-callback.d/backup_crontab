@@ -7,6 +7,8 @@ profile_name="$2"
 reason="$3"
 errorcode="$4"
 
+command -v crontab >/dev/null || exit 0
+
 dest_dir="$HOME/.local/var/backup"
 
 case "$reason" in
