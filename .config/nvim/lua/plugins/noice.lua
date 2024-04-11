@@ -46,7 +46,15 @@ return {
           },
         },
         opts = { skip = true },
-      }
+      },
+      -- hide all messages with no kind
+      {
+        filter = {
+          event = "msg_show",
+          kind = "",
+        },
+        opts = { skip = true },
+      },
     }
   }
 }
