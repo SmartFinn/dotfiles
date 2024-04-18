@@ -336,6 +336,7 @@ Android/
 
 # pipx
 .local/pipx
+.local/share/pipx
 
 # dotbare
 .local/var/dotbare/

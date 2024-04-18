@@ -306,6 +306,7 @@ $HOME/.local/share/gnome-boxes/images/
 
 #- pipx
 $HOME/.local/pipx/
+$HOME/.local/share/pipx/
 
 #- dotbare
 $HOME/.local/var/dotbare/
