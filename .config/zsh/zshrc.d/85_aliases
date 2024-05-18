@@ -62,6 +62,7 @@ alias delthumbs="find $HOME/.thumbnails $HOME/.cache/thumbnails -iname '*.png' -
 alias nocomment="grep -Ev '^\s*(#|$)'"
 alias nocow='chattr +C'
 alias reflink='cp -ax --reflink=always'
+alias lazydot='GIT_DIR=$HOME/.local/var/dotbare/ GIT_WORK_TREE=$HOME lazygit'
 
 command -v udisksctl >/dev/null && {
 	alias dmount='udisksctl mount -b'
