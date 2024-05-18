@@ -49,6 +49,16 @@ return {
         -----------------
         -- DIAGNOSTICS --
         -----------------
+        dgn.mypy.with({
+          extra_args = function()
+            return {
+              "--ignore-missing-imports",
+              "--check-untyped-defs",
+              "--explicit-package-bases", -- checking top level directory if __init__.py is missing
+              "--cache-dir=/dev/null", -- disable the .mypy_cache but mypy will tend to slower for rerun without referencing old data
+            }
+          end
+        }),
         require("none-ls-shellcheck.diagnostics"),
         ------------------
         -- CODE ACTIONS --
