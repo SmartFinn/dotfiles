@@ -115,11 +115,6 @@ function modified () {
 	print -l -- *(m-${1:-1})
 }
 
-# press esc-m for inserting last typed word again (thanks to caphuso!)
-function insert-last-typed-word () { zle insert-last-word -- 0 -1 }
-zle -N insert-last-typed-word
-bindkey '^[m' insert-last-typed-word
-
 #f1# Provides useful information on globbing
 function help-zshglob () {
 	cat <<- EOF
