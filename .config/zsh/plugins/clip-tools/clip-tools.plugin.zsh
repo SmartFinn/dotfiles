@@ -3,6 +3,7 @@
 
 buffer_to_clipboard() {
 	printf '%s' "$BUFFER" | clipcopy
+	zle -M "📋Copied the buffer to clipboard."
 }
 
 zle -N buffer_to_clipboard
