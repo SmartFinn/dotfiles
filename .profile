@@ -29,38 +29,6 @@ export SUDO_EDITOR="vim"
 export VISUAL="nvim"
 export WORDCHARS='*?[]~=/&;!|#$%^(){}<>'
 
-export DEBFULLNAME="Serhii Yeremenko"
-export DEBEMAIL="finalitik@gmail.com"
-
-#export GPGKEY=DAF1B4B5	# sergei@eremenko.pp.ua
-export GPGKEY=9D2E78EC	# finalitik@gmail.com
-
-GITHUB_TOKEN="$(secret-tool lookup github_api token)"; export GITHUB_TOKEN
-export GH_TOKEN="$GITHUB_TOKEN"
-export GHI_TOKEN="$GITHUB_TOKEN"
-export PET_GITHUB_ACCESS_TOKEN="$GITHUB_TOKEN"
-export THE_WAY_GITHUB_TOKEN="$GITHUB_TOKEN"
-
-GITEA_TOKEN="$(secret-tool lookup gitea_api token)"; export GITEA_TOKEN
-
-HITBTC_PUBLIC_KEY="$(secret-tool lookup hitbtc_api public_key)"; export HITBTC_PUBLIC_KEY
-HITBTC_SECRET_KEY="$(secret-tool lookup hitbtc_api secret_key)"; export HITBTC_SECRET_KEY
-
-WHITEBIT_PUBLIC_KEY="$(secret-tool lookup whitebit_api api_key)"; export WHITEBIT_PUBLIC_KEY
-WHITEBIT_SECRET_KEY="$(secret-tool lookup whitebit_api api_secret)"; export WHITEBIT_SECRET_KEY
-
-OKX_PUBLIC_KEY="$(secret-tool lookup okx_api api_key)"; export OKX_PUBLIC_KEY
-OKX_SECRET_KEY="$(secret-tool lookup okx_api api_secret)"; export OKX_SECRET_KEY
-OKX_PASSPHRASE="$(secret-tool lookup okx_api api_passphrase)"; export OKX_PASSPHRASE
-
-BYBIT_PUBLIC_KEY="$(secret-tool lookup bybit_api api_key)"; export BYBIT_PUBLIC_KEY
-BYBIT_SECRET_KEY="$(secret-tool lookup bybit_api api_secret)"; export BYBIT_SECRET_KEY
-
-TINYPNG_API_KEY="$(secret-tool lookup tinypng_api api_key)"; export TINYPNG_API_KEY
-
-YOUTUBE_API_KEY="$(secret-tool lookup youtube_api api_key)"; export YOUTUBE_API_KEY
-YOUTUBE_CHANNEL_ID="$(secret-tool lookup youtube_api channel_id)"; export YOUTUBE_CHANNEL_ID
-
 export SHELLCHECK_OPTS='--exclude=SC1091 --exclude=SC1117'
 export DOTBARE_DIR="$HOME/.local/var/dotbare"
 export GNOME_SETUP_DISPLAY=${DISPLAY:-:0}
