@@ -18,6 +18,7 @@ typeset -A ZSH_PLUGINS=(
 	[gio-trash]="local"
 	[git-extras-completion]="local"
 	[grlm-features]="local"
+	[kitty-window-words]="local"
 	[insert-datestamp]="local"
 	[minimal]="https://github.com/subnixr/minimal.git"
 	[oh-my-zsh/plugins/dotenv]="https://github.com/robbyrussell/oh-my-zsh.git"
