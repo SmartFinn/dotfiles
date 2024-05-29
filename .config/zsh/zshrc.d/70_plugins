@@ -5,7 +5,6 @@ typeset -A ZSH_PLUGINS=(
 	[aichat-integration]="local"
 	[copybuffer]="local"
 	[clipcopy]="local"
-	[copyq]="local"
 	[custom-completions]="local"
 	[ding]="local"
 	[dotbare]="https://github.com/kazhala/dotbare.git"
