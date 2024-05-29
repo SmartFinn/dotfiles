@@ -3,7 +3,7 @@
 typeset -A ZSH_PLUGINS=(
 	[activate-venv]="local"
 	[aichat-integration]="local"
-	[clip-tools]="local"
+	[copybuffer]="local"
 	[clipcopy]="local"
 	[copyq]="local"
 	[custom-completions]="local"
