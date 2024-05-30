@@ -11,10 +11,9 @@ function cmdsave() {
 
 function cmdsearch() {
 	BUFFER=$(the-way search --stdout --languages="sh")
-	CURSOR=$#BUFFER
+	zle end-of-line
 	zle redisplay
 }
 
 zle -N cmdsearch
-stty -ixon
 bindkey '\C-s' cmdsearch
