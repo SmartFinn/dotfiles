@@ -12,3 +12,9 @@ vim.cmd.abbrev('<expr>', 'ff', "expand('e! ++ff')")
 vim.cmd.abbrev('W', 'w')
 vim.cmd.abbrev('Q', 'q')
 vim.cmd.abbrev('man', 'Man')
+
+-- Reverse lines in the opposite direction
+vim.api.nvim_create_user_command(
+  'Reverse', ':<line1>,<line2>g/^/m0 | nohlsearch',
+  { range = '%' }
+)
