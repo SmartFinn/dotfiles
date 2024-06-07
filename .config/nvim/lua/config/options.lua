@@ -61,9 +61,9 @@ if vim.fn.has "nvim-0.9" == 1 then
   vim.opt.diffopt:append("linematch:60") -- enable linematch diff algorithm
 end
 
--- Set langmap for russian layout
-vim.opt.langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯЁХЪЖЭБЮ;ABCDEFGHIJKLMNOPQRSTUVWXYZ~{}:"<>,' ..
-                  "фисвуапршолдьтщзйкыегмцчняёхъжэбю;abcdefghijklmnopqrstuvwxyz`[];'\\,."
+-- Set langmap for Ukrainian layout
+vim.opt.langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКІЕГМЦЧНЯʼХЇЖЄБЮ;ABCDEFGHIJKLMNOPQRSTUVWXYZ~{}:"<>,' ..
+                  "фисвуапршолдьтщзйкіегмцчня'хїжєбю;abcdefghijklmnopqrstuvwxyz`[];'\\,."
 
 vim.opt.shada = {
   "h",     -- disable hlsearch when loading shada
