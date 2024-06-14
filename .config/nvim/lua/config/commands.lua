@@ -1,17 +1,17 @@
 -- Aliases
-vim.cmd.abbrev('ft', 'setfiletype')
-vim.cmd.abbrev('<expr>', '%%', "expand('%:p:h')")
+vim.cmd.cabbrev('ft', 'setfiletype')
+vim.cmd.cabbrev('<expr>', '%%', "expand('%:p:h')")
 
 -- Type :enc= for set encoding
-vim.cmd.abbrev('<expr>', 'enc', "expand('e! ++enc')")
+vim.cmd.cabbrev('<expr>', 'enc', "expand('e! ++enc')")
 
 -- Type :ff= for set fileformats
-vim.cmd.abbrev('<expr>', 'ff', "expand('e! ++ff')")
+vim.cmd.cabbrev('<expr>', 'ff', "expand('e! ++ff')")
 
 -- Command corrections
-vim.cmd.abbrev('W', 'w')
-vim.cmd.abbrev('Q', 'q')
-vim.cmd.abbrev('man', 'Man')
+vim.cmd.cabbrev('W', 'w')
+vim.cmd.cabbrev('Q', 'q')
+vim.cmd.cabbrev('man', 'Man')
 
 -- Reverse lines in the opposite direction
 vim.api.nvim_create_user_command(
