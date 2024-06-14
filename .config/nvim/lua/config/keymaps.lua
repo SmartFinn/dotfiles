@@ -133,3 +133,6 @@ map('i', '<C-C>', '<Esc>')
 map('i', ',', ',<c-g>u')
 map('i', '.', '.<c-g>u')
 map('i', ';', ';<c-g>u')
+
+-- Add some useful mapping for builtin terminal emulator
+map('t', '<Esc>', '<C-\\><C-N>', { desc = "Come back to normal mode" })
