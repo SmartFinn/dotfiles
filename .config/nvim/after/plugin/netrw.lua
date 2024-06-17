@@ -1,7 +1,7 @@
 -- netrw
 
 -- Uncomment the line below to disable netrw plugin
--- vim.g:loaded_netrwPlug = 1
+-- vim.g:loaded_netrwPlugin = 1
 vim.g.netrw_home = vim.fn.stdpath("data")
 vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 3

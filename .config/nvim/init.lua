@@ -13,6 +13,7 @@ local disabled_built_ins = {
   '2html_plugin',
   'logipat',
   'rrhelper',
+  'netrwPlugin',
 }
 
 for _, plugin in pairs(disabled_built_ins) do
