@@ -143,7 +143,6 @@ if vim.fn.has "nvim-0.10.0" == 1 then
   map('n', '<C-_>', 'gcc', { desc = "Toggle comment line", remap = true })
   map('i', '<C-_>', '<CMD>normal gcc<CR>', { desc = "Toggle comment line", remap = true })
   map('x', '<C-_>', 'gc', { desc = "Toogle comment", remap = true })
-  map('o', '<C-_>', 'gc', { desc = "Toogle comment", remap = true })
 
   -- mapping for kitty terminal
   map('n', '<C-/>', 'gcc', { desc = "Comment the current line", remap = true })
