@@ -14,6 +14,7 @@ return {
     },
   },
   event = { 'BufReadPost', 'BufNewFile' },
+  enabled = vim.fn.has("nvim-0.10.0") == 0,
   opts = {
     mappings = {
       ---Operator-pending mapping; `gcc` `gbc` `gc[count]{motion}` `gb[count]{motion}`

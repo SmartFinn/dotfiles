@@ -136,3 +136,17 @@ map('i', ';', ';<c-g>u')
 
 -- Add some useful mapping for builtin terminal emulator
 map('t', '<Esc>', '<C-\\><C-N>', { desc = "Come back to normal mode" })
+
+-- Remap default maps for built-in commenting
+if vim.fn.has "nvim-0.10.0" == 1 then
+  -- Toggle current line using C-/
+  map('n', '<C-_>', 'gcc', { desc = "Toggle comment line", remap = true })
+  map('i', '<C-_>', '<CMD>normal gcc<CR>', { desc = "Toggle comment line", remap = true })
+  map('x', '<C-_>', 'gc', { desc = "Toogle comment", remap = true })
+  map('o', '<C-_>', 'gc', { desc = "Toogle comment", remap = true })
+
+  -- mapping for kitty terminal
+  map('n', '<C-/>', 'gcc', { desc = "Comment the current line", remap = true })
+  map('i', '<C-/>', '<CMD>normal gcc<CR>', { desc = "Comment the current line", remap = true })
+  map('x', '<C-/>', 'gc', { desc = "Toogle comment", remap = true })
+end
