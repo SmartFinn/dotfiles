@@ -2,7 +2,7 @@
 --
 
 local function ftdetect_ansible_playbook(bufnr)
-  for _, line in ipairs(vim.filetype.getlines(bufnr, 1, 10)) do
+  for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 1, 10, false)) do
     if line:find('^-?%s+hosts:')
     then
       return 'yaml.ansible'
