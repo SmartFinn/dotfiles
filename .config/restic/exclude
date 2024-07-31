@@ -73,6 +73,7 @@ $HOME/.var/app/*/cache/
 $HOME/.var/app/org.kde.digikam/data/marble/maps/
 $HOME/.var/app/org.kde.digikam/data/digikam/QtWebEngine/
 $HOME/.var/app/org.kde.digikam/data/digikam/facesengine/
+$HOME/.var/app/org.kde.digikam/data/showfoto/facesengine/
 
 #- snap
 /snap/
@@ -410,6 +411,9 @@ lost+found/
 .uuid
 .Xauthority
 .xsession-errors*
+
+#- AppImages
+*.AppImage
 
 #- Codeium
 .codeium/
