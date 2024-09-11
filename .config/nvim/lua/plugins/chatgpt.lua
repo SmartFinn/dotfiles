@@ -18,5 +18,8 @@ return {
   },
   opts = {
     api_key_cmd = "secret-tool lookup openai_api api_key",
+    openai_params = {
+      model = "gpt-4o-mini",
+    },
   },
 }
