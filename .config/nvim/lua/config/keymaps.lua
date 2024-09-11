@@ -1,7 +1,7 @@
 local map = vim.keymap.set
 
 -- Leader keys
---
+--------------
 
 -- Search & replace the word under the cursor
 map('n',
@@ -27,7 +27,7 @@ map('x', '<Leader>y', '"+y', { desc = "Yank to system clipboard" })
 map('', '<Leader>p', '"+p', { desc = "Paste from system clipboard" })
 
 -- New key mapping
---
+------------------
 
 -- Create tab
 map('', '<C-W>N', '<CMD>tabnew<CR>', { desc = "Create new tab" })
@@ -74,7 +74,7 @@ map('o', '>', 'a<')
 
 
 -- Change defaults
---
+------------------
 
 -- Vertical and horizontal split then hop to a new buffer
 map('', '<C-W>s', '<CMD>new<CR>', { silent = true })
@@ -105,7 +105,7 @@ map('n', 'N', 'Nzz', { desc = "Goto search match in opposite dicection" })
 map('n', 'g;', 'g;zz', { desc =  "Go backward in change list"})
 map('n', 'g,', 'g,zz', { desc =  "Go forward in change list"})
 
--- reselect visual block after indent
+-- Reselect visual block after indent
 map('v', '<', '<gv', { desc = "unindent line" })
 map('v', '>', '>gv', { desc = "indent line" })
 
@@ -116,7 +116,7 @@ map('v', '<BS>', 'x')
 map('', '<PageUp>', '<C-U>')
 map('', '<PageDown>', '<C-D>')
 
--- j/k will move virtual lines (lines that wrap)
+-- Allow moving the cursor through wrapped lines with j, k
 map({ 'n', 'v' }, 'j', "v:count == 0 ? 'gj' : 'j'", { silent = true, expr = true })
 map({ 'n', 'v' }, 'k', "v:count == 0 ? 'gk' : 'k'", { silent = true, expr = true })
 
