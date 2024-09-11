@@ -1,7 +1,10 @@
 local U = {}
 
+-- Changes diff symbols
+U.diff_symbols = { added = ' ', modified = ' ', removed = ' ' }
+
 -- Diagnositcs signs on the line number column and the status line
-U.sings = { error = "󰅙 ", warn = " ", hint = "󰌵 ", info = " " }
+U.sings = { error = ' ', warn = ' ', info = ' ', hint = ' ' }
 
 -- Common format-on-save for lsp servers that implements formatting
 -- @param client table

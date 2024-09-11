@@ -56,6 +56,9 @@ return {
       theme = 'onedark',
       icons_enabled = true,
       globalstatus = true,
+      section_separators = { left = '', right = '' },
+      component_separators = { left = '', right = '' },
+      disabled_filetypes = { 'dashboard' },
     },
     sections = {
       lualine_a = {
@@ -63,11 +66,15 @@ return {
       },
       lualine_b = {
         { 'b:gitsigns_head', icon = '' },
-        { 'diff', source = diff_source },
+        { 'diff', symbols = U.diff_symbols, source = diff_source },
       },
       lualine_c = {
         { 'filename', file_status = true },
-        { 'diagnostics', symbols = U.sings },
+        {
+          'diagnostics',
+          symbols = U.sings,
+          update_in_insert = false,
+        },
       },
       lualine_x = {
         'searchcount',
