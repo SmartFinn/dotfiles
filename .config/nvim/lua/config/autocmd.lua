@@ -105,7 +105,7 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
   callback = function(event)
     local bufnr = event.bufnr
     local client = vim.lsp.get_client_by_id(event.data.client_id)
-    local au_lsp = vim.api.nvim_create_augroup("lsp_" .. client.name, { clear = true })
+    local au_lsp = vim.api.nvim_create_augroup("lsp_" .. (client and client.name or "unknown"), { clear = true })
 
     -- LSP specific options
     -----------------------
@@ -132,47 +132,47 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
     local lsp = fmt('<cmd>lua vim.lsp.buf.%s<cr>')
     local diagnostic = fmt('<cmd>lua vim.diagnostic.%s<cr>')
 
-    if client.supports_method('textDocument/hover') then
+    if client and client.supports_method('textDocument/hover') then
       map('n', 'K', lsp 'hover()', { buffer = bufnr, desc = "Hover symbol details" })
     end
 
-    if client.supports_method('textDocument/definition') then
+    if client and client.supports_method('textDocument/definition') then
       map('n', 'gd', lsp 'definition()', { buffer = bufnr, desc = "Show the definition of current symbol" })
     end
 
-    if client.supports_method('textDocument/declaration') then
+    if client and client.supports_method('textDocument/declaration') then
       map('n', 'gD', lsp 'declaration()', { buffer = bufnr, desc = "Declaration of current symbol" })
     end
 
-    if client.supports_method('textDocument/implementation') then
+    if client and client.supports_method('textDocument/implementation') then
       map('n', 'gi', lsp 'implementation()', { buffer = bufnr, desc = "Implementation of current symbol" })
     end
 
-    if client.supports_method('textDocument/typeDefinition') then
+    if client and client.supports_method('textDocument/typeDefinition') then
       map('n', 'go', lsp 'type_definition()', { buffer = bufnr, desc = "Definition of current type" })
     end
 
-    if client.supports_method('textDocument/references') then
+    if client and client.supports_method('textDocument/references') then
       map('n', 'gr', lsp 'references()', { buffer = bufnr, desc = "References of current symbol" })
     end
 
-    if client.supports_method('textDocument/signatureHelp') then
+    if client and client.supports_method('textDocument/signatureHelp') then
       map({'n', 'i'}, '<C-k>', lsp 'signature_help()', { buffer = bufnr, desc = "Signature help" })
     end
 
-    if client.supports_method('textDocument/rename') then
+    if client and client.supports_method('textDocument/rename') then
       map('n', '<F2>', lsp 'rename()', { buffer = bufnr, desc = "Rename" })
     end
 
-    if client.supports_method('textDocument/formatting') then
+    if client and client.supports_method('textDocument/formatting') then
       map('n', '<leader>F', '<CMD>lua vim.lsp.buf.format({ async = true, force = true })<CR>', { buffer = bufnr, desc = "Format Range" })
     end
 
-    if client.supports_method('textDocument/rangeFormatting') then
+    if client and client.supports_method('textDocument/rangeFormatting') then
       map('v', '<leader>F', '<CMD>lua vim.lsp.buf.format({ async = false, force = true })<CR>', { buffer = bufnr, desc = "Format Range" })
     end
 
-    if client.supports_method "textDocument/codeAction" then
+    if client and client.supports_method "textDocument/codeAction" then
       map('n', '<F4>', lsp 'code_action()', { buffer = bufnr, desc = "LSP code action" })
       map('x', '<F4>', lsp 'range_code_action()', { buffer = bufnr, desc = "LSP code action" })
     end
