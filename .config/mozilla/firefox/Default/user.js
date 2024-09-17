@@ -10,9 +10,6 @@ user_pref("browser.bookmarks.max_backups", 0); // No bookmarks backup
 user_pref("browser.bookmarks.restore_default_bookmarks", false);
 user_pref("browser.bookmarks.showMobileBookmarks", true);
 
-/* Disable preview */
-user_pref("browser.ctrlTab.previews", false);
-
 /* Download button */
 user_pref("browser.download.autohideButton", false);
 user_pref("browser.download.panel.shown", true);
