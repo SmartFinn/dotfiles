@@ -87,4 +87,4 @@ unbind-key D delete-article
 
 # -- macros --------------------------------------------------------------------
 
-macro , set browser "readable %u | w3m -T text/html" ; open-in-browser ; set browser linkhandler
+macro , set browser "readable -p html-title,html-content %u | html2md -i | glow -p "; open-in-browser ; set browser linkhandler
