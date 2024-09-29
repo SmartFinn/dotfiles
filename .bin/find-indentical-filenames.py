@@ -39,9 +39,9 @@ class FileStats:
             self.ctime: float = self.stat.st_ctime
             self.mtime: float = self.stat.st_mtime
         except (FileNotFoundError, OSError):
-            self.size: int = 0
-            self.ctime: float = 0
-            self.mtime: float = 0
+            self.size = 0
+            self.ctime = 0
+            self.mtime = 0
 
     def __repr__(self) -> str:
         return (
@@ -69,7 +69,7 @@ class FileStats:
 
 def walk(
     path: Path, recursive: bool = True, follow_symlinks: bool = False
-) -> Generator[Path, Path, None]:
+) -> Generator[Path, None, None]:
     for item in Path(path).iterdir():
         if item.is_dir() and recursive:
             if item.is_symlink() and not follow_symlinks:
