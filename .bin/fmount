@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 
-#  Toggle mount status of a device using pmount
-#  If the device is not mounted, it will be mounted.
-#  If the device is mounted, it will be unmounted and powered down.
+# This script toggles the mount of a device using udisksctl or pmount.
+# If a device is not mounted, it will be mounted.
+# If a device is mounted, it will be unmounted and powered down.
 
 set -eu -o pipefail
+
+if ! command -v udisksctl >/dev/null && ! command -v pmount >/dev/null; then
+    echo "udisksctl or pmount isn't installed. Please install one of them first." >&2
+    exit 1
+fi
 
 while IFS=, read -r dev mountpoint; do
     if mountpoint -q "$mountpoint"; then
@@ -15,7 +20,7 @@ while IFS=, read -r dev mountpoint; do
 
         if command -v udisksctl >/dev/null; then
             udisksctl unmount -b "$dev"
-        else
+        elif command -v pmount >/dev/null; then
             pumount "$dev"
             printf '%s unmounted.\n' "$dev"
         fi
@@ -26,7 +31,7 @@ while IFS=, read -r dev mountpoint; do
     else
         if command -v udisksctl >/dev/null; then
             udisksctl mount -b "$dev"
-        else
+        elif command -v pmount >/dev/null; then
             pmount "$dev"
             printf '%s mounted to %s.\n' "$dev" "$(lsblk -n -o MOUNTPOINT "$dev")"
         fi
