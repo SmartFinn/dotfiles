@@ -73,6 +73,9 @@ ZSH_ABBREVIATIONS+=(
 	"suod"	"sudo"
 	"sduo"	"sudo"
 	"sdo"	"sudo"
+	"podamn" "podman"
+	"pdman" "podman"
+	"pdamn" "podman"
 )
 
 # zsh-hist
