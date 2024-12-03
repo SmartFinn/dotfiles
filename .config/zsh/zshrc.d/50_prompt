@@ -36,6 +36,12 @@ function _prompt_git_indicators() {
 	fi
 }
 
+function _prompt_pyenv {
+	if [ -n "$VIRTUAL_ENV" ]; then
+		print -n "%F{blue}${VIRTUAL_ENV##*/}%f"
+	fi
+}
+
 function __prompt() {
 	print -n "%(?.%F{green}.%F{red})%(!.#.$)%f %(2L.>>.>) "
 }
