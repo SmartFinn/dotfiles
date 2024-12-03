@@ -2,3 +2,4 @@ aliases:
     open: repo view --web
     ch: "!gh pr list | fzf --preview 'gh pr view {+1}' | cut -f1 | xargs -r gh pr checkout"
     diff: "!gh pr list | fzf --preview 'gh pr view {+1}' | cut -f1 | xargs -r gh pr diff"
+version: "1"
