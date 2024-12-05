@@ -226,6 +226,7 @@ $HOME/.local/share/teamviewer*/
 #- Telegram
 $HOME/Downloads/Telegram Desktop/
 $HOME/.local/share/TelegramDesktop/
+$HOME/.var/app/org.telegram.desktop/
 
 #- TMUX
 $HOME/.tmux/plugins/
