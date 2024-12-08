@@ -427,17 +427,23 @@ BrowserMetrics/
 Cache/
 CachedData/
 Code Cache/
+component_crx_cache/
 Crash Reports/
 CrashpadMetrics*.pma
 DawnCache/
+DawnGraphiteCache/
+DawnWebGPUCache/
 Download Service/
+extensions_crx_cache/
 GCM Store/
 GPUCache/
+GraphiteDawnCache/
 GrShaderCache/
 Guest Profile/
 IndexedDB/
 Service Worker/
 Session Storage/
+ShaderCache/
 Sync App Settings/
 Sync Data/
 Sync Extension Settings/
