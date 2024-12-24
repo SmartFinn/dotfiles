@@ -1,0 +1,5 @@
+[plugin]
+deps = [{ use = "Ape/smart-enter", rev = "2ab3c5c" }]
+
+[flavor]
+deps = []
