@@ -218,3 +218,10 @@ sort_by        = "none"
 sort_sensitive = false
 sort_reverse   = false
 sort_translit  = false
+
+[[plugin.prepend_fetchers]]
+id   = "mime"
+if   = "!(mime|dummy)"
+name = "*"
+run  = "mime-ext"
+prio = "high"

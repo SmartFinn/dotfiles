@@ -201,16 +201,16 @@ icon_error = ""
 
 rules = [
 	# Images
-	{ mime = "image/*", fg = "lightyellow" },
+	{ mime = "image/*", fg = "yellow" },
 
 	# Media
-	{ mime = "{audio,video}/*", fg = "magenta" },
+	{ mime = "{audio,video}/*", fg = "magenta", bold = true },
 
 	# Archives
-	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "red" },
+	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "red", bold = true },
 
 	# Documents
-	{ mime = "application/{pdf,doc,rtf}", fg = "yellow" },
+	{ mime = "application/{pdf,doc,rtf}", fg = "lightyellow" },
 
 	# Empty files
 	# { mime = "inode/empty", fg = "red" },
@@ -229,7 +229,7 @@ rules = [
 
 	# Fallback
 	# { name = "*", fg = "white" },
-	{ name = "*/", fg = "lightblue", bold = true },
+	{ name = "*/", fg = "blue", bold = true },
 ]
 
 

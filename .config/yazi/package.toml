@@ -1,5 +1,5 @@
 [plugin]
-deps = [{ use = "Ape/smart-enter", rev = "2ab3c5c" }]
+deps = [{ use = "Ape/smart-enter", rev = "2ab3c5c" }, { use = "yazi-rs/plugins:max-preview", rev = "71c4fc2" }, { use = "yazi-rs/plugins:hide-preview", rev = "71c4fc2" }, { use = "yazi-rs/plugins:mime-ext", rev = "71c4fc2" }]
 
 [flavor]
 deps = []
