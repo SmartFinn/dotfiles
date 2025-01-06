@@ -77,6 +77,11 @@ get_installed_sdd_apps() {
 	sdd list --installed > "$dest_dir/sdd-apps.list"
 }
 
+get_podman_images() {
+	command -v podman >/dev/null || return 0
+	podman image ls --format '{{.Repository}}:{{.Tag}}' > "$dest_dir/podman-images.list"
+}
+
 case "$reason" in
 	1)  # Backup process begins
 		rm -rf "$dest_dir"
@@ -93,6 +98,7 @@ case "$reason" in
 		get_installed_snaps
 		get_dnf_userinstalled
 		get_installed_sdd_apps
+		get_podman_images
 		;;
 	2)  # Backup process ends
 		true
