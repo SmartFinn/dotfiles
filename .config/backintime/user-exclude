@@ -23,7 +23,6 @@
 .trash/
 cache/
 crashlogs/
-fontconfig/
 thumbnails/
 temp/
 tmp/
@@ -52,6 +51,7 @@ __pycache__/
 .pylint.d/
 venv/
 virtualenv/
+.ruff_cache/
 
 ## Root
 /dev/
@@ -78,33 +78,23 @@ virtualenv/
 ## Home
 .cache/
 .ccache/
-.config/pipewire/media-session.d/
-.config/ibus/bus/
 .compiz/
+.config/ibus/bus/
+.config/pipewire/media-session.d/
 .dbus/
 .fontconfig/
 .grass8/
 .gvfs/
-.icons/
-.local/bin/
-.local/include/
-.local/lib/
-.local/share/bash-completion/
 .local/share/gvfs-metadata/
-.local/share/icons/
-.local/share/man/
-.local/share/mime/*
 .local/share/webkitgtk/
-.local/share/zsh/site-functions/
+.local/share/xorg/
 .local/state/
 .redhat/
-.themes/
 .thumbnails/
 
 # rpmbuild
 rpmbuild/BUILD
 rpmbuild/BUILDROOT
-rpmbuild/RPMS
 rpmbuild/SOURCES
 rpmbuild/SRPMS
 
@@ -119,7 +109,8 @@ rpmbuild/SRPMS
 codeium/
 
 ## flatpak
-.local/share/flatpak/
+.local/share/flatpak/db
+.local/share/flatpak/repo
 .var/app/*/cache/
 /var/lib/flatpak/
 
@@ -130,9 +121,11 @@ codeium/
 snap/*/*/.cache
 
 ## Digikam
-.var/app/org.kde.digikam/data/marble/maps/
-.var/app/org.kde.digikam/data/digikam/QtWebEngine/
 .var/app/org.kde.digikam/data/digikam/facesengine/
+.var/app/org.kde.digikam/data/digikam/marble_data/
+.var/app/org.kde.digikam/data/digikam/QtWebEngine/
+.var/app/org.kde.digikam/data/marble/maps/
+.var/app/org.kde.digikam/data/showfoto/facesengine/
 
 ## Kodi
 .kodi/addons/
@@ -183,35 +176,35 @@ node_modules/
 
 ## App cache
 .local/share/webbrowser-app/
-.local/share/Zeal/
+.local/share/Zeal/docsets/
 
 ## Mozilla Firefox
 .mozilla/*
 .config/mozilla/firefox/Crash Reports/
-.config/mozilla/firefox/Default/.parentlock
-.config/mozilla/firefox/Default/bookmarkbackups/
-.config/mozilla/firefox/Default/chrome_debugger_profile/
-.config/mozilla/firefox/Default/crashes/
-.config/mozilla/firefox/Default/datareporting/
-.config/mozilla/firefox/Default/favicons.sqlite
-.config/mozilla/firefox/Default/favicons.sqlite-wal
-.config/mozilla/firefox/Default/gmp/
-.config/mozilla/firefox/Default/gmp-widevinecdm/
-.config/mozilla/firefox/Default/lock
-.config/mozilla/firefox/Default/minidumps/
-.config/mozilla/firefox/Default/saved-telemetry-pings/
-.config/mozilla/firefox/Default/search.json.mozlz4
-.config/mozilla/firefox/Default/serviceworker.txt
-.config/mozilla/firefox/Default/sessionCheckpoints.json
-.config/mozilla/firefox/Default/sessionstore-backups/
-.config/mozilla/firefox/Default/storage/
-.config/mozilla/firefox/Default/storage-sync*
-.config/mozilla/firefox/Default/storage.sqlite
-.config/mozilla/firefox/Default/synced-tabs.db*
-.config/mozilla/firefox/Default/weave/changes/
-.config/mozilla/firefox/Default/weave/failed/
-.config/mozilla/firefox/Default/weave/logs/
-.config/mozilla/firefox/Default/weave/toFetch/
+.config/mozilla/firefox/*/.parentlock
+.config/mozilla/firefox/*/bookmarkbackups/
+.config/mozilla/firefox/*/chrome_debugger_profile/
+.config/mozilla/firefox/*/crashes/
+.config/mozilla/firefox/*/datareporting/
+.config/mozilla/firefox/*/favicons.sqlite
+.config/mozilla/firefox/*/favicons.sqlite-wal
+.config/mozilla/firefox/*/gmp/
+.config/mozilla/firefox/*/gmp-widevinecdm/
+.config/mozilla/firefox/*/lock
+.config/mozilla/firefox/*/minidumps/
+.config/mozilla/firefox/*/saved-telemetry-pings/
+.config/mozilla/firefox/*/search.json.mozlz4
+.config/mozilla/firefox/*/serviceworker.txt
+.config/mozilla/firefox/*/sessionCheckpoints.json
+.config/mozilla/firefox/*/sessionstore-backups/
+.config/mozilla/firefox/*/storage/
+.config/mozilla/firefox/*/storage-sync*
+.config/mozilla/firefox/*/storage.sqlite
+.config/mozilla/firefox/*/synced-tabs.db*
+.config/mozilla/firefox/*/weave/changes/
+.config/mozilla/firefox/*/weave/failed/
+.config/mozilla/firefox/*/weave/logs/
+.config/mozilla/firefox/*/weave/toFetch/
 .config/mozilla/firefox/Pending Pings/
 .config/mozilla/firefox/firefox-mpris/
 
@@ -233,14 +226,12 @@ Steam/
 
 ## Syncthing
 .config/syncthing/index-v0.14.0.db/
-.stfolder
 .stversions
 
 ## GPXSee
 .gpxsee/tiles/
 
 ## Lutris
-Games/
 .var/app/net.lutris.Lutris/data/
 
 ## Wine
@@ -250,30 +241,22 @@ Games/
 .local/share/wine/drive_c/windows
 .var/app/org.winehq.Wine/data/wine/dosdevices
 .var/app/org.winehq.Wine/data/wine/drive_c/windows
-*.exe
 
 ## WPS Office
 .kingsoft/office6/cache/
 
 ## VSCode
-.vscode/
 .config/Code/CachedExtensionVSIXs/
 .config/Code/CachedExtensions/
 .config/Code/CachedConfigurations/
-.config/exthost Crash Reports/
 .config/Code/Crashpad/
 .config/Code/User/History/
 .config/Code/User/workspaceStorage/
+.config/Code/VideoDecodeStats/
 .sonarlint/
 
 ## TeamViewer
 .local/share/teamviewer*/
-
-## Telegram
-.local/share/TelegramDesktop/
-
-## TMUX
-.tmux/plugins/
 
 ## Qalculate
 .local/share/qalculate/
@@ -292,15 +275,34 @@ BrowserMetrics/
 Cache/
 CachedData/
 Code Cache/
+component_crx_cache/
 Crash Reports/
 CrashpadMetrics*.pma
+DawnCache/
+DawnGraphiteCache/
+DawnWebGPUCache/
+Download Service/
+extensions_crx_cache/
+GCM Store/
 GPUCache/
+GraphiteDawnCache/
 GrShaderCache/
 Guest Profile/
 IndexedDB/
-Local Storage/
 Service Worker/
 Session Storage/
+ShaderCache/
+Sync App Settings/
+Sync Data/
+Sync Extension Settings/
+System Profile/
+VideoDecodeStats/
+*.pma
+Favicons
+LOG
+LOG.old
+LOCK
+*-journal
 
 ## ssh
 .ssh/controls/
@@ -310,12 +312,7 @@ Session Storage/
 
 ## pulseaudio
 .config/pulse/
-
-## Homebrew on Linux
-.linuxbrew/
-
-## sdd
-.local/share/sdd/apps/
+cookie
 
 ## ZSH
 .zcompdump*
@@ -327,23 +324,12 @@ Session Storage/
 .local/share/Google/
 Android/
 
-# podman
-.local/share/containers/
-/var/lib/containers
-
 # gnome-boxes
 .local/share/gnome-boxes/images/
 
 # pipx
 .local/pipx
 .local/share/pipx
-
-# dotbare
-.local/var/dotbare/
-
-# qBittorrent
-.local/share/data/qBittorrent/
-.local/share/qBittorrent/
 
 ## Grilo
 .local/share/grilo-plugins/
@@ -387,3 +373,10 @@ Android/
 ## Ansible
 .ansible/
 .local/share/ansible
+
+## VirtualBox
+VirtualBox VMs/
+
+## Podman
+.local/share/containers/storage/overlay*/
+.local/share/containers/storage/libpod/
