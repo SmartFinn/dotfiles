@@ -159,15 +159,27 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
       })
     end
 
-    vim.keymap.set('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, { buffer = event.buf, desc = "Add a folder to workspace" })
-    vim.keymap.set('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, { buffer = event.buf, desc = "Remove a folder from workspace" })
+    vim.keymap.set('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, {
+      buffer = event.buf, desc = "Add a folder to workspace"
+    })
+    vim.keymap.set('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, {
+      buffer = event.buf, desc = "Remove a folder from workspace"
+    })
     vim.keymap.set('n', '<Leader>wl', function()
       vim.notify("LSP workspaces: " .. vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, { buffer = event.buf, desc = "List folders in the workspace" })
 
-    vim.keymap.set('n', 'gl', vim.diagnostic.open_float, { buffer = event.buf, desc = "Hover diagnostics" })
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { buffer = event.buf, desc = "Previous diagnostic" })
-    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { buffer = event.buf, desc = "Next diagnostic" })
-    vim.keymap.set('n', '<Leader>d', vim.diagnostic.setloclist, { buffer = event.buf, desc = "Open diagnostic list" })
+    vim.keymap.set('n', 'gl', vim.diagnostic.open_float, {
+      buffer = event.buf, desc = "Hover diagnostics"
+    })
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, {
+      buffer = event.buf, desc = "Previous diagnostic"
+    })
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, {
+      buffer = event.buf, desc = "Next diagnostic"
+    })
+    vim.keymap.set('n', '<Leader>d', vim.diagnostic.setloclist, {
+      buffer = event.buf, desc = "Open diagnostic list"
+    })
   end,
 })
