@@ -50,7 +50,10 @@ end
 return {
   'nvim-lualine/lualine.nvim',
   event = 'UIEnter',
-  dependencies = { 'nvim-tree/nvim-web-devicons', },
+  dependencies = {
+    'nvim-tree/nvim-web-devicons',
+    'Isrothy/lualine-diagnostic-message',
+  },
   opts = {
     options = {
       theme = 'onedark',
@@ -74,6 +77,10 @@ return {
           'diagnostics',
           symbols = U.sings,
           update_in_insert = false,
+        },
+        {
+          'diagnostic-message',
+          icons = U.sings,
         },
       },
       lualine_x = {

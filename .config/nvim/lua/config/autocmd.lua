@@ -118,14 +118,6 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
     -- Reduce time to spawn CursorHold event faster
     vim.opt_local.updatetime = 500
 
-    -- Show line diagnostics automatically in hover window
-    vim.api.nvim_create_autocmd({ "CursorHold" }, {
-      group = au_lsp,
-      desc = "Show box with diagnosticis for current line",
-      buffer = bufnr,
-      callback = function() vim.diagnostic.open_float() end,
-    })
-
     -- Creates LSP mappings
     -----------------------
 
