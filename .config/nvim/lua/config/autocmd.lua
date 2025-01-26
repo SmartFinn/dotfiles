@@ -88,9 +88,10 @@ vim.api.nvim_create_autocmd({"TextYankPost"}, {
   end,
 })
 
+vim.api.nvim_create_augroup("quickfix", { clear = true })
 vim.api.nvim_create_autocmd({"FileType"}, {
   desc = "Close quickfix window by q key press",
-  group =  vim.api.nvim_create_augroup("quickfix", { clear = true }),
+  group = "quickfix",
   pattern = { "qf", "netrw" },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
@@ -100,8 +101,9 @@ vim.api.nvim_create_autocmd({"FileType"}, {
   end,
 })
 
+vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
 vim.api.nvim_create_autocmd({ "LspAttach" }, {
-  group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
+  group = "UserLspConfig",
   callback = function(event)
     local bufnr = event.bufnr
     local client = vim.lsp.get_client_by_id(event.data.client_id)
