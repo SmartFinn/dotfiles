@@ -105,9 +105,8 @@ vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
 vim.api.nvim_create_autocmd({ "LspAttach" }, {
   group = "UserLspConfig",
   callback = function(event)
-    local bufnr = event.bufnr
-    local client = vim.lsp.get_client_by_id(event.data.client_id)
-    local au_lsp = vim.api.nvim_create_augroup("lsp_" .. (client and client.name or "unknown"), { clear = true })
+    local lsp_client = vim.lsp.get_client_by_id(event.data.client_id)
+    local lsp_methods = vim.lsp.protocol.Methods
 
     -- LSP specific options
     -----------------------
@@ -121,65 +120,54 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
     -- Creates LSP mappings
     -----------------------
 
-    local map = vim.keymap.set
-    local fmt = function(cmd) return function(str) return cmd:format(str) end end
-    local lsp = fmt('<cmd>lua vim.lsp.buf.%s<cr>')
-    local diagnostic = fmt('<cmd>lua vim.diagnostic.%s<cr>')
-
-    if client and client.supports_method('textDocument/hover') then
-      map('n', 'K', lsp 'hover()', { buffer = bufnr, desc = "Hover symbol details" })
+    for _, keymap in ipairs({
+      { "n",          "gy",         vim.lsp.buf.type_definition,  "Goto type definition",            lsp_methods.textDocument_typeDefinition },
+      { "n",          "gd",         vim.lsp.buf.definition,       "Goto definition",                 lsp_methods.textDocument_definition },
+      { "n",          "gD",         vim.lsp.buf.declaration,      "Goto declaration",                lsp_methods.textDocument_declaration },
+      { "n",          "gi",         vim.lsp.buf.implementation,   "Goto implementation",             lsp_methods.textDocument_implementation },
+      { "n",          "gr",         vim.lsp.buf.references,       "Goto references",                 lsp_methods.textDocument_references },
+      { "n",          "go",         vim.lsp.buf.type_definition,  "Definition of current type",      lsp_methods.textDocument_typeDefinition },
+      { "n",          "<F2>",       vim.lsp.buf.rename,           "Rename symbol",                   lsp_methods.textDocument_rename },
+      { { "n", "x" }, "<F4>",       vim.lsp.buf.code_action,      "Perform code action",             lsp_methods.textDocument_codeAction },
+      { { "n", "i" }, "<C-k>",      vim.lsp.buf.signature_help,   "Show signature help",             lsp_methods.textDocument_signatureHelp },
+      { "n",          "K",          vim.lsp.buf.hover,            "Show docs for item under cursor", lsp_methods.textDocument_hover },
+      { "n",          "<Leader>s",  vim.lsp.buf.document_symbol,  "Open symbol picker",              lsp_methods.textDocument_documentSymbol },
+      { "n",          "<Leader>S",  vim.lsp.buf.workspace_symbol, "Open workspace symbol picker",    lsp_methods.workspace_symbol },
+      { "n",          "<Leader>F",  vim.lsp.buf.format,           "Auto-format a buffer",            lsp_methods.textDocument_formatting },
+      { "v",          "<Leader>F",  vim.lsp.buf.format,           "Auto-format selected range",      lsp_methods.textDocument_rangeFormatting },
+    }) do
+      if lsp_client and lsp_client.supports_method(keymap[5]) then
+        vim.keymap.set(keymap[1], keymap[2], keymap[3], { buffer = event.buf, desc = keymap[4] })
+      end
     end
 
-    if client and client.supports_method('textDocument/definition') then
-      map('n', 'gd', lsp 'definition()', { buffer = bufnr, desc = "Show the definition of current symbol" })
+    if lsp_client and lsp_client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+      vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
     end
 
-    if client and client.supports_method('textDocument/declaration') then
-      map('n', 'gD', lsp 'declaration()', { buffer = bufnr, desc = "Declaration of current symbol" })
+    if lsp_client and lsp_client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+      vim.api.nvim_create_augroup("UserLspHighlightReferences", {})
+      vim.api.nvim_create_autocmd("CursorHold", {
+        group = "UserLspHighlightReferences",
+        callback = vim.lsp.buf.document_highlight,
+        buffer = event.buf,
+      })
+      vim.api.nvim_create_autocmd("CursorMoved", {
+        group = "UserLspHighlightReferences",
+        callback = vim.lsp.buf.clear_references,
+        buffer = event.buf,
+      })
     end
 
-    if client and client.supports_method('textDocument/implementation') then
-      map('n', 'gi', lsp 'implementation()', { buffer = bufnr, desc = "Implementation of current symbol" })
-    end
-
-    if client and client.supports_method('textDocument/typeDefinition') then
-      map('n', 'go', lsp 'type_definition()', { buffer = bufnr, desc = "Definition of current type" })
-    end
-
-    if client and client.supports_method('textDocument/references') then
-      map('n', 'gr', lsp 'references()', { buffer = bufnr, desc = "References of current symbol" })
-    end
-
-    if client and client.supports_method('textDocument/signatureHelp') then
-      map({'n', 'i'}, '<C-k>', lsp 'signature_help()', { buffer = bufnr, desc = "Signature help" })
-    end
-
-    if client and client.supports_method('textDocument/rename') then
-      map('n', '<F2>', lsp 'rename()', { buffer = bufnr, desc = "Rename" })
-    end
-
-    if client and client.supports_method('textDocument/formatting') then
-      map('n', '<leader>F', '<CMD>lua vim.lsp.buf.format({ async = true, force = true })<CR>', { buffer = bufnr, desc = "Format Range" })
-    end
-
-    if client and client.supports_method('textDocument/rangeFormatting') then
-      map('v', '<leader>F', '<CMD>lua vim.lsp.buf.format({ async = false, force = true })<CR>', { buffer = bufnr, desc = "Format Range" })
-    end
-
-    if client and client.supports_method "textDocument/codeAction" then
-      map('n', '<F4>', lsp 'code_action()', { buffer = bufnr, desc = "LSP code action" })
-      map('x', '<F4>', lsp 'range_code_action()', { buffer = bufnr, desc = "LSP code action" })
-    end
-
-    map('n', '<Leader>wa', lsp 'add_workspace_folder()', { buffer = bufnr })
-    map('n', '<Leader>wr', lsp 'remove_workspace_folder()', { buffer = bufnr })
-    map('n', '<Leader>wl', function()
+    vim.keymap.set('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, { buffer = event.buf, desc = "Add a folder to workspace" })
+    vim.keymap.set('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, { buffer = event.buf, desc = "Remove a folder from workspace" })
+    vim.keymap.set('n', '<Leader>wl', function()
       vim.notify("LSP workspaces: " .. vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, { buffer = bufnr })
+    end, { buffer = event.buf, desc = "List folders in the workspace" })
 
-    map('n', 'gl', diagnostic 'open_float()', { buffer = bufnr, desc = "Hover diagnostics" })
-    map('n', '[d', diagnostic 'goto_prev()', { buffer = bufnr, desc = "Previous diagnostic" })
-    map('n', ']d', diagnostic 'goto_next()', { buffer = bufnr, desc = "Next diagnostic" })
-    map('n', '<Leader>d', diagnostic 'setloclist()', { buffer = bufnr, desc = "Open diagnostic list" })
+    vim.keymap.set('n', 'gl', vim.diagnostic.open_float, { buffer = event.buf, desc = "Hover diagnostics" })
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { buffer = event.buf, desc = "Previous diagnostic" })
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { buffer = event.buf, desc = "Next diagnostic" })
+    vim.keymap.set('n', '<Leader>d', vim.diagnostic.setloclist, { buffer = event.buf, desc = "Open diagnostic list" })
   end,
 })
