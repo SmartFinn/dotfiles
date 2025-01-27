@@ -23,6 +23,6 @@ configuration {
   display-filebrowser: "󰉋 filebrowser";
 }
 
-@theme "gruvbox-material"
+@theme "adwaita-dark"
 
 /* vim:ft=css
