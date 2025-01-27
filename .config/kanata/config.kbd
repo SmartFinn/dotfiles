@@ -1,0 +1,22 @@
+(defcfg
+    process-unmapped-keys no
+)
+
+(defsrc
+    caps
+    f h j k l a e
+)
+
+(defalias
+    ;; tap for caps lock, hold for left control
+    capshift (tap-hold 200 200 caps lctl)
+    ;; hold f for mapping hjkl to arrows
+    flayer (tap-hold 200 200 f
+        (layer-while-held arrows))
+)
+
+(deflayer base
+    @capshift
+    @flayer h j k l a e
+)
+(deflayer arrows _ _ left down up right home end)
