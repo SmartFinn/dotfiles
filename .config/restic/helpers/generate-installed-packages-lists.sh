@@ -62,9 +62,9 @@ get_installed_snaps() {
 	snap list --color=never > "$dest_dir/snaps.list"
 }
 
-get_dnf_userinstalled() {
-	command -v dnf >/dev/null || return 0
-	dnf history userinstalled > "$dest_dir/dnf-packages.list"
+get_installed_rpm_packages() {
+	command -v rpm >/dev/null || return 0
+	rpm -qa --queryformat "%{NAME}\t%{VERSION}\n" | sort | column -t > "$dest_dir/rpm-packages.list"
 }
 
 get_installed_sdd_apps() {
@@ -84,5 +84,5 @@ get_pipx_venvs
 get_installed_flatpak_apps
 get_installed_npm_packages
 get_installed_snaps
-get_dnf_userinstalled
+get_installed_rpm_packages
 get_installed_sdd_apps
