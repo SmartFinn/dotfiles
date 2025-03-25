@@ -19,7 +19,7 @@ THIS_SCRIPT="${BASH_SOURCE[0]}"
 IFS=: read -ra dirs_array <<< "$FIND_DIRS"
 
 mapfile -d $'\0' -t GIT_REPOS < <(
-	find "${dirs_array[@]}" -maxdepth "$FIND_MAX_DEPTH" -type d -name '.git' -printf '%h\0'
+	find "${dirs_array[@]}" -maxdepth "$FIND_MAX_DEPTH" -name '.git' -printf '%h\0'
 )
 
 generate_exclude_list_for_git_repo() {
