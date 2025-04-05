@@ -92,11 +92,11 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = 'gs',
+          init_selection = '<Space>',
           -- NOTE: These are visual mode mappings
-          node_incremental = 'gs',
-          node_decremental = 'gS',
-          scope_incremental = '<leader>gc',
+          node_incremental = '<Space>',
+          node_decremental = '<Backspace>',
+          scope_incremental = false,
         },
       },
       -- https://github.com/windwp/nvim-ts-autotag
