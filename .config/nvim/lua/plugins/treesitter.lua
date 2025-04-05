@@ -8,9 +8,6 @@ return {
     require('nvim-treesitter.install').update({ with_sync = true })()
   end,
   dependencies = {
-    -- Refactor module for nvim-treesitter
-    { 'nvim-treesitter/nvim-treesitter-refactor' },
-
     -- Rainbow parentheses for neovim using tree-sitter
     { 'hiphish/rainbow-delimiters.nvim', cond = vim.fn.has('nvim-0.9') == 1 },
 
@@ -102,17 +99,6 @@ return {
       -- https://github.com/windwp/nvim-ts-autotag
       autotag = {
         enable = true,
-      },
-      -- https://github.com/nvim-treesitter/nvim-treesitter-refactor
-      refactor = {
-        highlight_definitions = { enable = true },
-        -- highlight_current_scope = { enable = true },
-        smart_rename = {
-          enable = true,
-          keymaps = {
-            smart_rename = '<F2>',
-          },
-        },
       },
     })
   end,
