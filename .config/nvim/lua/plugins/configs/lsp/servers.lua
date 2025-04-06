@@ -70,6 +70,15 @@ local servers = {
       },
     },
   },
+  pylsp = {
+    pylsp = {
+      plugins = {
+        autopep8 = { enabled = false },
+        pycodestyle = { enabled = false },
+        pyflakes = { enabled = false },
+      },
+    }
+  },
   -- cssls = {},
   -- emmet_ls = {},
   -- html = {},
