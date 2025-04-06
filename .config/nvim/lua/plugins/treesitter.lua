@@ -7,13 +7,6 @@ return {
   build = function()
     require('nvim-treesitter.install').update({ with_sync = true })()
   end,
-  dependencies = {
-    -- Rainbow parentheses for neovim using tree-sitter
-    { 'hiphish/rainbow-delimiters.nvim', cond = vim.fn.has('nvim-0.9') == 1 },
-
-    -- Autoclose tags
-    { 'windwp/nvim-ts-autotag' },
-  },
   event = { 'BufReadPost', 'BufNewFile' },
   cmd = {
     'TSBufDisable',
@@ -79,12 +72,6 @@ return {
         -- Instead of true it can also be a list of languages
         additional_vim_regex_highlighting = false,
       },
-      rainbow = {
-        enable = true,
-        disable = { "html", },
-        extended_mode = false, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-        max_file_lines = nil, -- Do not enable for files with more than n lines, int
-      },
       indent = { enable = true },
       incremental_selection = {
         enable = true,
@@ -95,10 +82,6 @@ return {
           node_decremental = '<Backspace>',
           scope_incremental = false,
         },
-      },
-      -- https://github.com/windwp/nvim-ts-autotag
-      autotag = {
-        enable = true,
       },
     })
   end,
