@@ -10,7 +10,6 @@ return {
     -- Telescope File browser extention
     { 'nvim-telescope/telescope-file-browser.nvim' },
   },
-  event = 'UIEnter',
   cmd = 'Telescope',
   config = function()
     local actions = require('telescope.actions')

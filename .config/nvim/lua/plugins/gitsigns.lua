@@ -4,7 +4,7 @@
 return {
   'lewis6991/gitsigns.nvim',
   version = 'v0.*',
-  event = { 'BufReadPre', 'BufNewFile' },
+  event = { 'VeryLazy' },
   opts = {
     signs = {
       add          = { text = '│', },

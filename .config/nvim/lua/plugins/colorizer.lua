@@ -3,6 +3,6 @@
 
 return {
   'NvChad/nvim-colorizer.lua',
-  event = { 'BufReadPost', 'BufNewFile' },
+  ft = { 'css', 'scss', 'sass', 'html', 'svg' },
   opts = {},
 }

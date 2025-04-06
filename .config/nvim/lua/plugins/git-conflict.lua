@@ -4,6 +4,6 @@
 return {
   'akinsho/git-conflict.nvim',
   version = '*',
-  event = { 'BufReadPost', 'BufNewFile' },
+  event = { 'VeryLazy' },
   opts = {},
 }

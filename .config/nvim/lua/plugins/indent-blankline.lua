@@ -4,7 +4,7 @@
 return {
   'lukas-reineke/indent-blankline.nvim',
   version = 'v2.*',
-  event = { 'BufReadPost', 'BufNewFile' },
+  event = { 'VeryLazy' },
   opts = {
     buftype_exclude = {
       "nofile",
@@ -21,6 +21,7 @@ return {
       "NvimTree",
       "neo-tree",
       "Trouble",
+      "gitcommit",
     },
     context_patterns = {
       "class",

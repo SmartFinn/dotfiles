@@ -3,7 +3,7 @@
 
 return {
   'nvimtools/none-ls.nvim',
-  event = { 'BufReadPre', 'BufNewFile' },
+  event = { 'VeryLazy' },
   dependencies = {
     -- Package Manager
     { 'williamboman/mason.nvim' },
