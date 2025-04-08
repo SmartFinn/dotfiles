@@ -22,16 +22,6 @@ local flags = {
   debounce_text_changes = 200,
 }
 
--- Common capabilities including lsp snippets and autocompletion
--- The nvim-cmp almost supports LSP's capabilities so You should
--- advertise it to LSP servers..
-local has_cmp, cmp_lsp = pcall(require, 'cmp_nvim_lsp')
-local capabilities = vim.tbl_deep_extend(
-  'force',
-  vim.lsp.protocol.make_client_capabilities(),
-  has_cmp and cmp_lsp.default_capabilities() or {}
-)
-
 -- Common `on_attach` function for LSP servers
 -- @param client table
 -- @param buf integer
