@@ -3,7 +3,7 @@
 
 return {
   'lewis6991/gitsigns.nvim',
-  version = 'v0.*',
+  version = 'v1.*',
   event = { 'VeryLazy' },
   opts = {
     signs = {
@@ -25,14 +25,31 @@ return {
       local gs = package.loaded.gitsigns
 
       -- Navigation
-      map('n', ']c', "&diff ? ']c' : '<CMD>Gitsigns next_hunk<CR>'", {
-        buffer = buf, expr = true, replace_keycodes = false,
-        desc = "Git: Go to next hunk"
-      })
-      map('n', '[c', "&diff ? '[c' : '<CMD>Gitsigns prev_hunk<CR>'", {
-        buffer = buf, expr = true, replace_keycodes = false,
-        desc = "Git: Go to previous hunk"
-      })
+      map('n', ']c', function()
+        if vim.wo.diff then
+          vim.cmd.normal({']c', bang = true})
+        else
+          gs.nav_hunk('next')
+        end
+      end, {
+          buffer = buf,
+          replace_keycodes = false,
+          desc = "Git: Go to next hunk",
+        }
+      )
+
+      map('n', '[c', function()
+        if vim.wo.diff then
+          vim.cmd.normal({'[c', bang = true})
+        else
+          gs.nav_hunk('prev')
+        end
+      end, {
+          buffer = buf,
+          replace_keycodes = false,
+          desc = "Git: Go to previous hunk",
+        }
+      )
 
       -- Actions
       map({ 'n' }, '<leader>hl', gs.blame_line, {
@@ -45,14 +62,28 @@ return {
       map({ 'n', 'v' }, '<leader>hu', gs.undo_stage_hunk, {
         buffer = buf, desc = "Git: Undo the last stage"
       })
-      map({ 'n', 'v' }, '<leader>hr', gs.reset_hunk, {
-        buffer = buf, desc = "Git: unstage hunk"
+      map('n', '<leader>hr', gs.reset_hunk, {
+        buffer = buf, desc = "Git: reset hunk"
       })
-      map({ 'n', 'v' }, '<leader>hs', gs.stage_hunk, {
+      map('n', '<leader>hs', gs.stage_hunk, {
         buffer = buf, desc = "Git: stage hunk"
       })
+      map('v', '<leader>hs', function()
+        gs.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+      end, {
+          buffer = buf,
+          desc = "Git: stage selected hunk"
+        }
+      )
+      map('v', '<leader>hr', function()
+        gs.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+      end, {
+          buffer = buf,
+          desc = "Git: unstage selected hunk"
+        }
+      )
       map('n', '<leader>hR', gs.reset_buffer, {
-        buffer = buf, desc = "Git: unstage file"
+        buffer = buf, desc = "Git: reset file"
       })
       map('n', '<leader>hS', gs.stage_buffer, {
         buffer = buf, desc = "Git: stage file"
@@ -60,8 +91,22 @@ return {
       map('n', '<leader>hp', gs.preview_hunk, {
         buffer = buf, desc = "Git: preview hunk"
       })
+      map('n', '<leader>hi', gs.preview_hunk_inline, {
+        buffer = buf, desc = "Git: preview hunk inline"
+      })
       map('n', '<leader>hd', gs.diffthis, {
         buffer = buf, desc = "Git: show diff"
+      })
+
+      -- Toggles
+      map('n', '<leader>hB', gs.toggle_current_line_blame, {
+        buffer = buf, desc = "Git: show git blame inline"
+      })
+      map('n', '<leader>hD', gs.toggle_deleted, {
+        buffer = buf, desc = "Git: show deleted lines"
+      })
+      map('n', '<leader>hW', gs.toggle_word_diff, {
+        buffer = buf, desc = "Git: show word diff"
       })
 
       -- Text object
