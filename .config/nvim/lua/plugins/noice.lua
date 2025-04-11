@@ -3,7 +3,7 @@
 
 return {
   'folke/noice.nvim',
-  version = 'v2.*',
+  version = '*',
   event = 'UIEnter',
   dependencies = {
     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
