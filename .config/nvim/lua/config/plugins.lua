@@ -21,4 +21,10 @@ end
 lazy.setup("plugins", {
   defaults = { lazy = true },
   lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
+  rocks = {
+    enabled = false,
+  },
+  ui = {
+    border = "rounded",
+  },
 })
