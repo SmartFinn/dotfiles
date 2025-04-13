@@ -61,7 +61,7 @@ return {
       globalstatus = true,
       section_separators = { left = '', right = '' },
       component_separators = { left = '', right = '' },
-      disabled_filetypes = { 'dashboard' },
+      disabled_filetypes = { 'dashboard', 'snacks_dashboard' },
     },
     sections = {
       lualine_a = {

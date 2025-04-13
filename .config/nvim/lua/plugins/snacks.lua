@@ -88,7 +88,14 @@ return {
   },
   opts = {
     bigfile = { enabled = true },
-    dashboard = { enabled = false },
+    dashboard = {
+      enabled = true,
+      sections = {
+        { section = 'header', padding = 3 },
+        { section = 'keys', gap = 1, padding = 3 },
+        { section = 'startup' },
+      },
+    },
     explorer = { enabled = false },
     indent = {
       enabled = true,
