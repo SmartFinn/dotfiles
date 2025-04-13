@@ -125,7 +125,12 @@ return {
         hl = 'SnacksIndentScope', ---@type string|string[] hl group for scopes
       },
     },
-    input = { enabled = true },
+    input = {
+      enabled = true,
+      win = {
+        backdrop = true,
+      }
+    },
     picker = { enabled = true },
     notifier = {
       enabled = true,
