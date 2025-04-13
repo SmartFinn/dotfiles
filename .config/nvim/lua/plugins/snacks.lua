@@ -11,10 +11,9 @@ return {
       '<Leader>gl',
       function()
         Snacks.picker.git_log({
-          finder = 'git_log',
-          format = 'git_log',
-          preview = 'git_show',
-          confirm = 'git_checkout',
+          on_show = function()
+            vim.cmd.stopinsert()
+          end,
           layout = 'vertical',
         })
       end,
