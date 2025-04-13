@@ -85,6 +85,8 @@ return {
         })
       end,
       desc = 'Find Dotfiles' },
+    -- File explorer
+    { '-', function() Snacks.explorer() end, desc = 'File explorer' },
   },
   opts = {
     bigfile = { enabled = true },
@@ -96,7 +98,7 @@ return {
         { section = 'startup' },
       },
     },
-    explorer = { enabled = false },
+    explorer = { enabled = true },
     indent = {
       enabled = true,
       animate = {
@@ -131,7 +133,29 @@ return {
         backdrop = true,
       }
     },
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      sources = {
+        explorer = {
+          auto_close = true,
+          layout = {
+            preset = 'dropdown',
+            preview = false,
+            layout = {
+              backdrop = true,
+              height = 0.9,
+            }
+          },
+          win = {
+            list = {
+              keys = {
+                ['-'] = 'explorer_up',
+              }
+            }
+          }
+        }
+      },
+    },
     notifier = {
       enabled = true,
       timeout = 3500,
