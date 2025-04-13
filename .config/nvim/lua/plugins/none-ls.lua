@@ -5,6 +5,10 @@ return {
   'nvimtools/none-ls.nvim',
   event = { 'VeryLazy' },
   dependencies = {
+    -- Lua funcions
+    -- https://github.com/nvim-lua/plenary.nvim
+    { 'nvim-lua/plenary.nvim' },
+
     -- Package Manager
     { 'williamboman/mason.nvim' },
 
