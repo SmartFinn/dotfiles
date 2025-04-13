@@ -22,10 +22,6 @@ return {
       max_width = 90,
       max_height = 0,
     },
-    win_options = {
-      wrap = true,
-      winblend = 0,
-    },
     keymaps = {
       ["<C-c>"] = false,
       ["q"] = "actions.close",
