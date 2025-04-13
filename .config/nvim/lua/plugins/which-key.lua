@@ -3,7 +3,7 @@
 
 return {
   'folke/which-key.nvim',
-  version = 'v1.*',
+  version = 'v3.*',
   event = 'UIEnter',
   init = function()
     vim.opt.timeoutlen = 500 -- reduce time of popup showing
@@ -18,10 +18,10 @@ return {
         text_objects = false,
       },
     },
-    window = {
-      border = "rounded",
+    win = {
+      border = 'rounded',
       padding = { 2, 2, 2, 2 },
     },
-    disable = { filetypes = { "TelescopePrompt" } },
+    disable = { filetypes = { 'TelescopePrompt', 'snacks_picker_input' } },
   },
 }
