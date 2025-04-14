@@ -4,6 +4,7 @@
 return {
   'akinsho/bufferline.nvim',
   version = 'v4.*',
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
   event = 'UIEnter',
   keys = function()
     for n = 1, 9, 1 do
@@ -24,5 +25,4 @@ return {
       separator_style = "slant",
     },
   },
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
 }
