@@ -4,19 +4,16 @@
 
 (defsrc
     caps
-    f h j k l a e
+    h j k l a e
 )
 
 (defalias
-    ;; tap for caps lock, hold for left control
-    capshift (tap-hold 200 200 caps lctl)
-    ;; hold f for mapping hjkl to arrows
-    flayer (tap-hold 200 200 f
+    ;; tap for caps lock, hold for vim-like control
+    capshold (tap-hold 200 200 caps
         (layer-while-held arrows))
 )
 
 (deflayer base
-    @capshift
-    @flayer h j k l a e
+    @capshold h j k l a e
 )
-(deflayer arrows _ _ left down up right home end)
+(deflayer arrows _ left down up right home end)
