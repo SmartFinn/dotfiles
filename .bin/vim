@@ -1,14 +1,44 @@
 #!/bin/sh
 
-if command -v nvim >/dev/null; then
+# fallback to vi if neovim is not installed
+if ! command -v nvim >/dev/null; then
+	vi "$@"
+	exit 0
+fi
+
+case "${0##*/}" in
+vim)
 	if  [ -e "${XDG_CONFIG_HOME:-$HOME/.config}/vim/vimrc" ] ||
-		[ -e "${XDG_CONFIG_HOME:-$HOME/.config}/vim/init.vim" ]; then
-		NVIM_APPNAME=vim nvim "$@"
+		[ -e "${XDG_CONFIG_HOME:-$HOME/.config}/vim/init.vim" ] ||
+		[ -e "${XDG_CONFIG_HOME:-$HOME/.config}/vim/init.lua" ]; then
+		env NVIM_APPNAME=vim nvim "$@"
 	else
 		nvim "$@"
 	fi
-elif command -v vim >/dev/null; then
-	vim "$@"
-else
-	vi "$@"
-fi
+	;;
+vi)
+	if  [ -e "${XDG_CONFIG_HOME:-$HOME/.config}/vi/vimrc" ] ||
+		[ -e "${XDG_CONFIG_HOME:-$HOME/.config}/vi/init.vim" ] ||
+		[ -e "${XDG_CONFIG_HOME:-$HOME/.config}/vi/init.lua" ]; then
+		env NVIM_APPNAME=vi nvim "$@"
+	else
+		nvim "$@"
+	fi
+	;;
+astrovim)
+	if  [ -e "${XDG_CONFIG_HOME:-$HOME/.config}/astrovim/init.lua" ]; then
+		env NVIM_APPNAME=astrovim nvim "$@"
+	else
+		nvim "$@"
+	fi
+	;;
+lazyvim)
+	if  [ -e "${XDG_CONFIG_HOME:-$HOME/.config}/lazyvim/init.lua" ]; then
+		env NVIM_APPNAME=lazyvim nvim "$@"
+	else
+		nvim "$@"
+	fi
+	;;
+*)
+	nvim "$@"
+esac
