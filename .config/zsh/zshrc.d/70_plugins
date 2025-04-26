@@ -52,7 +52,6 @@ export FORGIT_NO_ALIASES=1
 # zsh-abbrev
 typeset -gA ZSH_ABBREVIATIONS
 ZSH_ABBREVIATIONS+=(
-	"vi"	"vim"
 	"gti"	"git"
 	"got"	"git"
 	"gut"   "git"
