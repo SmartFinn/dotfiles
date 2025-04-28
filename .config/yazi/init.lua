@@ -22,7 +22,6 @@ function Status:mode()
   local style = self:style()
   return ui.Line {
     ui.Span(" " .. mode .. " "):style(style.main),
-    ui.Span(THEME.status.separator_close):fg(style.main.bg),
   }
 end
 
@@ -33,7 +32,6 @@ function Status:position()
 
   local style = self:style()
   return ui.Line {
-    ui.Span(THEME.status.separator_open):fg(style.main.bg),
     ui.Span(string.format(" %2d/%-2d ", cursor + 1, length)):style(style.main),
   }
 end
