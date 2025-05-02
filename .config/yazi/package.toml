@@ -9,6 +9,11 @@ rev = "864a021"
 hash = "5e24c167e9ae9a203a48f2a438b8c705"
 
 [[plugin.deps]]
+use = "imsi32/yatline"
+rev = "2ecf715"
+hash = "38e2ea4703ea606d4eef574e8e8b8fd7"
+
+[[plugin.deps]]
 use = "yazi-rs/plugins:toggle-pane"
 rev = "864a021"
 hash = "f3853bbdd1da2fad09d059ab5464abfd"

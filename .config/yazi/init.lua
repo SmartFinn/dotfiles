@@ -1,86 +1,76 @@
 ---@diagnostic disable: undefined-global
--- https://github.com/sxyazi/yazi/blob/main/yazi-plugin/preset/components/status.lua
 
--- Show user and hostname in top bar
-Header:children_add(function()
-  if ya.target_family() ~= "unix" then
-    return ui.Line({})
-  end
-  return ui.Span(ya.user_name() .. "@" .. ya.host_name() .. ":"):fg("green"):bold(true)
-end, 500, Header.LEFT)
+require("yatline"):setup({
+  style_a = { fg = "black", bg_mode = {
+    normal = "#3daee9",
+    select = "#fdbc4b",
+    un_set = "#fdbc4b",
+  } },
+  style_b = { bg = "#4d4d4d", fg = "#eff0f1" },
+  style_c = { bg = "#31363b", fg = "#95a5a6" },
 
--- Remove filesize from the status line
-Status:children_remove(2, Status.LEFT)
+  selected = { icon = "󰻭", fg = "yellow" },
+  copied = { icon = "", fg = "green" },
+  cut = { icon = "", fg = "red" },
 
--- Remove percentage from the status line
-Status:children_remove(5, Status.RIGHT)
+  total = { icon = "󰮍", fg = "yellow" },
+  succ = { icon = "", fg = "green" },
+  fail = { icon = "", fg = "red" },
+  found = { icon = "󰮕", fg = "blue" },
+  processed = { icon = "󰐍", fg = "green" },
 
--- Remove separator from begining and add it to the end
-function Status:mode()
-  local mode = tostring(cx.active.mode):upper()
+  show_background = false,
 
-  local style = self:style()
-  return ui.Line {
-    ui.Span(" " .. mode .. " "):style(style.main),
-  }
-end
+  header_line = {
+    left = {
+      section_a = {
+        {type = "line", custom = false, name = "tabs", params = {"left"}},
+      },
+      section_b = {
+        {type = "string", custom = false, name = "tab_path"},
+      },
+      section_c = {
+      }
+    },
+    right = {
+      section_a = {
+      },
+      section_b = {
+      },
+      section_c = {
+        {type = "coloreds", custom = false, name = "task_states"},
+        {type = "coloreds", custom = false, name = "count"},
+      }
+    }
+  },
 
--- Remove separator from the end and add it to the begin
-function Status:position()
-  local cursor = cx.active.current.cursor
-  local length = #cx.active.current.files
+  status_line = {
+    left = {
+      section_a = {
+        {type = "string", custom = false, name = "tab_mode"},
+      },
+      section_b = {
+      },
+      section_c = {
+        {type = "coloreds", custom = false, name = "symlink_target"}
+      }
+    },
+    right = {
+      section_a = {
+        {type = "string", custom = false, name = "cursor_percentage"},
+      },
+      section_b = {
+        {type = "string", custom = false, name = "cursor_position"},
+      },
+      section_c = {
+        {type = "coloreds", custom = false, name = "permissions"},
+        {type = "string", custom = false, name = "hovered_ownership"},
+        {type = "string", custom = false, name = "modified_time"},
+        {type = "string", custom = false, name = "hovered_size"},
+      }
+    }
+  },
+})
 
-  local style = self:style()
-  return ui.Line {
-    ui.Span(string.format(" %2d/%-2d ", cursor + 1, length)):style(style.main),
-  }
-end
-
--- Show symlink path in status bar instead of filename
-function Status:name()
-  local h = cx.active.current.hovered
-  if not h then
-    return ui.Span({})
-  end
-
-  local linked = h.link_to ~= nil and  " -> " .. tostring(h.link_to) or ""
-  return ui.Span(linked):fg("cyan")
-end
-
--- Show user/group of files in status bar
-Status:children_add(function()
-  local h = cx.active.current.hovered
-
-  if h == nil or ya.target_family() ~= "unix" then
-    return ui.Line({})
-  end
-
-  local uid_color = h.cha.uid == 0 and "red" or (
-    h.cha.uid == ya.uid() and "green" or "yellow"
-  )
-  local gid_color = h.cha.gid == 0 and "red" or (
-    h.cha.gid == ya.gid() and "green" or "yellow"
-  )
-
-  return ui.Line({
-    ui.Span(ya.user_name(h.cha.uid) or tostring(h.cha.uid)):fg(uid_color),
-    ui.Span(":"),
-    ui.Span(ya.group_name(h.cha.gid) or tostring(h.cha.gid)):fg(gid_color),
-    ui.Span(" "),
-  })
-end, 100, Status.RIGHT)
-
--- Add item modified time to the status line
-Status:children_add(function()
-  local h = cx.active.current.hovered
-  if not h then
-    return ui.Line({})
-  end
-
-  ---@diagnostic disable-next-line: unsupport-symbol
-  local time = (h.cha.mtime or 0) // 1
-  return ui.Line({
-    ui.Span(" " .. (time ~= 0 and os.date("%d/%m/%Y %H:%M", time) or "") .. " ")
-      :fg("blue")
-  })
-end, 2000, Status.RIGHT)
+require("yatline-modified-time"):setup()
+require("yatline-symlink-target"):setup()
