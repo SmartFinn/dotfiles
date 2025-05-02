@@ -4,17 +4,17 @@
 
 [[manager.prepend_keymap]]
 on   = "T"
-run  = "plugin hide-preview"
+run  = "plugin toggle-pane min-preview"
 desc = "Hide or show preview"
 
 [[manager.prepend_keymap]]
 on   = "F"
-run  = "plugin max-preview"
+run  = "plugin toggle-pane max-preview"
 desc = "Maximize or restore preview"
 
 [[manager.prepend_keymap]]
 on   = "<F3>"
-run  = "plugin max-preview"
+run  = "plugin toggle-pane max-preview"
 desc = "Maximize or restore preview"
 
 [[manager.prepend_keymap]]

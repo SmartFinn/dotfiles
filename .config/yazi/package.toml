@@ -1,5 +1,17 @@
-[plugin]
-deps = [{ use = "Ape/smart-enter", rev = "2ab3c5c" }, { use = "yazi-rs/plugins:max-preview", rev = "71c4fc2" }, { use = "yazi-rs/plugins:hide-preview", rev = "71c4fc2" }, { use = "yazi-rs/plugins:mime-ext", rev = "71c4fc2" }]
+[[plugin.deps]]
+use = "Ape/smart-enter"
+rev = "7b84c89"
+hash = "43eb1a1f2291795fb5b0b2ce1206ebee"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:mime-ext"
+rev = "864a021"
+hash = "5e24c167e9ae9a203a48f2a438b8c705"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:toggle-pane"
+rev = "864a021"
+hash = "f3853bbdd1da2fad09d059ab5464abfd"
 
 [flavor]
 deps = []
