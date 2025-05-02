@@ -3,6 +3,6 @@
 
 return {
   'NvChad/nvim-colorizer.lua',
-  ft = { 'css', 'scss', 'sass', 'html', 'svg' },
+  ft = { 'css', 'scss', 'sass', 'html', 'svg', 'lua' },
   opts = {},
 }
