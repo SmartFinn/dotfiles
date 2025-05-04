@@ -8,10 +8,16 @@
   --tab-block-margin: 4px 0 !important;
 }
 
+/* Remove gaps between tabs in a group */
+tab-group .tabbrowser-tab {
+  padding: 0 !important;
+}
+
 /* Fix buttons on TabsToolbar after overriding --tab-border-radius */
 #TabsToolbar .toolbarbutton-1 > .toolbarbutton-icon,
 #TabsToolbar .toolbarbutton-1 > .toolbarbutton-text,
-#TabsToolbar .toolbarbutton-1 > .toolbarbutton-badge-stack {
+#TabsToolbar .toolbarbutton-1 > .toolbarbutton-badge-stack,
+.tab-group-label {
   border-radius: 4px !important;
 }
 
