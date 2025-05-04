@@ -31,6 +31,11 @@ tab-group .tabbrowser-tab {
   padding: calc(var(--tab-inline-padding, 8px) / 2) var(--tab-inline-padding) 0 !important;
 }
 
+/* Remove horizontal line between tabs and urlbar */
+#nav-bar {
+  border-top: none !important;
+}
+
 /* Reduce left spacer on non-maximized windows */
 .titlebar-spacer[type="pre-tabs"] { width: calc(var(--inline-tab-padding, 8px) / 2) !important; }
 
