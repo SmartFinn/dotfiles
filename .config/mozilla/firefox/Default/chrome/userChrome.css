@@ -6,9 +6,6 @@
   /* Replace button-like tabs with classic */
   --tab-border-radius: 4px 4px 0 0 !important;
   --tab-block-margin: 4px 0 !important;
-  --tab-selected-bgcolor: var(--toolbar-non-lwt-bgcolor) !important;
-  --tab-selected-bgimage: var(--toolbar-non-lwt-bgimage) !important;
-  --lwt-selected-tab-background-color: unset !important; /* fix Light theme */
 }
 
 /* Fix buttons on TabsToolbar after overriding --tab-border-radius */
@@ -25,7 +22,7 @@
 
 /* Improve tab content alignment */
 .tab-content {
-  padding: calc(var(--inline-tab-padding, 8px) / 2) var(--inline-tab-padding) 0 !important;
+  padding: calc(var(--tab-inline-padding, 8px) / 2) var(--tab-inline-padding) 0 !important;
 }
 
 /* Reduce left spacer on non-maximized windows */
