@@ -2,15 +2,11 @@
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
-[[manager.prepend_keymap]]
-on   = "T"
-run  = "plugin toggle-pane min-preview"
-desc = "Hide or show preview"
 
 [[manager.prepend_keymap]]
-on   = "F"
-run  = "plugin toggle-pane max-preview"
-desc = "Maximize or restore preview"
+on   = "<C-\\>"
+run  = "plugin toggle-pane min-preview"
+desc = "Hide or show preview"
 
 [[manager.prepend_keymap]]
 on   = "<F3>"
@@ -18,12 +14,12 @@ run  = "plugin toggle-pane max-preview"
 desc = "Maximize or restore preview"
 
 [[manager.prepend_keymap]]
-on   = [ "S" ]
+on   = "S"
 run  = 'shell "$SHELL" --block --confirm'
 desc = "Open shell here"
 
 [[manager.prepend_keymap]]
-on   = [ "l" ]
+on   = "l"
 run  = [ "plugin smart-enter", "escape --visual --select" ]
 desc = "Enter the child directory, or open file."
 
@@ -43,12 +39,12 @@ run  = "plugin smart-filter"
 desc = "Smart filter"
 
 [[manager.prepend_keymap]]
-on   = [ "<A-l>" ]
+on   = "<A-l>"
 run  = "plugin lazygit"
 desc = "run lazygit"
 
 [[manager.prepend_keymap]]
-on   = [ "=" ]
+on   = "="
 run  = "plugin chmod"
 desc = "Chmod on selected files"
 
@@ -58,6 +54,21 @@ run  = "plugin chmod"
 desc = "Chmod on selected files"
 
 [[input.prepend_keymap]]
-on   = [ "<Esc>" ]
+on   = "<Esc>"
 run  = "close"
 desc = "Cancel input"
+
+[[spot.prepend_keymap]]
+on   = "q"
+run  = "close"
+desc = "Close the spot"
+
+[[tasks.prepend_keymap]]
+on   = "q"
+run  = "close"
+desc = "Cancel"
+
+[[help.prepend_keymap]]
+on   = "q"
+run  = "close"
+desc = "Close"
