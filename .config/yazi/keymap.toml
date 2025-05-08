@@ -148,13 +148,20 @@ prepend_keymap = [
 	{ on = "F", run = "plugin smart-filter", desc = "Smart filter" },
 
 	{ on = "<C-\\>", run = "plugin toggle-pane min-preview", desc = "Hide or show preview" },
-	{ on = "<F3>", run = "plugin toggle-pane max-preview", desc = "Maximize or restore preview" },
 
 	{ on = "<A-m>", run = "plugin mount", desc = "Show mount manager" },
 	{ on = "<A-l>", run = "plugin lazygit", desc = "Run lazygit" },
 
 	{ on = "=", run = "plugin chmod", desc = "Chmod on selected files" },
 	{ on = [ "c", "m" ], run = "plugin chmod", desc = "Chmod on selected files" },
+
+	# Fn keys
+	{ on = "<F3>",  run = "plugin toggle-pane max-preview", desc = "Maximize or restore preview" },
+	{ on = "<F4>",  run = "shell --block '${EDITOR:-nvim} \"$@\"'", desc = "Open file in an editor" },
+	{ on = "<F6>",  run = "rename", desc = "Rename selected file(s)" },
+	{ on = "<F7>",  run = "create", desc = "Create a file (ends with / for directories)" },
+	{ on = "<F8>",  run = "remove --permanently", desc = "Permanently delete selected files" },
+	{ on = "<F10>", run = "quit", desc = "Quit" },
 ]
 
 [input]
