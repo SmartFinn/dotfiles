@@ -71,6 +71,10 @@ unset_alt  = { fg = "lightmagenta", bg = "gray" }
 
 [filetype]
 rules = [
+	# Symlinks
+	{ name = "*",  fg = "cyan",   bold = true, is = "link" },
+	{ name = "*/", fg = "cyan",   bold = true, is = "link" },
+
 	# Images
 	{ mime = "image/*", fg = "yellow" },
 
@@ -89,10 +93,6 @@ rules = [
 	# Special files
 	{ name = "*", is = "orphan", fg = "red", bold = true },
 	{ name = "*", is = "exec"  , fg = "green", bold = true },
-
-	# Symlinks
-	{ name = "*",  fg = "cyan",   bold = true, is = "link" },
-	{ name = "*/", fg = "cyan",   bold = true, is = "link" },
 
 	# Dummy files
 	{ name = "*", is = "dummy", bg = "red" },
