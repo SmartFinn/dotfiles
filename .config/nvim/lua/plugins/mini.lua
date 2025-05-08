@@ -9,4 +9,11 @@ return {
     version = '*',
     opts={}
   },
+  -- https://github.com/echasnovski/mini.align
+  {
+    'echasnovski/mini.align',
+    event = 'VeryLazy',
+    version = '*',
+    opts = {}
+  },
 }
