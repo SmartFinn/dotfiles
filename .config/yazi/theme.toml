@@ -75,20 +75,8 @@ rules = [
 	{ name = "*",  fg = "cyan",   bold = true, is = "link" },
 	{ name = "*/", fg = "cyan",   bold = true, is = "link" },
 
-	# Images
-	{ mime = "image/*", fg = "yellow" },
-
-	# Media
-	{ mime = "{audio,video}/*", fg = "magenta", bold = true },
-
-	# Archives
-	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "red", bold = true },
-
-	# Documents
-	{ mime = "application/{pdf,doc,rtf}", fg = "lightyellow" },
-
 	# Empty files
-	# { mime = "inode/empty", fg = "red" },
+	{ mime = "inode/empty", dim = true },
 
 	# Special files
 	{ name = "*", is = "orphan", fg = "red", bold = true },
