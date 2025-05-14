@@ -7,7 +7,8 @@ return {
   dependencies = {
     -- LSP manager
     {
-      'williamboman/mason-lspconfig.nvim',
+      'mason-org/mason-lspconfig.nvim',
+      version = 'v1.*',
       cmd = {
         'LspInstall',
         'LspUninstall',
@@ -16,7 +17,7 @@ return {
         automatic_installation = true,
       },
     },
-    { 'williamboman/mason.nvim' },
+    { 'mason-org/mason.nvim' },
 
     -- Standalone UI for nvim-lsp progress
     { 'j-hui/fidget.nvim', opts = {} },
