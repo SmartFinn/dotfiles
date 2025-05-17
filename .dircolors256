@@ -14,7 +14,7 @@
 # Below are the color init strings for the basic file types. A color init
 # string consists of one or more of the following numeric codes:
 # Attribute codes:
-#   00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
+#   00=none 01=bold 02=dim 03=italic 04=underscore 05=blink 07=reverse 08=concealed
 # Text color codes:
 #   30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
 # Background color codes:
@@ -39,7 +39,7 @@ MULTIHARDLINK  0          # regular file with more than one link
 FIFO           38;5;227;1 # pipe
 SOCK           38;5;220;1 # socket
 DOOR           38;5;170;1 # door
-BLOCK          38;5;60;1  # block device driver
+BLOCK          38;5;62;1  # block device driver
 CHR            38;5;60;1  # character device driver
 EXEC           38;5;47;1  # file that is executable (+x)
 SETUID         48;5;52;38;5;196;1  # file that is setuid (u+s)
@@ -97,9 +97,10 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .zipx              38;5;197;1
 .zoo               38;5;197;1
 
-.r[0-9]{0,2}       38;5;161;3
-.z[0-9]{0,2}       38;5;161;3
-.zx[0-9]{0,2}      38;5;161;3
+# Parts of an archive
+.r[0-9][0-9]       38;5;161;3
+.z[0-9][0-9]       38;5;161;3
+.zx[0-9][0-9]      38;5;161;3
 
 # Tarballs
 .tar               38;5;197;1
@@ -111,24 +112,35 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .tar.bz2           38;5;197;1
 .tbz2              38;5;197;1
 .tb2               38;5;197;1
-.tz2               38;5;197;1
+.tar.bz3           38;5;197;1
+.tbz3              38;5;197;1
 .tar.gz            38;5;197;1
 .tgz               38;5;197;1
+.tar.lrz           38;5;197;1
+.tlrz              38;5;197;1
 .tar.lz            38;5;197;1
+.tlz               38;5;197;1
+.tar.lz4           38;5;197;1
+.tlz4              38;5;197;1
 .tar.lzma          38;5;197;1
 .tlz               38;5;197;1
-.tlzma             38;5;197;1
 .tar.lzo           38;5;197;1
 .tzo               38;5;197;1
+.tar.rz            38;5;197;1
+.trz               38;5;197;1
 .tar.xz            38;5;197;1
 .txz               38;5;197;1
 .tar.Z             38;5;197;1
-.tar.z             38;5;197;1
-.tZ                38;5;197;1
-.tz                38;5;197;1
-.taZ               38;5;197;1
+.taz               38;5;197;1
 .tar.zst           38;5;197;1
 .tzst              38;5;197;1
+
+# CPIO archives
+.cpio.gz           38;5;197;1
+.cgz               38;5;197;1
+.cpio.bz2          38;5;197;1
+.cbz2              38;5;197;1
+.cpio.lzma         38;5;197;1
 
 # Packages {{{1
 .apk               38;5;196;1
@@ -139,6 +151,7 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .exe               38;5;196;1
 .EXE               38;5;196;1
 .flatpak           38;5;196;1
+.xdgapp            38;5;196;1
 .gem               38;5;196;1
 .ipk               38;5;196;1
 .jar               38;5;196;1
@@ -279,8 +292,10 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .ppsx              38;5;220
 .ps                38;5;220
 .tga               38;5;220
+.tgs               38;5;220
 .tif               38;5;220
 .tiff              38;5;220
+.webp              38;5;220
 .xbm               38;5;220
 .xpm               38;5;220
 .xwd               38;5;220
@@ -321,6 +336,7 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 
 # Fonts {{{1
 .afm               38;5;101
+.eot               38;5;101
 .fnt               38;5;101
 .fon               38;5;101
 .otf               38;5;101
@@ -342,10 +358,20 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .mdown             38;5;144
 .mkd               38;5;144
 .nfo               38;5;144
+.org               38;5;144
 .pod               38;5;144
 .rst               38;5;144
 .tex               38;5;144
 .textile           38;5;144
+# -- Manpages
+.1                 38;5;137
+.2                 38;5;137
+.3                 38;5;137
+.4                 38;5;137
+.5                 38;5;137
+.6                 38;5;137
+.7                 38;5;137
+.8                 38;5;137
 # -- Web
 .htm               38;5;81
 .html              38;5;81
@@ -361,16 +387,42 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .conf              38;5;105
 .config            38;5;105
 .desktop           38;5;105
+.dirs              38;5;105
+.env               38;5;105
 .ini               38;5;105
+.j2                38;5;105
 .json              38;5;105
+.list              38;5;105
+.locale            38;5;105
 .ovpn              38;5;105
 .plist             38;5;105
 .properties        38;5;105
 .reg               38;5;105
+.stignore          38;5;105
 .tml               38;5;105
 .toml              38;5;105
 .yaml              38;5;105
 .yml               38;5;105
+
+# -- Systemd units
+.automount         38;5;158
+.device            38;5;158
+.mount             38;5;158
+.path              38;5;158
+.scope             38;5;158
+.service           38;5;158
+.slice             38;5;158
+.socket            38;5;158
+.swap              38;5;158
+.target            38;5;158
+.timer             38;5;158
+
+# -- Version config
+.git               38;5;147
+.github            38;5;147
+.gitignore         38;5;147
+.gitattributes     38;5;147
+.gitmodules        38;5;147
 
 # Data {{{2
 .bib               38;5;143
@@ -540,28 +592,77 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .pgsql             38;5;66
 .sql               38;5;66
 
-# Build tools {{{2
-*configure         38;5;162
+# Build scripts {{{2
+# -- Containers
+*Containerfile     38;5;162
+*containerfile     38;5;162
 *Dockerfile        38;5;162
 *dockerfile        38;5;162
+# -- Make
+*GNUmakefile       38;5;162
+*MANIFEST          38;5;162
+*Makefile          38;5;162
+*makefile          38;5;162
+.mk                38;5;162
+# -- Gulp
 *gulpfile.babel.js 38;5;162
 *gulpfile.esm.js   38;5;162
 *Gulpfile.js       38;5;162
 *gulpfile.js       38;5;162
-*Makefile          38;5;162
-*makefile          38;5;162
-*MANIFEST          38;5;162
-*PKGBUILD          38;5;162
+*gulpfile.mjs      38;5;162
+# -- Automake/Autoconf
+*configure         38;5;162
 .ac                38;5;162
 .am                38;5;162
-.cmake             38;5;162
-.gradle            38;5;162
-.hin               38;5;162
 .in                38;5;162
+.hin               38;5;162
 .m4                38;5;162
-.mk                38;5;162
-.nix               38;5;162
-.rake              38;5;162
+# -- CMake
+*CMakeLists.txt    38;5;162
+.cmake             38;5;162
+# -- Package building
+*PKGBUILD          38;5;162  # ArchLinux
+*rules             38;5;162  # deb
+.preinst           38;5;162  # deb
+.postinst          38;5;162  # deb
+.prerm             38;5;162  # deb
+.postrm            38;5;162  # deb
+.spec              38;5;162  # RPM
+# -- Other
+.gradle            38;5;162  # Gradle
+.nix               38;5;162  # Nix
+.rake              38;5;162  # Ruby
+
+# Build configs {{{2
+# -- Python
+*dev-requirements.txt 38;5;139
+*Pipfile              38;5;139
+*requirements.txt     38;5;139
+*.python-version      38;5;139
+# -- Package building
+*control              38;5;139  # deb
+*compat               38;5;139  # deb
+*format               38;5;139  # deb
+*install              38;5;139  # deb
+*options              38;5;139  # deb
+*lintian-overrides    38;5;139  # deb
+*watch                38;5;139  # deb
+*sources              38;5;139  # rpm
+# -- Other
+.lock                 38;5;139;3
+
+# Project's files {{{2
+*AUTHORS              38;5;144
+*authors              38;5;144
+*LICENSE              38;5;144
+*license              38;5;144
+*CHANGES              38;5;144
+*changes              38;5;144
+*CHANGELOG            38;5;144
+*changelog            38;5;144
+*COPYING              38;5;144
+*copyright            38;5;144
+*docs                 38;5;144
 
 # Patch files {{{2
 .diff              38;5;199
@@ -579,16 +680,21 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .localstorage      38;5;66
 .mdx               38;5;66
 .sqlite            38;5;66
+.sqlite-journal    38;5;241;3
+.sqlite-shm        38;5;241;3
+.sqlite-wal        38;5;241;3
 
 # Encrypted data {{{1
 .asc               38;5;47
 .bfe               38;5;47
+.der               38;5;47
 .enc               38;5;47
 .gpg               38;5;47
 .kbx               38;5;47
 .p12               38;5;47
 .pem               38;5;47
 .pgp               38;5;47
+.priv              38;5;47
 .sig               38;5;47
 .signature         38;5;47
 
@@ -598,10 +704,16 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .kdb               38;5;203
 .kdbx              38;5;203
 .key               38;5;203
+.pub               38;5;203
 .secrets           38;5;203
 
 # Temporary files {{{1
+# Logs {{{2
+*history           38;5;60
+.log               38;5;60
+
 # Build artifacts {{{2
+*CACHEDIR.TAG      38;5;59  # Cache dir marker
 *CMakeCache.txt    38;5;59  # CMake
 *Makefile.in       38;5;59  # Automake
 .bc                38;5;59  # LLVM
@@ -638,14 +750,14 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 .toc               38;5;59
 
 # Other {{{2
+*cookie            38;5;59
+*state             38;5;59
 .BAK               38;5;59
 .bak               38;5;59
 .dist              38;5;59
 .dpkg-dist         38;5;59
 .dpkg-old          38;5;59
 .incomplete        38;5;59  # Transmission
-.lock              38;5;59
-.log               38;5;59
 .OLD               38;5;59
 .old               38;5;59
 .ORIG              38;5;59
@@ -664,7 +776,6 @@ STICKY_OTHER_WRITABLE 38;5;167;1 # dir that is sticky and other-writable (+t,o+w
 *~                 38;5;245
 .cache             38;5;245
 .DS_Store          38;5;245
-.swap              38;5;245
 .swo               38;5;245
 .swp               38;5;245
 .temp              38;5;245

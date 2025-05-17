@@ -14,7 +14,7 @@
 # Below are the color init strings for the basic file types. A color init
 # string consists of one or more of the following numeric codes:
 # Attribute codes:
-#   00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
+#   00=none 01=bold 02=dim 03=italic 04=underscore 05=blink 07=reverse 08=concealed
 # Text color codes:
 #   30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
 # Background color codes:
@@ -97,9 +97,10 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 .zipx              1;31
 .zoo               1;31
 
-.r[0-9]{0,2}       2;31
-.z[0-9]{0,2}       2;31
-.zx[0-9]{0,2}      2;31
+# Parts of an archive
+.r[0-9][0-9]       2;31
+.z[0-9][0-9]       2;31
+.zx[0-9][0-9]      2;31
 
 # Tarballs
 .tar               1;31
@@ -111,24 +112,35 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 .tar.bz2           1;31
 .tbz2              1;31
 .tb2               1;31
-.tz2               1;31
+.tar.bz3           1;31
+.tbz3              1;31
 .tar.gz            1;31
 .tgz               1;31
+.tar.lrz           1;31
+.tlrz              1;31
 .tar.lz            1;31
+.tlz               1;31
+.tar.lz4           1;31
+.tlz4              1;31
 .tar.lzma          1;31
 .tlz               1;31
-.tlzma             1;31
 .tar.lzo           1;31
 .tzo               1;31
+.tar.rz            1;31
+.trz               1;31
 .tar.xz            1;31
 .txz               1;31
 .tar.Z             1;31
-.tar.z             1;31
-.tZ                1;31
-.tz                1;31
-.taZ               1;31
+.taz               1;31
 .tar.zst           1;31
 .tzst              1;31
+
+# CPIO archives
+.cpio.gz           1;31
+.cgz               1;31
+.cpio.bz2          1;31
+.cbz2              1;31
+.cpio.lzma         1;31
 
 # Packages {{{1
 .apk               1;91
@@ -139,6 +151,7 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 .EXE               1;91
 .exe               1;91
 .flatpak           1;91
+.xdgapp            1;91
 .gem               1;91
 .ipk               1;91
 .jar               1;91
@@ -279,8 +292,10 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 .ppsx              0;33
 .ps                0;33
 .tga               0;33
+.tgs               0;33
 .tif               0;33
 .tiff              0;33
+.webp              0;33
 .xbm               0;33
 .xpm               0;33
 .xwd               0;33
@@ -321,6 +336,7 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 
 # Fonts {{{1
 .afm               2;33
+.eot               2;33
 .fnt               2;33
 .fon               2;33
 .otf               2;33
@@ -342,10 +358,20 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 .mdown             2;93
 .mkd               2;93
 .nfo               2;93
+.org               2;93
 .pod               2;93
 .rst               2;93
 .tex               2;93
 .textile           2;93
+# -- Manpages
+.1                 2;93
+.2                 2;93
+.3                 2;93
+.4                 2;93
+.5                 2;93
+.6                 2;93
+.7                 2;93
+.8                 2;93
 # -- Web
 .htm               0;94
 .html              0;94
@@ -361,16 +387,42 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 .conf              0;97
 .config            0;97
 .desktop           0;97
+.dirs              0;97
+.env               0;97
 .ini               0;97
+.j2                0;97
 .json              0;97
+.list              0;97
+.locale            0;97
 .ovpn              0;97
 .plist             0;97
 .properties        0;97
 .reg               0;97
+.stignore          0;97
 .tml               0;97
 .toml              0;97
 .yaml              0;97
 .yml               0;97
+
+# -- Systemd units
+.automount         0;97
+.device            0;97
+.mount             0;97
+.path              0;97
+.scope             0;97
+.service           0;97
+.slice             0;97
+.socket            0;97
+.swap              0;97
+.target            0;97
+.timer             0;97
+
+# -- Version config
+.git               0;97
+.github            0;97
+.gitignore         0;97
+.gitattributes     0;97
+.gitmodules        0;97
 
 # Data {{{2
 .bib               0;97
@@ -540,28 +592,77 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 .pgsql             0;36
 .sql               0;36
 
-# Build tools {{{2
-*configure         0;32
+# Build scripts {{{2
+# -- Containers
+*Containerfile     0;32
+*containerfile     0;32
 *Dockerfile        0;32
 *dockerfile        0;32
+# -- Make
+*GNUmakefile       0;32
+*MANIFEST          0;32
+*Makefile          0;32
+*makefile          0;32
+.mk                0;32
+# -- Gulp
 *gulpfile.babel.js 0;32
 *gulpfile.esm.js   0;32
 *Gulpfile.js       0;32
 *gulpfile.js       0;32
-*Makefile          0;32
-*makefile          0;32
-*MANIFEST          0;32
-*PKGBUILD          0;32
+*gulpfile.mjs      0;32
+# -- Automake/Autoconf
+*configure         0;32
 .ac                0;32
 .am                0;32
-.cmake             0;32
-.gradle            0;32
-.hin               0;32
 .in                0;32
+.hin               0;32
 .m4                0;32
-.mk                0;32
-.nix               0;32
-.rake              0;32
+# -- CMake
+*CMakeLists.txt    0;32
+.cmake             0;32
+# -- Package building
+*PKGBUILD          0;32  # ArchLinux
+*rules             0;32  # deb
+.preinst           0;32  # deb
+.postinst          0;32  # deb
+.prerm             0;32  # deb
+.postrm            0;32  # deb
+.spec              0;32  # RPM
+# -- Other
+.gradle            0;32  # Gradle
+.nix               0;32  # Nix
+.rake              0;32  # Ruby
+
+# Build configs {{{2
+# -- Python
+*dev-requirements.txt 2;32
+*Pipfile              2;32
+*requirements.txt     2;32
+*.python-version      2;32
+# -- Package building
+*control              2;32  # deb
+*compat               2;32  # deb
+*format               2;32  # deb
+*install              2;32  # deb
+*options              2;32  # deb
+*lintian-overrides    2;32  # deb
+*watch                2;32  # deb
+*sources              2;32  # rpm
+# -- Other
+.lock                 2;32
+
+# Project's files {{{2
+*AUTHORS              2;93
+*authors              2;93
+*LICENSE              2;93
+*license              2;93
+*CHANGES              2;93
+*changes              2;93
+*CHANGELOG            2;93
+*changelog            2;93
+*COPYING              2;93
+*copyright            2;93
+*docs                 2;93
 
 # Patch files {{{2
 .diff              0;95
@@ -574,21 +675,26 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 .dmp               2;36
 
 # databases
-.db                2;36
-.dbf               2;36
-.localstorage      2;36
-.mdx               2;36
-.sqlite            2;36
+.db                1;36
+.dbf               1;36
+.localstorage      1;36
+.mdx               1;36
+.sqlite            1;36
+.sqlite-journal    2;36
+.sqlite-shm        2;36
+.sqlite-wal        2;36
 
 # Encrypted data {{{1
 .asc               7;32;40
 .bfe               7;32;40
+.der               7;32;40
 .enc               7;32;40
 .gpg               7;32;40
 .kbx               7;32;40
 .p12               7;32;40
 .pem               7;32;40
 .pgp               7;32;40
+.priv              7;32;40
 .sig               7;32;40
 .signature         7;32;40
 
@@ -598,10 +704,16 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 .kdb               7;31;43
 .kdbx              7;31;43
 .key               7;31;43
+.pub               7;31;43
 .secrets           7;31;43
 
 # Temporary files {{{1
+# Logs {{{2
+*history           0;90
+.log               0;90
+
 # Build artifacts {{{2
+*CACHEDIR.TAG      0;90  # Cache dir marker
 *CMakeCache.txt    0;90  # CMake
 *Makefile.in       0;90  # Automake
 .bc                0;90  # LLVM
@@ -638,14 +750,14 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 .toc               0;90
 
 # Other {{{2
+*cookie            0;90
+*state             0;90
 .BAK               0;90
 .bak               0;90
 .dist              0;90
 .dpkg-dist         0;90
 .dpkg-old          0;90
 .incomplete        0;90  # Transmission
-.lock              0;90
-.log               0;90
 .OLD               0;90
 .old               0;90
 .ORIG              0;90
@@ -664,7 +776,6 @@ STICKY_OTHER_WRITABLE 1;92 # dir that is sticky and other-writable (+t,o+w)
 *~                 2;37
 .cache             2;37
 .DS_Store          2;37
-.swap              2;37
 .swo               2;37
 .swp               2;37
 .temp              2;37
