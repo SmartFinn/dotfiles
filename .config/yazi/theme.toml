@@ -435,17 +435,17 @@ rules = [
 	{ name = "*.yml",        fg = "#8787ff" },
 
 	# Systemd units
-	{ name = "*.automount",  fg = "#afffd7" },
-	{ name = "*.device",     fg = "#afffd7" },
-	{ name = "*.mount",      fg = "#afffd7" },
-	{ name = "*.path",       fg = "#afffd7" },
-	{ name = "*.scope",      fg = "#afffd7" },
-	{ name = "*.service",    fg = "#afffd7" },
-	{ name = "*.slice",      fg = "#afffd7" },
-	{ name = "*.socket",     fg = "#afffd7" },
-	{ name = "*.swap",       fg = "#afffd7" },
-	{ name = "*.target",     fg = "#afffd7" },
-	{ name = "*.timer",      fg = "#afffd7" },
+	{ name = "*.automount",  fg = "#afd7d7" },
+	{ name = "*.device",     fg = "#afd7d7" },
+	{ name = "*.mount",      fg = "#afd7d7" },
+	{ name = "*.path",       fg = "#afd7d7" },
+	{ name = "*.scope",      fg = "#afd7d7" },
+	{ name = "*.service",    fg = "#afd7d7" },
+	{ name = "*.slice",      fg = "#afd7d7" },
+	{ name = "*.socket",     fg = "#afd7d7" },
+	{ name = "*.swap",       fg = "#afd7d7" },
+	{ name = "*.target",     fg = "#afd7d7" },
+	{ name = "*.timer",      fg = "#afd7d7" },
 
 	# Version control
 	{ name = "*.git",           fg = "#afafff" },
