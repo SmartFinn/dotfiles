@@ -28,6 +28,8 @@ prepend_keymap = [
 	{ on = "[",          run = "noop" },
 	{ on = "]",          run = "noop" },
 	{ on = "t",          run = "noop" },
+	{ on = "z",          run = "noop" },
+	{ on = "Z",          run = "noop" },
 
 	# Overwrite the default keybinding to make them ranger-like
 	{ on = "q",     run = "close",              desc = "Close the current tab, or quit if it's last" },
@@ -63,10 +65,11 @@ prepend_keymap = [
 	{ on = "I",          run = "rename --cursor=before_ext",  desc = "Rename selected file(s)" },
 	{ on = "A",          run = "rename",                      desc = "Rename selected file(s)" },
 	{ on = [ "c", "c" ], run = "rename --empty=stem --cursor=start", desc = "Replace filename" },
+	{ on = [ "z", "h" ], run = "hidden toggle",               desc = "Toggle the visibility of hidden files" },
 	{ on = "S",          run = 'shell "$SHELL" --block --confirm', desc = "Open shell here" },
 	{ on = "R",          run = "search --via=rg",             desc = "Search files by content via ripgrep" },
-	{ on = "Z",          run = "plugin fzf",                  desc = "Jump to a file/directory via fzf" },
-	{ on = "z",          run = "plugin zoxide",               desc = "Jump to a directory via zoxide" },
+	{ on = [ "z", "z" ], run = "plugin fzf",                  desc = "Jump to a file/directory via fzf" },
+	{ on = [ "z", "c" ], run = "plugin zoxide",               desc = "Jump to a directory via zoxide" },
 
 	# Copy
 	{ on = [ "y", "p" ], run = "copy path",             desc = "Copy the file path" },
@@ -75,7 +78,7 @@ prepend_keymap = [
 	{ on = [ "y", "n" ], run = "copy name_without_ext", desc = "Copy the filename without extension" },
 
 	# Filter
-	{ on = "<C-f>", run = "filter --smart", desc = "Filter files" },
+	{ on = [ "z", "f" ], run = "filter --smart", desc = "Filter files" },
 
 	# Jump to char
 	{ on = "f", run = "noop" },
