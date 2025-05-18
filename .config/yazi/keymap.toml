@@ -143,19 +143,27 @@ prepend_keymap = [
 	{ on = [ "d", "u" ], run = "shell --block gdu", desc = "Run gdu in the current directory" },
 
 	# Plugins
+	# https://github.com/yazi-rs/plugins/tree/main/smart-enter.yazi
 	{ on = "l", run = [ "plugin smart-enter", "escape --visual --select" ], desc = "Enter child directory, or open file" },
 	{ on = "<Enter>", run = "plugin smart-enter", desc = "Enter child directory, or open file" },
 
+	# https://github.com/yazi-rs/plugins/tree/main/smart-filter.yazi
 	{ on = "F", run = "plugin smart-filter", desc = "Smart filter" },
 
+	# https://github.com/yazi-rs/plugins/tree/main/toggle-pane.yazi
 	{ on = "<C-\\>", run = "plugin toggle-pane min-preview", desc = "Hide or show preview" },
 
+	# https://github.com/yazi-rs/plugins/tree/main/mount.yazi
 	{ on = "<A-m>", run = "plugin mount", desc = "Show mount manager" },
+
+	# https://github.com/Lil-Dank/lazygit.yazi
 	{ on = "<A-l>", run = "plugin lazygit", desc = "Run lazygit" },
 
+	#https://github.com/yazi-rs/plugins/tree/main/chmod.yazi
 	{ on = "=", run = "plugin chmod", desc = "Chmod on selected files" },
 	{ on = [ "c", "m" ], run = "plugin chmod", desc = "Chmod on selected files" },
 
+	# https://github.com/boydaihungst/compress.yazi
 	{ on = [ "x", "c" ], run = "plugin compress", desc = "Archive selected files" },
 	{ on = [ "x", "C" ], run = "plugin compress -- --secure", desc = "Compress file(s) with password" },
 
