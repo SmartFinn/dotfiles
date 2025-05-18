@@ -3,7 +3,7 @@ miniflux-url "https://miniflux.mkro.pp.ua"
 miniflux-login "admin"
 miniflux-passwordeval "secret-tool lookup miniflux password"
 
-browser "linkhandler"
+browser "xdg-open"
 player "mpv"
 download-path "~/Downloads/%n"
 save-path "~/Downloads"
@@ -87,4 +87,4 @@ unbind-key D delete-article
 
 # -- macros --------------------------------------------------------------------
 
-macro , set browser "readable -p html-title,html-content %u | html2md -i | glow -p "; open-in-browser ; set browser linkhandler
+macro , set browser "readable -p html-title,html-content %u | html2md -i | glow -p "; open-in-browser ; set browser xdg-open
