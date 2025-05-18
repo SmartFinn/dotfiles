@@ -38,5 +38,10 @@ use = "boydaihungst/compress"
 rev = "f9d7adb"
 hash = "3c578c90c1cae2a1954768f52c9f9e22"
 
+[[plugin.deps]]
+use = "Ape/reflink"
+rev = "ab7bbf8"
+hash = "f0c718e6cfb12f292af6a027a86713c2"
+
 [flavor]
 deps = []

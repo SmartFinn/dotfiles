@@ -159,6 +159,9 @@ prepend_keymap = [
 	{ on = [ "x", "c" ], run = "plugin compress", desc = "Archive selected files" },
 	{ on = [ "x", "C" ], run = "plugin compress -- --secure", desc = "Compress file(s) with password" },
 
+	# https://github.com/Ape/reflink.yazi
+	{ on = [ "p", "r" ], run = "plugin reflink", desc = "Reflink the yanked files" },
+
 	# Fn keys
 	{ on = "<F3>",  run = "plugin toggle-pane max-preview", desc = "Maximize or restore preview" },
 	{ on = "<F4>",  run = "shell --block '${EDITOR:-nvim} \"$@\"'", desc = "Open file in an editor" },
