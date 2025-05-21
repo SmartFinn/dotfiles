@@ -177,6 +177,9 @@ prepend_keymap = [
 	# https://github.com/Ape/reflink.yazi
 	{ on = [ "p", "r" ], run = "plugin reflink", desc = "Reflink the yanked files" },
 
+	# https://github.com/sxyazi/yazi/issues/2772#issuecomment-2896819901
+	{ on = [ "z", "s" ], run = "plugin show-symlink-target", desc = "Toggle show_symlink option" },
+
 	# Fn keys
 	{ on = "<F3>",  run = "plugin toggle-pane max-preview", desc = "Maximize or restore preview" },
 	{ on = "<F4>",  run = "shell --block '${EDITOR:-nvim} \"$@\"'", desc = "Open file in an editor" },
