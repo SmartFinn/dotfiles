@@ -1,7 +1,7 @@
 urls-source "miniflux"
 miniflux-url "https://miniflux.mkro.pp.ua"
 miniflux-login "admin"
-miniflux-passwordeval "secret-tool lookup miniflux password"
+miniflux-passwordeval "pass show account/miniflux/password"
 
 browser "xdg-open"
 player "mpv"
