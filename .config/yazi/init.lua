@@ -27,7 +27,6 @@ require("yatline"):setup({
         {type = "line", custom = false, name = "tabs", params = {"left"}},
       },
       section_b = {
-        {type = "string", custom = false, name = "tab_path"},
       },
       section_c = {
       }
