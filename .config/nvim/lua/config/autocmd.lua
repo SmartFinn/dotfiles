@@ -53,30 +53,29 @@ vim.api.nvim_create_autocmd({"BufWritePre"}, {
 })
 
 vim.api.nvim_create_autocmd({"BufReadPost"}, {
-  desc = "Jump to the last place in the file before exiting",
+  desc = "Jump to the last edit position when opening files",
   group = au_vimrc,
   callback = function(data)
     -- https://github.com/numToStr/dotfiles/commit/49e6d6d
     local last_pos = vim.api.nvim_buf_get_mark(data.buf, '"')
-    if last_pos[1] > 0 and last_pos[1] <= vim.api.nvim_buf_line_count(data.buf) then
-      vim.api.nvim_win_set_cursor(0, last_pos)
+    local line_count = vim.api.nvim_buf_line_count(data.buf)
+    if last_pos[1] > 0 and last_pos[1] <= line_count then
+      pcall(vim.api.nvim_win_set_cursor, 0, last_pos)
     end
   end,
 })
 
 -- Automatically creates parent directories for the current file if they
 -- don't exist yet (auto_mkdir based)
-vim.api.nvim_create_autocmd({"BufWritePre", "FileWritePre"}, {
+vim.api.nvim_create_autocmd({"BufWritePre"}, {
   desc = "Auto mkdir to a file",
   group = au_vimrc,
   pattern = "*",
   callback = function()
-    vim.cmd [[
-      let b:dir = expand('<afile>:p:h')
-      \ | if !isdirectory(b:dir) && !(b:dir =~ '://')
-      \ |   call mkdir(iconv(b:dir, &encoding, &termencoding), 'p')
-      \ | endif
-  ]]
+    local dir = vim.fn.expand('<afile>:p:h')
+    if vim.fn.isdirectory(dir) == 0 and not string.match(dir, '://') then
+      vim.fn.mkdir(dir, 'p')
+    end
   end,
 })
 
