@@ -65,6 +65,14 @@ vim.api.nvim_create_autocmd({"BufReadPost"}, {
   end,
 })
 
+vim.api.nvim_create_autocmd({"VimResized"}, {
+  desc = "Auto-resize splits when window is resized",
+  group = au_vimrc,
+  callback = function ()
+    vim.cmd("tabdo wincmd =")
+  end,
+})
+
 -- Automatically creates parent directories for the current file if they
 -- don't exist yet (auto_mkdir based)
 vim.api.nvim_create_autocmd({"BufWritePre"}, {
