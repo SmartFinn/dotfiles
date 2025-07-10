@@ -156,6 +156,7 @@ prepend_keymap = [
 
 	# https://github.com/yazi-rs/plugins/tree/main/toggle-pane.yazi
 	{ on = "<C-\\>", run = "plugin toggle-pane min-preview", desc = "Hide or show preview" },
+	{ on = [ "z", "p" ], run = "plugin toggle-pane min-preview", desc = "Hide or show preview" },
 
 	# https://github.com/yazi-rs/plugins/tree/main/mount.yazi
 	{ on = "<A-m>", run = "plugin mount", desc = "Show mount manager" },
