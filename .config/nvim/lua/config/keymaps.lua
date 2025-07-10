@@ -23,6 +23,15 @@ map('n', '<Leader>q', '<CMD>bdelete<CR>', {
 -- Yank to system clipboard
 map('x', '<Leader>y', '"+y', { desc = "Yank to system clipboard" })
 
+-- Yank full path to the current file
+map('n', 'yp',
+  function ()
+    local file_path = vim.fn.expand('%:p')
+    vim.fn.setreg('+', file_path)
+  end, {
+    desc = "Copy full path to the current file",
+})
+
 -- Paste from system clipboard
 map('', '<Leader>p', '"+p', { desc = "Paste from system clipboard" })
 
