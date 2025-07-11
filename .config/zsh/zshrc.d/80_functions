@@ -29,12 +29,6 @@ genpasswd() {
 	fi
 }
 
-command -v apt-key >/dev/null &&
-apt-import-key() {
-	# usage: apt-import-key <key>
-	sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com "$1"
-}
-
 command -v dpkg >/dev/null &&
 dpkg-purge-rc() {
 	dpkg -l | awk '/^rc/ {print $2}' | xargs -r sudo dpkg --purge
@@ -201,10 +195,6 @@ scratch() {
 
 	dir=$(mktemp -d)
 
-	# echo "$dir" | xsel -i -b 2>/dev/null || \
-	# 	xclip -i -sel clipboard 2>/dev/null || \
-	# 	true
-
 	(
 		echo "Entering \"$dir\""
 		cd "$dir"
@@ -214,7 +204,6 @@ scratch() {
 	echo "Cleaning up \"$dir\""
 	rm -rf "$dir"
 }
-alias gg='scratch'
 
 ssh-copy-pub() {
 	local PS3="(select key)> "
@@ -276,6 +265,7 @@ add2path() {
 }
 
 command -v apt-mark >/dev/null &&
+test -f /var/log/installer/initial-status.gz &&
 list_installed_packages() {
 	# returns list of packages installed by user
 	# https://askubuntu.com/a/492343/565749
@@ -602,10 +592,6 @@ most-used-commands() {
 		| nl
 }
 
-xopen() {
-	xdg-open "$@" >/dev/null 2>&1
-}
-
 du_here() { du -haxd1 "${1:-.}" | sort -h; }
 
 command -v lsof >/dev/null &&
@@ -624,14 +610,6 @@ rpm-history() {
 	# eq. LC_TIME=us_US.UTF-8 rpm -qa --last | tac
 	rpm -qa --queryformat "%{INSTALLTIME} %{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}\n" |
 		sort -n -k1,1 | awk '{$1=strftime("%Y-%m-%d %H:%M:%S", $1); print $0}'
-}
-
-command -v ranger >/dev/null &&
-xargs_tagged() {
-	local tagged_file="${XDG_CONFIG_HOME:-$HOME/.config}/ranger/tagged"
-
-	[ -s "$tagged_file" ] || return 1
-	xargs -a "$tagged_file" -r -I{} "$@"
 }
 
 command -v jq >/dev/null &&
@@ -679,34 +657,6 @@ command -v openssl >/dev/null &&
 zlibcat() {
 	# unpack files in .git/objects
 	openssl zlib -d -in "${1:--}"
-}
-
-time2sec() {
-	# Convert HH:MM:SS to seconds
-	local secs="$1"
-
-	echo "$secs" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }'
-}
-
-convertsecs() {
-	# Convert seconds to years, days, hours, minutes, seconds
-	local secs="$1"
-
-	printf '%dy, %dd %dh:%dm:%ds\n' $((secs/31557600)) \
-		$((secs%31557600/86400)) $((secs%86400/3600)) \
-		$((secs%3600/60)) $((secs%60))
-}
-
-ddiff() {
-	# Show diff between two dates
-	# Usage:
-	#  ddiff "July 20, 1947" now
-	#  ddiff @-708577200 now
-	local start_date="$(date -d "$1" +%s)"
-	local end_date="$(date -d "$2" +%s)"
-	local secs_diff=$((end_date - start_date))
-
-	convertsecs "$secs_diff"
 }
 
 command -v fzf >/dev/null &&
