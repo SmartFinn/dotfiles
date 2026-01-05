@@ -1,17 +1,17 @@
 -- Mini.nvim library
--- https://github.com/echasnovski/mini.nvim
+-- https://github.com/nvim-mini/mini.nvim
 
 return {
-  -- https://github.com/echasnovski/mini.ai
+  -- https://github.com/nvim-mini/mini.ai
   {
-    'echasnovski/mini.ai',
+    'nvim-mini/mini.ai',
     event = 'VeryLazy',
     version = '*',
     opts={}
   },
-  -- https://github.com/echasnovski/mini.align
+  -- https://github.com/nvim-mini/mini.align
   {
-    'echasnovski/mini.align',
+    'nvim-mini/mini.align',
     event = 'VeryLazy',
     version = '*',
     opts = {}
