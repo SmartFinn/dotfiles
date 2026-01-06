@@ -1,7 +1,7 @@
 -- Status line
 -- https://github.com/nvim-lualine/lualine.nvim
 
-local U = require('plugins.configs.lsp.utils')
+local U = require('config.utils')
 
 local function show_macro_recording()
   local recording_register = vim.fn.reg_recording()

@@ -8,19 +8,18 @@ return {
     -- LSP manager
     {
       'mason-org/mason-lspconfig.nvim',
-      version = 'v1.*',
+      version = 'v2.*',
       cmd = {
         'LspInstall',
         'LspUninstall',
       },
-      opts = {
-        automatic_installation = true,
-      },
+      -- opts = {
+      --   automatic_installation = true,
+      -- },
     },
-    { 'mason-org/mason.nvim' },
+    { 'mason-org/mason.nvim', opts = {} },
 
     -- Standalone UI for nvim-lsp progress
     { 'j-hui/fidget.nvim', opts = {} },
   },
-  config = function() require('plugins.configs.lsp.servers') end,
 }

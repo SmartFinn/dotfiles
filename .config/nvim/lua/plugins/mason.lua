@@ -3,7 +3,7 @@
 
 return {
   'mason-org/mason.nvim',
-  version = 'v1.*',
+  version = 'v2.*',
   event = 'VeryLazy',
   cmd = {
     'Mason',
