@@ -49,7 +49,11 @@ get_pipx_venvs() {
 get_installed_flatpak_apps() {
 	command -v flatpak >/dev/null || return 0
 	env XDG_DATA_DIRS="$HOME"/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share \
-		flatpak list --app --columns=app,arch,branch > "$dest_dir/flatpak_apps.list"
+		flatpak list --app --columns=installation,ref > "$dest_dir/flatpak_apps.list"
+	env XDG_DATA_DIRS="$HOME"/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share \
+		flatpak remotes --columns=name,url > "$dest_dir/flatpak_remotes.list"
+	env XDG_DATA_DIRS="$HOME"/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share \
+		flatpak override --show > "$dest_dir/flatpak_overrides.list"
 }
 
 get_installed_npm_packages() {
