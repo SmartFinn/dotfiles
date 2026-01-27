@@ -145,6 +145,8 @@ $HOME/.config/mozilla/firefox/Default/bookmarkbackups/
 $HOME/.config/mozilla/firefox/Default/chrome_debugger_profile/
 $HOME/.config/mozilla/firefox/Default/crashes/
 $HOME/.config/mozilla/firefox/Default/datareporting/
+$HOME/.config/mozilla/firefox/Default/security_state/
+$HOME/.config/mozilla/firefox/Default/sessionstore-logs/
 $HOME/.config/mozilla/firefox/Default/favicons.sqlite
 $HOME/.config/mozilla/firefox/Default/favicons.sqlite-wal
 $HOME/.config/mozilla/firefox/Default/gmp/
@@ -166,6 +168,9 @@ $HOME/.config/mozilla/firefox/Default/weave/logs/
 $HOME/.config/mozilla/firefox/Default/weave/toFetch/
 $HOME/.config/mozilla/firefox/Pending Pings/
 $HOME/.config/mozilla/firefox/firefox-mpris/
+
+#- Web App Hub (Flatpak)
+$HOME/.var/app/org.pvermeer.WebAppHub/
 
 #- Thunderbird
 $HOME/.thunderbird/
@@ -375,6 +380,19 @@ $HOME/.var/app/com.spotify.Client/config/spotify/*
 !$HOME/.var/app/com.spotify.Client/config/spotify/prefs
 !$HOME/.var/app/com.spotify.Client/config/spotify/Users
 
+#- Signal
+attachments.noindex/
+stickers.noindex/
+
+#- singnal-cli
+$HOME/.local/share/signal-cli/attachments/
+$HOME/.local/share/signal-cli/avatars/
+$HOME/.local/share/signal-cli/stickers/
+
+#- OpenCode
+$HOME/.local/share/opencode/project/
+$HOME/.local/share/opencode/log/
+
 ## Generic {{{1
 *~
 *-
@@ -434,6 +452,7 @@ DawnCache/
 DawnGraphiteCache/
 DawnWebGPUCache/
 Download Service/
+Extensions/
 extensions_crx_cache/
 GCM Store/
 GPUCache/
