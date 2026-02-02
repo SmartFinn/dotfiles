@@ -1,3 +1,0 @@
--- if (wm_class == "keepassxc") then
--- 	minimize();
--- end

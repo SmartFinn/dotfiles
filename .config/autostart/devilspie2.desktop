@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=devilspie2
-Comment=see .config/devilspie2/
-TryExec=devilspie2
-Exec=devilspie2
-Type=Application
-Icon=preferences-system-windows-move
-NoDisplay=true
-X-GNOME-Autostart-enabled=true
