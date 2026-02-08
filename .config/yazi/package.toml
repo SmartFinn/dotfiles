@@ -43,5 +43,10 @@ use = "Ape/reflink"
 rev = "7ecd36b"
 hash = "555a412745356f7ce1fd4777917bbfbf"
 
+[[plugin.deps]]
+use = "AminurAlam/yazi-plugins:preview-sqlite"
+rev = "ad655be"
+hash = "e21bd1066bfd09c92fd0201cffec287f"
+
 [flavor]
 deps = []
