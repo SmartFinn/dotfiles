@@ -73,3 +73,4 @@ require("yatline"):setup({
 
 require("yatline-modified-time"):setup()
 require("yatline-symlink-target"):setup()
+require("folder-rules"):setup()
