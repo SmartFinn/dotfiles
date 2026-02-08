@@ -146,6 +146,13 @@ prepend_keymap = [
 	{ on = "e", run = "shell --block '${EDITOR:-nvim} \"$@\"'", desc = "Open file in an editor" },
 	{ on = [ "d", "u" ], run = "shell --block gdu", desc = "Run gdu in the current directory" },
 
+	# Copy file(s) to system clipboard (Wayland)
+	{
+		on = [ "<C-y>" ],
+		run = [ 'shell -- for f in %s; do echo "file://$f"; done | wl-copy -t text/uri-list' ],
+		desc = "Copy file(s) to system clipboard"
+	},
+
 	# Plugins
 	# https://github.com/yazi-rs/plugins/tree/main/smart-enter.yazi
 	{ on = "l", run = [ "plugin smart-enter", "escape --visual --select" ], desc = "Enter child directory, or open file" },
