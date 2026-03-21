@@ -12,9 +12,6 @@ GHI_TOKEN="$GITHUB_TOKEN"
 PET_GITHUB_ACCESS_TOKEN="$GITHUB_TOKEN"
 THE_WAY_GITHUB_TOKEN="$GITHUB_TOKEN"
 
-HITBTC_PUBLIC_KEY="$(pass show api/hitbtc/public_key)"
-HITBTC_SECRET_KEY="$(pass show api/hitbtc/secret_key)"
-
 WHITEBIT_PUBLIC_KEY="$(pass show api/whitebit/api_key)"
 WHITEBIT_SECRET_KEY="$(pass show api/whitebit/api_secret)"
 
