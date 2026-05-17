@@ -15,7 +15,6 @@ show_hidden    = false
 show_symlink   = false
 scrolloff      = 5
 mouse_events   = [ "scroll" ]
-title_format   = "yazi"
 
 [preview]
 wrap            = "yes"

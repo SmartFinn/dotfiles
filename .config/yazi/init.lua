@@ -1,5 +1,11 @@
 ---@diagnostic disable: undefined-global
 
+-- Change title to "yazi"
+ps.sub("ind-app-title", function(args)
+  args.value = "yazi"
+  return args
+end)
+
 require("yatline"):setup({
   style_a = { fg = "black", bg_mode = {
     normal = "#3daee9",
