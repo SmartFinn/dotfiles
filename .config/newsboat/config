@@ -81,8 +81,8 @@ bind-key a mark-all-above-as-read articlelist
 bind-key U show-urls
 
 unbind-key C feedlist
-unbind-key ^D delete-all-articles
-unbind-key D delete-article
+unbind-key ^D articlelist
+unbind-key D article
 
 
 # -- macros --------------------------------------------------------------------
