@@ -1,7 +1,7 @@
 [[plugin.deps]]
 use = "Ape/smart-enter"
-rev = "eff8665"
-hash = "dfe8be84be3a3d5d42c38d0a6d74f206"
+rev = "1c835cc"
+hash = "d6d6fa001c2cda9dda6eb5bc6beb96b7"
 
 [[plugin.deps]]
 use = "imsi32/yatline"
@@ -10,28 +10,28 @@ hash = "e6e98d12b1648d1894c2b560d85eeaa7"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mount"
-rev = "88990a6"
-hash = "9ad20d763df07ce40fd09de549d914b0"
+rev = "598cdb6"
+hash = "e3260d0b1feded8c8e3ae3afa1169e30"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-filter"
-rev = "88990a6"
-hash = "407d19bc4fb46eff5fa8ff8337644847"
+rev = "598cdb6"
+hash = "c887903a63a2ff520081b6d90a4b3392"
 
 [[plugin.deps]]
 use = "Lil-Dank/lazygit"
-rev = "0e56060"
-hash = "ab2e66065a94cca4886b303518e44bd8"
+rev = "e73fd74"
+hash = "6ea5f37c7f219671ec504cb8311f889d"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:toggle-pane"
-rev = "88990a6"
-hash = "8a7c58225816a163a6e8730c0adafbc8"
+rev = "598cdb6"
+hash = "9c7987da2d2a2120dac33abb64132004"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "88990a6"
-hash = "8da0b15a97b5dfd13941d1ecc617ac7c"
+rev = "598cdb6"
+hash = "f0c8c378184d5f8abd1b095a443d336d"
 
 [[plugin.deps]]
 use = "boydaihungst/compress"
@@ -40,13 +40,13 @@ hash = "f50b733cede531d5217cc9b90d633d07"
 
 [[plugin.deps]]
 use = "Ape/reflink"
-rev = "7ecd36b"
-hash = "555a412745356f7ce1fd4777917bbfbf"
+rev = "00f0fd0"
+hash = "4a64788e4802ad27c75a9977c29f0e55"
 
 [[plugin.deps]]
 use = "AminurAlam/yazi-plugins:preview-sqlite"
-rev = "ad655be"
-hash = "e21bd1066bfd09c92fd0201cffec287f"
+rev = "6206bae"
+hash = "11ee002ea5080a73f2c2db5dceda50df"
 
 [flavor]
 deps = []
