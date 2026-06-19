@@ -11,6 +11,7 @@ page_down = ['pgdown', '']
 # file panel control
 close_file_panel = ['w', 'ctrl+w', '']
 create_new_file_panel = ['n', '']
+split_file_panel = ['N', '']
 next_file_panel = ['tab', 'L']
 previous_file_panel = ['shift+tab', 'H']
 toggle_file_preview_panel = ['f', '']
