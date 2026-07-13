@@ -10,13 +10,13 @@ hash = "e6e98d12b1648d1894c2b560d85eeaa7"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mount"
-rev = "598cdb6"
+rev = "8577ec8"
 hash = "e3260d0b1feded8c8e3ae3afa1169e30"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-filter"
-rev = "598cdb6"
-hash = "c887903a63a2ff520081b6d90a4b3392"
+rev = "8577ec8"
+hash = "d6f7351ea25a43c9b5f4315fa1e23935"
 
 [[plugin.deps]]
 use = "Lil-Dank/lazygit"
@@ -25,18 +25,18 @@ hash = "6ea5f37c7f219671ec504cb8311f889d"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:toggle-pane"
-rev = "598cdb6"
-hash = "9c7987da2d2a2120dac33abb64132004"
+rev = "8577ec8"
+hash = "15e5b67a241172cbb86b8fbf9e63692"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "598cdb6"
-hash = "f0c8c378184d5f8abd1b095a443d336d"
+rev = "8577ec8"
+hash = "5b1c276b75cae91cbbdbe7863f39a540"
 
 [[plugin.deps]]
 use = "boydaihungst/compress"
-rev = "2621bd5"
-hash = "f50b733cede531d5217cc9b90d633d07"
+rev = "0b46f6c"
+hash = "5fbcc0b08b372af7005a2ddac228c76a"
 
 [[plugin.deps]]
 use = "Ape/reflink"
@@ -45,7 +45,7 @@ hash = "4a64788e4802ad27c75a9977c29f0e55"
 
 [[plugin.deps]]
 use = "AminurAlam/yazi-plugins:preview-sqlite"
-rev = "6206bae"
+rev = "ce325af"
 hash = "11ee002ea5080a73f2c2db5dceda50df"
 
 [flavor]
