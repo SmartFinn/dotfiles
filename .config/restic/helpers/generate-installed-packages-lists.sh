@@ -2,8 +2,6 @@
 
 set -eo pipefail
 
-. "$HOME/.profile"
-
 dest_dir="$HOME/.local/var/backup/packages"
 
 get_user_installed_packages() {
